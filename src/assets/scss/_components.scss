@@ -1,0 +1,55 @@
+// Buttons
+
+@mixin btn {
+  display: block;
+  padding: 0.4em 1.5em 0.2em;
+  font-size: clamp(1.7rem, 1rem + 1vw, 2.2rem);
+  font-weight: 600;
+  text-transform: uppercase;
+  cursor: pointer;
+  outline: none;
+  position: relative;
+  isolation: isolate;
+  transition: $transition-04;
+
+  align-self: center;
+  justify-self: center;
+
+  @content;
+}
+
+@mixin hover--black {
+  @include btn;
+  color: $color-white;
+  @content;
+
+  &::before {
+    content: '';
+    background-color: $color-black;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    z-index: -1;
+
+    transition: $transition-04;
+  }
+
+  &:hover::before,
+  &:focus::before {
+    width: 100%;
+  }
+}
+
+@mixin btn--gray {
+  @include hover--black;
+  color: $color-black-lighter;
+  background-color: $color-gray;
+
+  &:hover,
+  &:focus {
+    color: $color-white;
+  }
+}
