@@ -33,7 +33,7 @@ const btnLink2 = ref('/gallery')
 
   color: $color-gray-lighter;
 
-  background-image: url('@images/battle.webp');
+  background-image: url('/images/battle.webp');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;

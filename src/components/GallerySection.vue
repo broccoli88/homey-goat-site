@@ -2,7 +2,7 @@
 import SectionEl from '../template/SectionEl.vue'
 import { ref } from 'vue'
 
-const imgLink = ref('public/images/unit-cropped.webp')
+const imgLink = ref('/images/unit-cropped.webp')
 const btnLink = ref('/gallery')
 </script>
 <template>

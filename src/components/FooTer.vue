@@ -27,7 +27,7 @@ const links = ref(LinksData.links)
     <section class="maker">
       <p>Made by</p>
       <a href="https://paweljaromin.io/" class="maker__link">
-        <img src="@svg/pj.svg" alt="" />
+        <img src="/svg/pj.svg" alt="" />
       </a>
     </section>
   </footer>

@@ -2,7 +2,7 @@
 import SectionEl from '../template/SectionEl.vue'
 import { ref } from 'vue'
 
-const imgLink = ref('public/images/US.webp')
+const imgLink = ref('/images/US.webp')
 const btnLink = ref('/about')
 </script>
 <template>

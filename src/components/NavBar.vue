@@ -40,8 +40,8 @@ onMounted(() => {
       <LogoEl class="logo" />
       <div class="menu" tabindex="0">
         <transition name="fade" mode="out-in">
-          <img v-if="!navUnwrapped" @click="toggleNav" src="@svg/open.svg" alt="" />
-          <img v-else @click="toggleNav" src="@svg/close.svg" alt="" />
+          <img v-if="!navUnwrapped" @click="toggleNav" src="/svg/open.svg" alt="" />
+          <img v-else @click="toggleNav" src="/svg/close.svg" alt="" />
         </transition>
       </div>
       <nav class="nav">
