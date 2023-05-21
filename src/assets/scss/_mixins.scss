@@ -10,7 +10,7 @@
 
 @mixin container {
   width: 100%;
-  max-width: 1400px;
+  max-width: 1200px;
   margin-inline: auto;
 
   @content;
@@ -44,8 +44,8 @@
 
 // Desscription
 
-@mixin description($gap: 1vw) {
-  width: min(50ch, 80%);
+@mixin description($gap: 1vw, $width: 50ch) {
+  width: min($width, 80%);
   margin: 2rem auto;
   text-align: center;
   place-content: center;

@@ -2,7 +2,7 @@
 import HeroSection from '../components/HeroSection.vue'
 import GallerySection from '../components/GallerySection.vue'
 import OfferSection from '../components/OfferSection.vue'
-import AboutSection from '../components/AboutSection.vue'
+import TeamSection from '../components/TeamSection.vue'
 import ContactAndBlogSection from '../components/ContactAndBlogSection.vue'
 </script>
 
@@ -11,7 +11,7 @@ import ContactAndBlogSection from '../components/ContactAndBlogSection.vue'
     <HeroSection />
     <GallerySection />
     <OfferSection />
-    <AboutSection />
+    <TeamSection />
     <ContactAndBlogSection />
   </main>
 </template>

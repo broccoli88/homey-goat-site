@@ -1,15 +1,13 @@
-<script setup>
-const props = defineProps(['btnLink'])
-</script>
+<script setup></script>
 
 <template>
-  <router-link :to="props.btnLink" class="btn">
-    <slot> Check </slot>
-  </router-link>
+  <button class="btn">
+    <slot />
+  </button>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .btn {
-  @include btn--gray;
+  @include btn;
 }
 </style>

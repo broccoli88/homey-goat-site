@@ -1,5 +1,5 @@
 <script setup>
-import ButtonEl from '../template/ButtonEl.vue'
+import ButtonLinkEl from '../template/ButtonLinkEl.vue'
 import { ref } from 'vue'
 
 const btnLink = ref('/contact')
@@ -18,8 +18,8 @@ const btnLink2 = ref('/gallery')
         voluptate ullam incidunt aperiam!
       </p>
       <div class="hero__btns">
-        <ButtonEl :btn-link="btnLink">Ask for quote</ButtonEl>
-        <ButtonEl :btn-link="btnLink2"> Gallery </ButtonEl>
+        <ButtonLinkEl :btn-link="btnLink">Ask for quote</ButtonLinkEl>
+        <ButtonLinkEl class="btn--white" :btn-link="btnLink2"> Gallery </ButtonLinkEl>
       </div>
     </article>
   </section>

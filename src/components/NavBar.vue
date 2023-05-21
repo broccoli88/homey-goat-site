@@ -4,6 +4,8 @@ import LogoEl from '../template/LogoEl.vue'
 import { ref, reactive, onMounted } from 'vue'
 
 const links = reactive(linksData.links)
+const header = ref()
+const navHeight = ref()
 
 // Navbar toggle
 
@@ -16,10 +18,10 @@ window.addEventListener('resize', () => {
   if (window.innerWidth >= 768) {
     navUnwrapped.value = false
   }
+  navHeight.value = header.value.clientHeight
 })
 
 //  Intersection Observer
-const header = ref()
 onMounted(() => {
   const watchedEl = document.createElement('div')
   header.value.before(watchedEl)
@@ -32,6 +34,12 @@ onMounted(() => {
   )
 
   navObserver.observe(watchedEl)
+})
+
+//  Nav height
+
+onMounted(() => {
+  navHeight.value = header.value.clientHeight
 })
 </script>
 <template>
@@ -126,7 +134,7 @@ header {
 
         @include breakpoint {
           display: flex;
-          gap: 1.5rem;
+          gap: 2vw;
           // margin-right: 2rem;
         }
 

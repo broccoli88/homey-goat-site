@@ -1,5 +1,5 @@
 <script setup>
-import ButtonEl from './ButtonEl.vue'
+import ButtonLinkEl from './ButtonLinkEl.vue'
 
 const props = defineProps(['imgLink', 'btnLink'])
 </script>
@@ -14,9 +14,9 @@ const props = defineProps(['imgLink', 'btnLink'])
       <p>
         <slot name="description"></slot>
       </p>
-      <ButtonEl :btn-link="props.btnLink">
+      <ButtonLinkEl :btn-link="props.btnLink">
         <slot name="button"></slot>
-      </ButtonEl>
+      </ButtonLinkEl>
     </article>
   </section>
 </template>

@@ -1,13 +1,20 @@
 // Buttons
 
-@mixin btn {
+// Button Link
+
+@mixin btn-link {
   display: block;
-  padding: 0.4em 1.5em 0.2em;
-  font-size: clamp(1.7rem, 1rem + 1vw, 2.2rem);
+  padding: 0.6em 2em 0.3em;
+  font-size: clamp(1.2rem, 1rem + 0.8vw, 1.9rem);
   font-weight: 600;
   text-transform: uppercase;
-  cursor: pointer;
+
+  //   border: 2px solid black;
+  //   border-radius: 100px;
   outline: none;
+
+  overflow: hidden;
+  cursor: pointer;
   position: relative;
   isolation: isolate;
   transition: $transition-04;
@@ -19,7 +26,7 @@
 }
 
 @mixin hover--black {
-  @include btn;
+  @include btn-link;
   color: $color-white;
   @content;
 
@@ -46,10 +53,35 @@
 @mixin btn--gray {
   @include hover--black;
   color: $color-black-lighter;
-  background-color: $color-gray;
+  background-color: $color-gray-lighter;
 
   &:hover,
   &:focus {
     color: $color-white;
   }
+}
+
+@mixin btn--white {
+  @include hover--black;
+  color: $color-black-lighter;
+  background-color: $color-white;
+
+  &:hover,
+  &:focus {
+    color: $color-white;
+  }
+}
+
+// Button
+
+@mixin btn {
+  //   @include btn--gray;
+  border: none;
+  background-color: transparent;
+  padding: 0.25em 1.5em;
+  margin-top: 0.5rem;
+
+  //   display: flex;
+  //   justify-content: center;
+  //   align-items: center;
 }
