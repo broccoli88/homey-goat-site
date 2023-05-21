@@ -205,9 +205,9 @@ header {
 }
 
 .shrink {
+  box-shadow: $box-shadow-5;
   .nav-container {
     padding-block: 0.4rem;
-    box-shadow: $box-shadow-5;
 
     @include breakpoint {
       padding-block: 0.6rem;
