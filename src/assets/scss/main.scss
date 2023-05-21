@@ -25,6 +25,11 @@ html {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  display: flex;
+  //   grid-template-rows: auto 1fr auto;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 h1,

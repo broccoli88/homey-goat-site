@@ -1,10 +1,12 @@
 <script setup>
 import SectionEl from '../template/SectionEl.vue'
+import { ref } from 'vue'
 
-const link = 'public/images/unit-cropped.webp'
+const imgLink = ref('public/images/unit-cropped.webp')
+const btnLink = ref('/gallery')
 </script>
 <template>
-  <SectionEl :link="link">
+  <SectionEl :img-link="imgLink" :btn-link="btnLink">
     <template v-slot:heading>Gallery</template>
     <template v-slot:description>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta, a minima temporibus

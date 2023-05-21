@@ -1,7 +1,9 @@
-<script setup></script>
+<script setup>
+const props = defineProps(['btnLink'])
+</script>
 
 <template>
-  <router-link to="#" class="btn">
+  <router-link :to="props.btnLink" class="btn">
     <slot> Check </slot>
   </router-link>
 </template>

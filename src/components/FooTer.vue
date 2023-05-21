@@ -36,12 +36,13 @@ const links = ref(LinksData.links)
 <style lang="scss" scoped>
 .footer {
   @include container;
+  height: min-content;
   display: grid;
   justify-items: center;
   gap: 1vw;
 
   padding: 1.5rem;
-
+  margin-block: 2rem;
   @include breakpoint {
     padding: 2rem;
   }
@@ -58,6 +59,7 @@ const links = ref(LinksData.links)
       &:hover,
       &:focus {
         background-color: hsl(214, 89%, 52%);
+        outline: none;
       }
 
       & > svg {
@@ -86,6 +88,7 @@ const links = ref(LinksData.links)
       &:hover,
       &:focus {
         color: $color-black;
+        outline: none;
       }
     }
   }
@@ -97,8 +100,13 @@ const links = ref(LinksData.links)
 
     & > p {
       font-size: clamp(1.1rem, 1rem + 0.3vw, 1.6rem);
+      color: $color-purple;
     }
     .maker__link {
+      &:focus {
+        outline: $outline-purple;
+      }
+
       & > img {
         vertical-align: middle;
         width: clamp(2rem, 1rem + 1vw, 2.5rem);

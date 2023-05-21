@@ -1,10 +1,10 @@
 {
   "links": {
-    "main": "#",
-    "gallery": "#",
-    "offer": "#",
-    "blog": "#",
-    "about": "#",
-    "contact": "#"
+    "main": "/",
+    "gallery": "/gallery",
+    "offer": "/offer",
+    "blog": "/blog",
+    "about": "/about",
+    "contact": "/contact"
   }
 }

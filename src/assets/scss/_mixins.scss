@@ -19,9 +19,14 @@
 // Sections
 
 @mixin section-single-col {
-  height: 100vh;
-  height: 100dvh;
+  min-height: 100vh;
+  min-height: 100dvh;
   display: grid;
+
+  @include breakpoint {
+    height: 100vh;
+    height: 100dvh;
+  }
 
   @content;
 }
@@ -41,7 +46,7 @@
 
 @mixin description($gap: 1vw) {
   width: min(50ch, 80%);
-  margin: 0 auto;
+  margin: 2rem auto;
   text-align: center;
   place-content: center;
 

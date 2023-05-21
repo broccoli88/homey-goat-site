@@ -1,11 +1,13 @@
 <script setup>
 import SectionEl from '../template/SectionEl.vue'
+import { ref } from 'vue'
 
-const link = 'public/images/th-cropped.webp'
+const imgLink = ref('public/images/th-cropped.webp')
+const btnLink = ref('/offer')
 </script>
 
 <template>
-  <SectionEl :link="link" class="reverse">
+  <SectionEl :img-link="imgLink" :btn-link="btnLink" class="reverse">
     <template v-slot:heading>Painting, modeling, basing</template>
     <template v-slot:description>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta, a minima temporibus

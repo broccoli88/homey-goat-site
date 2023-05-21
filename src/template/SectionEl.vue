@@ -1,11 +1,12 @@
 <script setup>
 import ButtonEl from './ButtonEl.vue'
-const props = defineProps({ link: String })
+
+const props = defineProps(['imgLink', 'btnLink'])
 </script>
 
 <template>
   <section class="section">
-    <img class="section__img" :src="props.link" alt="" />
+    <img class="section__img" :src="props.imgLink" alt="" />
     <article class="section__description">
       <h2 class="section__heading">
         <slot name="heading"></slot>
@@ -13,7 +14,7 @@ const props = defineProps({ link: String })
       <p>
         <slot name="description"></slot>
       </p>
-      <ButtonEl>
+      <ButtonEl :btn-link="props.btnLink">
         <slot name="button"></slot>
       </ButtonEl>
     </article>
