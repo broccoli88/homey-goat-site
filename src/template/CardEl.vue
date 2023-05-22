@@ -1,40 +1,69 @@
 <script setup>
 import ButtonEl from './ButtonEl.vue'
+const props = defineProps(['member'])
 </script>
 
 <template>
   <section class="card">
-    <div class="card__mini">
-      <img class="card__img" src="/images/koza.jpg" alt="" />
-      <ButtonEl>Read bio</ButtonEl>
-    </div>
-    <article class="description">
-      <h2>Koza</h2>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque dicta nesciunt nostrum
-        sequi recusandae iste nam ad veniam, cupiditate quisquam ut ratione nemo mollitia adipisci
-        fugiat molestiae numquam officiis at!
-      </p>
-    </article>
+    <img class="card__img" :src="props.member.img" alt="" />
+    <section class="card__mini">
+      <article class="card__mini-description">
+        <h3 class="card__mini-person">{{ props.member.name }}</h3>
+        <p class="card__mini-occupation">{{ props.member.role }}</p>
+      </article>
+      <ButtonEl class="card__mini-btn btn--small btn--outline-white btn--slide-white"
+        >Read bio
+      </ButtonEl>
+    </section>
   </section>
 </template>
 
 <style lang="scss" scoped>
 .card {
+  //   width: min(35rem, 100%);
   display: grid;
-  grid-template-rows: auto 1fr;
-  padding: 2rem;
-  margin: 2rem;
+  position: relative;
 
-  box-shadow: $box-shadow-5;
+  .card__img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+
+    filter: grayscale(100%);
+  }
 
   .card__mini {
-    display: grid;
+    position: absolute;
+    inset: 0;
+    z-index: 1;
 
-    .card__img {
-      width: min(30rem, 100%);
-      aspect-ratio: 1;
-      object-fit: cover;
+    display: grid;
+    grid-auto-flow: column;
+    align-content: end;
+
+    padding: 1.5rem;
+    background-color: hsl(0, 0%, 0%, 0.7);
+    opacity: 0;
+
+    cursor: pointer;
+    transition: $transition-04;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    .card__mini-description {
+      .card__mini-person {
+        color: $color-white;
+      }
+
+      .card__mini-occupation {
+        color: $color-white;
+      }
+    }
+
+    .card__mini-btn {
+      margin-left: auto;
     }
   }
 }

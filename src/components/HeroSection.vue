@@ -18,8 +18,12 @@ const btnLink2 = ref('/gallery')
         voluptate ullam incidunt aperiam!
       </p>
       <div class="hero__btns">
-        <ButtonLinkEl :btn-link="btnLink">Ask for quote</ButtonLinkEl>
-        <ButtonLinkEl class="btn--white" :btn-link="btnLink2"> Gallery </ButtonLinkEl>
+        <ButtonLinkEl :btn-link="btnLink" class="btn--medium btn--gray btn--slide-black"
+          >Ask for quote</ButtonLinkEl
+        >
+        <ButtonLinkEl :btn-link="btnLink2" class="btn--medium btn--gray btn--slide-black">
+          Gallery
+        </ButtonLinkEl>
       </div>
     </article>
   </section>

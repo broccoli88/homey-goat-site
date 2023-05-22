@@ -1,19 +1,9 @@
-// Buttons
-
-// Button Link
-
-@mixin btn-link {
-  display: block;
-  padding: 0.6em 2em 0.3em;
-  font-size: clamp(1.2rem, 1rem + 0.8vw, 1.9rem);
-  font-weight: 600;
-  text-transform: uppercase;
-
-  //   border: 2px solid black;
-  //   border-radius: 100px;
+@mixin btn {
+  display: inline-block;
+  border: none;
   outline: none;
-
-  overflow: hidden;
+  background: none;
+  text-transform: uppercase;
   cursor: pointer;
   position: relative;
   isolation: isolate;
@@ -21,15 +11,97 @@
 
   align-self: center;
   justify-self: center;
+}
+
+// Button Sizes
+
+// Small
+
+@mixin btn--small {
+  @include btn;
+  font-weight: 500;
+  font-size: clamp(1rem, 1rem + 0.5vw, 1.5rem);
+  padding: 0.3em 1em 0.3em;
 
   @content;
 }
 
-@mixin hover--black {
-  @include btn-link;
+// Medium
+
+@mixin btn--medium {
+  @include btn;
+  font-weight: 600;
+  padding: 0.6em 2em 0.6em;
+  font-size: clamp(1.2rem, 1rem + 0.8vw, 1.9rem);
+
+  @content;
+}
+
+// Large
+
+@mixin btn--large {
+  @include btn;
+  font-weight: 700;
+
+  padding: 0.9em 2.5em 0.8em;
+  font-size: clamp(1.4rem, 1rem + 1vw, 2.2rem);
+
+  @content;
+}
+
+// Button Styles
+
+// Button Gray
+
+@mixin btn--gray {
+  color: $color-black-lighter;
+  background-color: $color-gray-lighter;
+  @content;
+}
+
+// Button White
+
+@mixin btn--white {
+  color: $color-black;
+  background-color: $color-white;
+  @content;
+}
+
+// Button Black
+
+@mixin btn--black {
+  color: $color-white;
+  background-color: $color-black;
+  @content;
+}
+// Button Outline
+
+@mixin btn--outline-white {
+  border: 1px solid $color-white;
   color: $color-white;
   @content;
+}
 
+@mixin btn--outline-black {
+  border: 1px solid $color-black;
+  color: $color-black;
+  @content;
+}
+
+// Button Effects
+
+@mixin btn--fill-in {
+  &:hover {
+    box-shadow: inset 0 0 0 2em black;
+    color: white;
+
+    @content;
+  }
+}
+
+// Slide Black
+
+@mixin btn--slide-black {
   &::before {
     content: '';
     background-color: $color-black;
@@ -44,44 +116,43 @@
     transition: $transition-04;
   }
 
+  &:hover,
+  &:focus {
+    color: $color-white;
+    @content;
+  }
+
   &:hover::before,
   &:focus::before {
     width: 100%;
   }
 }
 
-@mixin btn--gray {
-  @include hover--black;
-  color: $color-black-lighter;
-  background-color: $color-gray-lighter;
+// Slide White
+
+@mixin btn--slide-white {
+  &::before {
+    content: '';
+    background-color: $color-white;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    z-index: -1;
+
+    transition: $transition-04;
+  }
 
   &:hover,
   &:focus {
-    color: $color-white;
+    color: $color-black;
+    @content;
   }
-}
 
-@mixin btn--white {
-  @include hover--black;
-  color: $color-black-lighter;
-  background-color: $color-white;
-
-  &:hover,
-  &:focus {
-    color: $color-white;
+  &:hover::before,
+  &:focus::before {
+    width: 100%;
   }
-}
-
-// Button
-
-@mixin btn {
-  //   @include btn--gray;
-  border: none;
-  background-color: transparent;
-  padding: 0.25em 1.5em;
-  margin-top: 0.5rem;
-
-  //   display: flex;
-  //   justify-content: center;
-  //   align-items: center;
 }

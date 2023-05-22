@@ -1,7 +1,12 @@
 <script setup>
 import ButtonLinkEl from './ButtonLinkEl.vue'
+import { computed } from 'vue'
 
 const props = defineProps(['btnLink'])
+
+const classCheck = computed(() => {
+  return props.btnLink === '/contact' || props.btnLink === '/offer' ? true : false
+})
 </script>
 
 <template>
@@ -15,7 +20,11 @@ const props = defineProps(['btnLink'])
     <p>
       <slot name="description"> </slot>
     </p>
-    <ButtonLinkEl :btn-link="props.btnLink">
+    <ButtonLinkEl
+      :btn-link="props.btnLink"
+      class="btn--medium btn--gray btn--slide-black"
+      :class="classCheck ? 'btn--white' : 'btn--gray'"
+    >
       <slot name="button"></slot>
     </ButtonLinkEl>
   </section>
