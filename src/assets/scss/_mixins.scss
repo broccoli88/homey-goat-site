@@ -36,7 +36,8 @@
 
   @include breakpoint {
     grid-template-columns: 1fr 35%;
-    grid-template-rows: 1fr;
+    grid-template-rows: 100vh;
+    grid-template-rows: 100dvh;
   }
 
   @content;
