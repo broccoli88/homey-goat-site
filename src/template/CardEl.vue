@@ -1,17 +1,24 @@
 <script setup>
 import ButtonEl from './ButtonEl.vue'
 const props = defineProps(['member'])
+const emits = defineEmits(['emitToggleModal'])
+
+const emitToggleModal = () => {
+  emits('emitToggleModal')
+}
 </script>
 
 <template>
   <section class="card">
     <img class="card__img" :src="props.member.img" alt="" />
-    <section class="card__mini">
+    <section class="card__mini" tabindex="0">
       <article class="card__mini-description">
         <h3 class="card__mini-person">{{ props.member.name }}</h3>
         <p class="card__mini-occupation">{{ props.member.role }}</p>
       </article>
-      <ButtonEl class="card__mini-btn btn--small btn--outline-white btn--slide-white"
+      <ButtonEl
+        @click="emitToggleModal"
+        class="card__mini-btn btn--small btn--outline-white btn--slide-white"
         >Read bio
       </ButtonEl>
     </section>
@@ -48,7 +55,13 @@ const props = defineProps(['member'])
     cursor: pointer;
     transition: $transition-04;
 
-    &:hover {
+    &:hover,
+    &:focus {
+      opacity: 1;
+      outline: none;
+    }
+
+    &:has(.card__mini-btn:focus) {
       opacity: 1;
     }
 
