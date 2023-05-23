@@ -49,7 +49,7 @@ onUpdated(() => {
       />
     </section>
 
-    <MemberBioEl v-if="showModal" @emitToggleModal="toggleModal" />
+    <MemberBioEl @emitToggleModal="toggleModal" :show-modal="showModal" />
   </main>
 </template>
 
