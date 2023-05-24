@@ -21,7 +21,7 @@ const links = ref(LinksData.links)
     </section>
     <ul class="footer__list">
       <li v-for="(value, key) in links" :key="key">
-        <router-link :to="value" class="footer__link">{{ key }}</router-link>
+        <router-link :to="value.path" class="footer__link">{{ value.name }}</router-link>
       </li>
     </ul>
     <section class="maker">

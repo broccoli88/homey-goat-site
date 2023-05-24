@@ -1,11 +1,15 @@
 <script setup>
 import linksData from '../data/links.json'
 import LogoEl from '../template/LogoEl.vue'
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, watch } from 'vue'
+import { useRoute } from 'vue-router'
 
 const links = reactive(linksData.links)
 const header = ref()
 const navHeight = ref()
+const route = useRoute()
+
+// Current route
 
 // Navbar toggle
 
@@ -13,6 +17,13 @@ const navUnwrapped = ref(false)
 const toggleNav = () => {
   navUnwrapped.value = !navUnwrapped.value
 }
+
+watch(
+  () => route.fullPath,
+  () => {
+    navUnwrapped.value = false
+  }
+)
 
 window.addEventListener('resize', () => {
   if (window.innerWidth >= 768) {
@@ -55,7 +66,12 @@ onMounted(() => {
       <nav class="nav">
         <ul class="nav__list">
           <li class="nav__item" v-for="(value, key) in links" :key="key">
-            <router-link :to="value" class="nav__link">{{ key }}</router-link>
+            <router-link
+              :to="value.path"
+              class="nav__link"
+              :class="value.path === route.fullPath ? 'active' : ''"
+              >{{ value.name }}</router-link
+            >
           </li>
         </ul>
       </nav>
@@ -191,6 +207,24 @@ header {
             }
             &:hover::before,
             &:focus::before {
+              width: 100%;
+
+              @include breakpoint {
+                width: 30px;
+                left: 50%;
+                transform: translateX(-50%);
+              }
+            }
+          }
+          .active {
+            color: $color-white;
+            font-weight: 700;
+
+            @include breakpoint {
+              color: $color-black;
+            }
+
+            &::before {
               width: 100%;
 
               @include breakpoint {

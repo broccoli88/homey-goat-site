@@ -1,12 +1,22 @@
-<script setup></script>
+<script setup>
+import linksData from '../data/links.json'
+import { reactive, computed } from 'vue'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+const data = reactive(linksData.links)
+const currentBanner = computed(() => {
+  return Object.values(data).find((item) => item.path === route.fullPath)
+})
+</script>
 
 <template>
   <section class="banner" ref="banner">
     <h3 class="banner__fluff">homey goat</h3>
-    <h1 class="banner__heading">about us</h1>
+    <h1 class="banner__heading">{{ currentBanner.name }}</h1>
     <section class="banner__picture">
       <div class="banner__background"></div>
-      <img src="/images/HB-clean.webp" alt="" class="banner__img" />
+      <img :src="currentBanner.img" alt="" class="banner__img" />
     </section>
   </section>
 </template>
@@ -20,6 +30,7 @@
 
   .banner__fluff {
     font-weight: 600;
+    text-transform: uppercase;
   }
 
   .banner__heading {

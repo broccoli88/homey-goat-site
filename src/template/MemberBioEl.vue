@@ -1,25 +1,21 @@
 <script setup>
 import ButtonEl from '../template/ButtonEl.vue'
 import { ref } from 'vue'
+import { useMemberStore } from '../stores/MemberStore'
+import { storeToRefs } from 'pinia'
 
-const props = defineProps({
-  showModal: Boolean
-})
-const emits = defineEmits(['emitToggleModal'])
+const memberStore = useMemberStore()
+const { member, showModal } = storeToRefs(memberStore)
 const bio = ref()
-
-const emitToggleModal = () => {
-  emits('emitToggleModal')
-}
 </script>
 
 <template>
   <Teleport to="#bio-modal">
     <Transition name="modal">
-      <section class="bio-container" ref="bio" v-if="props.showModal">
+      <section class="bio-container" ref="bio" v-if="showModal">
         <article class="bio">
           <section class="bio__heading">
-            <h2 class="bio__name">Koza</h2>
+            <h2 class="bio__name">{{ member.name }}</h2>
             <svg
               class="bio__close"
               xmlns="http://www.w3.org/2000/svg"
@@ -35,16 +31,13 @@ const emitToggleModal = () => {
             </svg>
           </section>
           <section class="bio__bio">
-            <h3 class="bio__role">Smuggler</h3>
+            <h3 class="bio__role">{{ member.role }}</h3>
             <p class="bio__description">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur aut dolore
-              laudantium deserunt obcaecati ipsam veritatis sunt fugit dolorum, illo earum,
-              explicabo quod sapiente possimus voluptates at doloribus ut enim tempora perferendis.
-              Rerum, reiciendis ipsam. Inventore nisi consequatur tempore nemo!
+              {{ member.bio }}
             </p>
           </section>
           <ButtonEl
-            @click="emitToggleModal"
+            @click="memberStore.toggleModal"
             class="btn__bio btn--small btn--outline-black btn--slide-black"
             >Close</ButtonEl
           >

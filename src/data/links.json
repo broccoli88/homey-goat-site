@@ -1,10 +1,10 @@
 {
   "links": {
-    "main": "/",
-    "gallery": "/gallery",
-    "offer": "/offer",
-    "blog": "/blog",
-    "team": "/team",
-    "contact": "/contact"
+    "main": { "name": "Main", "path": "/", "img": "" },
+    "gallery": { "name": "Gallery", "path": "/gallery", "img": "" },
+    "offer": { "name": "offer", "path": "/offer", "img": "" },
+    "blog": { "name": "blog", "path": "/blog", "img": "" },
+    "team": { "name": "About", "path": "/team", "img": "/images/HB-clean.webp" },
+    "contact": { "name": "contact", "path": "/contact", "img": "/images/covenant.webp" }
   }
 }

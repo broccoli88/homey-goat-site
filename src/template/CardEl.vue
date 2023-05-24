@@ -1,23 +1,36 @@
 <script setup>
 import ButtonEl from './ButtonEl.vue'
-const props = defineProps(['member'])
-const emits = defineEmits(['emitToggleModal'])
+import { useMemberStore } from '../stores/MemberStore'
+import { ref } from 'vue'
 
-const emitToggleModal = () => {
-  emits('emitToggleModal')
+const props = defineProps({
+  member: {
+    name: String,
+    role: String,
+    bio: String,
+    img: String
+  }
+})
+
+const currentMember = ref(props.member)
+const memberStore = useMemberStore()
+
+const openModal = () => {
+  memberStore.member = currentMember.value
+  memberStore.toggleModal()
 }
 </script>
 
 <template>
   <section class="card">
-    <img class="card__img" :src="props.member.img" alt="" />
+    <img class="card__img" :src="currentMember.img" alt="" />
     <section class="card__mini" tabindex="0">
       <article class="card__mini-description">
-        <h3 class="card__mini-person">{{ props.member.name }}</h3>
-        <p class="card__mini-occupation">{{ props.member.role }}</p>
+        <h3 class="card__mini-person">{{ currentMember.name }}</h3>
+        <p class="card__mini-occupation">{{ currentMember.role }}</p>
       </article>
       <ButtonEl
-        @click="emitToggleModal"
+        @click="openModal"
         class="card__mini-btn btn--small btn--outline-white btn--slide-white"
         >Read bio
       </ButtonEl>

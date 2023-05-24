@@ -1,22 +1,12 @@
 <script setup>
-import teamMembers from '../data/team.json'
 import BannerEl from '../template/BannerEl.vue'
 import CardEl from '../template/CardEl.vue'
 import MemberBioEl from '../template/MemberBioEl.vue'
-import { ref, reactive, onUpdated } from 'vue'
+import { useMemberStore } from '../stores/MemberStore'
+import { storeToRefs } from 'pinia'
 
-const team = reactive(teamMembers.team)
-
-const showModal = ref(false)
-const body = document.body
-
-const toggleModal = () => {
-  showModal.value = !showModal.value
-}
-
-onUpdated(() => {
-  showModal.value ? (body.style.overflow = 'hidden') : (body.style.overflow = 'initial')
-})
+const memberStore = useMemberStore()
+const { members } = storeToRefs(memberStore)
 </script>
 
 <template>
@@ -41,15 +31,10 @@ onUpdated(() => {
     </article>
 
     <section class="members">
-      <CardEl
-        v-for="member in team"
-        :key="member"
-        :member="member"
-        @emitToggleModal="toggleModal"
-      />
+      <CardEl v-for="member in members" :key="member" :member="member" />
     </section>
 
-    <MemberBioEl @emitToggleModal="toggleModal" :show-modal="showModal" />
+    <MemberBioEl />
   </main>
 </template>
 
