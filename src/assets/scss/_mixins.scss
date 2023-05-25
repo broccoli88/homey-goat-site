@@ -87,6 +87,12 @@
 
 // Form
 
+@mixin error {
+  order: 3;
+  font-size: clamp(1.3rem, 0.5rem + 0.8vw, 1.6rem);
+  color: $color-error;
+}
+
 @mixin form {
   display: grid;
   gap: 2rem;
@@ -104,6 +110,10 @@
 
   & > label {
     transition: $transition-03;
+  }
+
+  & > p {
+    @include error;
   }
 }
 
