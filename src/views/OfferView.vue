@@ -1,7 +1,10 @@
-<script setup></script>
+<script setup>
+import BannerEl from '../template/BannerEl.vue'
+</script>
 
 <template>
   <main>
+    <BannerEl />
     <h1>Offer</h1>
     <p>
       Lorem ipsum dolor, sit amet consectetur adipisicing elit. Alias modi a nihil rerum

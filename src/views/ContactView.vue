@@ -123,7 +123,7 @@ main {
 
         position: absolute;
         bottom: -5px;
-        width: min(30%, 10rem);
+        width: min(30%, 5rem);
         height: 1px;
         opacity: 0;
 
