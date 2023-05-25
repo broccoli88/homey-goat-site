@@ -28,7 +28,6 @@ const v = useVuelidate(rules, state)
 
 const handleForm = async () => {
   const isFormCorrect = await v.value.$validate()
-  console.log(state)
 
   if (!isFormCorrect) return
 }
