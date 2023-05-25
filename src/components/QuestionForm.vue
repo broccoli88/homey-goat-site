@@ -15,7 +15,7 @@ import ButtonEl from '../template/ButtonEl.vue'
     </section>
 
     <section class="form__section">
-      <input class="form__input" type="text" id="email" placeholder="Enter email..." />
+      <input class="form__input" type="email" id="email" placeholder="Enter email..." />
       <label class="form__label" for="email">Email address:</label>
     </section>
 

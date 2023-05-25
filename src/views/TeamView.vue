@@ -1,7 +1,7 @@
 <script setup>
 import BannerEl from '../template/BannerEl.vue'
 import CardEl from '../template/CardEl.vue'
-import MemberBioEl from '../template/MemberBioEl.vue'
+import MemberBioEl from '../components/MemberBioEl.vue'
 import { useMemberStore } from '../stores/MemberStore'
 import { storeToRefs } from 'pinia'
 

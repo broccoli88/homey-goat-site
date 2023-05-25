@@ -1,5 +1,6 @@
 <script setup>
 import ButtonEl from '../template/ButtonEl.vue'
+import ScaleSlideTransition from '../utils/transitions/ScaleSlideTransition.vue'
 import { ref } from 'vue'
 import { useMemberStore } from '../stores/MemberStore'
 import { storeToRefs } from 'pinia'
@@ -11,7 +12,7 @@ const bio = ref()
 
 <template>
   <Teleport to="#bio-modal">
-    <Transition name="modal">
+    <ScaleSlideTransition>
       <section class="bio-container" ref="bio" v-if="showModal">
         <article class="bio">
           <section class="bio__heading">
@@ -22,7 +23,7 @@ const bio = ref()
               width="24"
               height="24"
               viewBox="0 0 256 256"
-              @click="emitToggleModal"
+              @click="memberStore.toggleModal"
             >
               <path
                 fill="black"
@@ -43,7 +44,7 @@ const bio = ref()
           >
         </article>
       </section>
-    </Transition>
+    </ScaleSlideTransition>
   </Teleport>
 </template>
 
@@ -63,7 +64,7 @@ const bio = ref()
     display: grid;
     grid-template-rows: auto 1fr auto;
 
-    border: 0.5px solid black;
+    border: $bw-05 solid $bc-grayopacity-05;
     border-radius: 5px;
     box-shadow: $box-shadow-5;
     background-color: white;
@@ -99,17 +100,5 @@ const bio = ref()
       margin-left: auto;
     }
   }
-}
-
-.modal-enter-from,
-.modal-leave-to {
-  opacity: 0;
-  -webkit-transform: scale(1.1);
-  transform: translateY(-100px) scale(1.1);
-}
-
-.modal-enter-active,
-.modal-leave-active {
-  transition: $transition-04;
 }
 </style>

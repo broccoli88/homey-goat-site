@@ -5,6 +5,7 @@ $color-white: hsl(0, 0%, 100%);
 $color-gray: hsl(0, 0%, 83%);
 $color-gray-lighter: hsl(0, 0%, 92%);
 $color-gray-darker: hsl(0, 0%, 60%);
+$color-gray-darker-opacity-05: hsl(0, 0%, 60%, 0.5);
 
 $color-black: hsl(0, 0%, 0%);
 $color-black-lighter: hsl(0, 0%, 25%);
@@ -16,6 +17,7 @@ $color-font-light: hsl(0, 0%, 40%);
 // Transition
 
 $transition-02: all 0.2s ease;
+$transition-03: all 0.3s ease;
 $transition-04: all 0.4s ease;
 
 // Box-shadow
@@ -25,6 +27,12 @@ $box-shadow-5: 0 0 5px hsl(0, 0%, 0%, 0.4);
 // Outline
 
 $outline-purple: 2px solid $color-purple;
+
+// Border
+
+$bc-grayopacity-05: $color-gray-darker-opacity-05;
+$bw-05: 0.5px;
+$bw-1: 1px;
 
 // Font
 

@@ -90,15 +90,21 @@
 @mixin form {
   display: grid;
   gap: 2rem;
+  margin-top: 2rem;
 
   @include breakpoint {
     gap: 1.5vw;
+    margin-top: 1.5vw;
   }
 }
 
 @mixin form-section {
   display: grid;
   border-radius: 4px;
+
+  & > label {
+    transition: $transition-03;
+  }
 }
 
 @mixin form-input {
@@ -115,6 +121,7 @@
   border-radius: 4px;
   outline: none;
   order: 2;
+  transition: $transition-03;
 
   &::placeholder {
     opacity: 0.5;

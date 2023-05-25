@@ -15,7 +15,7 @@ import ButtonEl from '../template/ButtonEl.vue'
     </section>
 
     <section class="form__section">
-      <input class="form__input" type="text" id="email" placeholder="Enter email..." />
+      <input class="form__input" type="email" id="email" placeholder="Enter email..." />
       <label class="form__label" for="email">Email address:</label>
     </section>
 
@@ -129,6 +129,10 @@ import ButtonEl from '../template/ButtonEl.vue'
     display: grid;
     grid-template-columns: repeat(2, 1fr);
 
+    & > label {
+      transition: $transition-02;
+    }
+
     .form__checkboxes-heading {
       grid-column: 1 / -1;
       margin-bottom: 1rem;
@@ -157,7 +161,6 @@ import ButtonEl from '../template/ButtonEl.vue'
       input[type='checkbox']:checked + label,
       input[type='checkbox']:focus + label {
         color: $color-black;
-        transition: $transition-02;
       }
     }
   }
