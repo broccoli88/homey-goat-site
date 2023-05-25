@@ -89,6 +89,7 @@
 
 @mixin error {
   order: 3;
+  grid-column: 1 / -1;
   font-size: clamp(1.3rem, 0.5rem + 0.8vw, 1.6rem);
   color: $color-error;
 }

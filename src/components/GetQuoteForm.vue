@@ -19,8 +19,8 @@ const rules = {
   lastName: { required, minLength: minLength(3), maxLength: maxLength(15), $autoDirty: true },
   email: { required, email, maxLength: maxLength(40), $autoDirty: true },
   country: { required, minLength: minLength(3), maxLength: maxLength(15), $autoDirty: true },
-  modelSupply: { required: helpers.withMessage('Select an option.', required) },
-  service: { required: helpers.withMessage('At least one option must be selected.', required) },
+  modelSupply: { required: helpers.withMessage('Select an option', required) },
+  service: { required: helpers.withMessage('At least one option must be selected', required) },
   message: { required, minLength: minLength(3), maxLength: maxLength(1000), $autoDirty: true }
 }
 
@@ -89,7 +89,12 @@ const handleForm = async () => {
 
     <section class="form__section form__section-select">
       <div class="select-wrapper">
-        <select id="supply" class="form__select" v-model="state.modelSupply">
+        <select
+          id="supply"
+          class="form__select"
+          v-model="state.modelSupply"
+          @blur="v.modelSupply.$touch"
+        >
           <option disabled selected value>-- select an option --</option>
           <option value="Other">Other - describe in message</option>
           <option value="Shop">Shop Supply</option>
@@ -109,19 +114,38 @@ const handleForm = async () => {
           value="assemble"
           id="assemble"
           v-model="state.service"
+          @blur="v.service.$touch"
         />
         <label class="form__label" for="assemble">Assemble</label>
       </div>
       <div class="form__checkbox">
-        <input type="checkbox" value="basing" id="basing" v-model="state.service" />
+        <input
+          type="checkbox"
+          value="basing"
+          id="basing"
+          v-model="state.service"
+          @blur="v.service.$touch"
+        />
         <label class="form__label" for="basing">Basing</label>
       </div>
       <div class="form__checkbox">
-        <input type="checkbox" value="painting" id="painting" v-model="state.service" />
+        <input
+          type="checkbox"
+          value="painting"
+          id="painting"
+          v-model="state.service"
+          @blur="v.service.$touch"
+        />
         <label class="form__label" for="painting">Painting</label>
       </div>
       <div class="form__checkbox">
-        <input type="checkbox" value="cleaning" id="cleaning" v-model="state.service" />
+        <input
+          type="checkbox"
+          value="cleaning"
+          id="cleaning"
+          v-model="state.service"
+          @blur="v.service.$touch"
+        />
         <label class="form__label" for="cleaning">Cleaning</label>
       </div>
       <p class="error" v-if="v.service.$error">{{ v.service.$errors[0].$message }}</p>
