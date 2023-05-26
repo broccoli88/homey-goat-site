@@ -1,51 +1,25 @@
 <script setup>
 import ButtonEl from '../template/ButtonEl.vue'
-import { useVuelidate } from '@vuelidate/core'
-import { required, email, minLength, maxLength, helpers } from '@vuelidate/validators'
-import { reactive } from 'vue'
+import { useContactStore } from '../stores/ContactStore'
+import { storeToRefs } from 'pinia'
 
-const state = reactive({
-  firstName: '',
-  lastName: '',
-  email: '',
-  country: '',
-  modelSupply: '',
-  service: [],
-  message: ''
-})
-
-const rules = {
-  firstName: { required, minLength: minLength(3), maxLength: maxLength(15), $autoDirty: true },
-  lastName: { required, minLength: minLength(3), maxLength: maxLength(15), $autoDirty: true },
-  email: { required, email, maxLength: maxLength(40), $autoDirty: true },
-  country: { required, minLength: minLength(3), maxLength: maxLength(15), $autoDirty: true },
-  modelSupply: { required: helpers.withMessage('Select an option', required) },
-  service: { required: helpers.withMessage('At least one option must be selected', required) },
-  message: { required, minLength: minLength(3), maxLength: maxLength(1000), $autoDirty: true }
-}
-
-const v = useVuelidate(rules, state)
-
-const handleForm = async () => {
-  const isFormCorrect = await v.value.$validate()
-
-  if (!isFormCorrect) return
-}
+const contactStore = useContactStore()
+const { quoteState, v2 } = storeToRefs(contactStore)
 </script>
 
 <template>
-  <form class="form" @submit.prevent="handleForm">
+  <form class="form" @submit.prevent="contactStore.handleQuoteForm">
     <section class="form__section">
       <input
         class="form__input"
         type="text"
         id="name"
         placeholder="Enter name..."
-        @blur="v.firstName.$touch"
-        v-model.lazy="state.firstName"
+        @blur="v2.firstName.$touch"
+        v-model.lazy="quoteState.firstName"
       />
       <label class="form__label" for="name">First Name:</label>
-      <p class="error" v-if="v.firstName.$error">{{ v.firstName.$errors[0].$message }}</p>
+      <p class="error" v-if="v2.firstName.$error">{{ v2.firstName.$errors[0].$message }}</p>
     </section>
 
     <section class="form__section">
@@ -54,11 +28,11 @@ const handleForm = async () => {
         type="text"
         id="last-name"
         placeholder="Enter last name..."
-        @blur="v.lastName.$touch"
-        v-model.lazy="state.lastName"
+        @blur="v2.lastName.$touch"
+        v-model.lazy="quoteState.lastName"
       />
       <label class="form__label" for="last-name">Last Name:</label>
-      <p class="error" v-if="v.lastName.$error">{{ v.lastName.$errors[0].$message }}</p>
+      <p class="error" v-if="v2.lastName.$error">{{ v2.lastName.$errors[0].$message }}</p>
     </section>
 
     <section class="form__section">
@@ -67,11 +41,11 @@ const handleForm = async () => {
         type="email"
         id="email"
         placeholder="Enter email..."
-        @blur="v.email.$touch"
-        v-model.lazy="state.email"
+        @blur="v2.email.$touch"
+        v-model.lazy="quoteState.email"
       />
       <label class="form__label" for="email">Email address:</label>
-      <p class="error" v-if="v.email.$error">{{ v.email.$errors[0].$message }}</p>
+      <p class="error" v-if="v2.email.$error">{{ v2.email.$errors[0].$message }}</p>
     </section>
 
     <section class="form__section">
@@ -80,11 +54,11 @@ const handleForm = async () => {
         type="text"
         id="country"
         placeholder="Enter country..."
-        @blur="v.country.$touch"
-        v-model.lazy="state.country"
+        @blur="v2.country.$touch"
+        v-model.lazy="quoteState.country"
       />
       <label class="form__label" for="country">Country:</label>
-      <p class="error" v-if="v.country.$error">{{ v.country.$errors[0].$message }}</p>
+      <p class="error" v-if="v2.country.$error">{{ v2.country.$errors[0].$message }}</p>
     </section>
 
     <section class="form__section form__section-select">
@@ -92,8 +66,8 @@ const handleForm = async () => {
         <select
           id="supply"
           class="form__select"
-          v-model="state.modelSupply"
-          @blur="v.modelSupply.$touch"
+          v-model="quoteState.modelSupply"
+          @blur="v2.modelSupply.$touch"
         >
           <option disabled selected value>-- select an option --</option>
           <option value="Other">Other - describe in message</option>
@@ -101,7 +75,7 @@ const handleForm = async () => {
           <option value="Customer">Client Supply</option>
         </select>
         <label class="form__select-label" for="supply">How are you supplying us with models?</label>
-        <p class="error" v-if="v.modelSupply.$error">{{ v.modelSupply.$errors[0].$message }}</p>
+        <p class="error" v-if="v2.modelSupply.$error">{{ v2.modelSupply.$errors[0].$message }}</p>
       </div>
     </section>
 
@@ -113,8 +87,8 @@ const handleForm = async () => {
           type="checkbox"
           value="assemble"
           id="assemble"
-          v-model="state.service"
-          @blur="v.service.$touch"
+          v-model="quoteState.service"
+          @blur="v2.service.$touch"
         />
         <label class="form__label" for="assemble">Assemble</label>
       </div>
@@ -123,8 +97,8 @@ const handleForm = async () => {
           type="checkbox"
           value="basing"
           id="basing"
-          v-model="state.service"
-          @blur="v.service.$touch"
+          v-model="quoteState.service"
+          @blur="v2.service.$touch"
         />
         <label class="form__label" for="basing">Basing</label>
       </div>
@@ -133,8 +107,8 @@ const handleForm = async () => {
           type="checkbox"
           value="painting"
           id="painting"
-          v-model="state.service"
-          @blur="v.service.$touch"
+          v-model="quoteState.service"
+          @blur="v2.service.$touch"
         />
         <label class="form__label" for="painting">Painting</label>
       </div>
@@ -143,12 +117,12 @@ const handleForm = async () => {
           type="checkbox"
           value="cleaning"
           id="cleaning"
-          v-model="state.service"
-          @blur="v.service.$touch"
+          v-model="quoteState.service"
+          @blur="v2.service.$touch"
         />
         <label class="form__label" for="cleaning">Cleaning</label>
       </div>
-      <p class="error" v-if="v.service.$error">{{ v.service.$errors[0].$message }}</p>
+      <p class="error" v-if="v2.service.$error">{{ v2.service.$errors[0].$message }}</p>
     </section>
 
     <section class="form__section">
@@ -158,11 +132,11 @@ const handleForm = async () => {
         id="message"
         placeholder="Message"
         rows="10"
-        @blur="v.message.$touch"
-        v-model.lazy="state.message"
+        @blur="v2.message.$touch"
+        v-model.lazy="quoteState.message"
       />
       <label class="form__label" for="message">Message:</label>
-      <p class="error" v-if="v.message.$error">{{ v.message.$errors[0].$message }}</p>
+      <p class="error" v-if="v2.message.$error">{{ v2.message.$errors[0].$message }}</p>
     </section>
     <ButtonEl class="form__btn btn--medium btn--outline-black btn--slide-black">Submit</ButtonEl>
   </form>

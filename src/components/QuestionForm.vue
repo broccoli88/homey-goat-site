@@ -1,45 +1,25 @@
 <script setup>
 import ButtonEl from '../template/ButtonEl.vue'
-import { useVuelidate } from '@vuelidate/core'
-import { required, email, minLength, maxLength } from '@vuelidate/validators'
-import { reactive } from 'vue'
+import { useContactStore } from '../stores/ContactStore'
+import { storeToRefs } from 'pinia'
 
-const state = reactive({
-  firstName: '',
-  lastName: '',
-  email: '',
-  message: ''
-})
-
-const rules = {
-  firstName: { required, minLength: minLength(3), maxLength: maxLength(15), $autoDirty: true },
-  lastName: { required, minLength: minLength(3), maxLength: maxLength(15), $autoDirty: true },
-  email: { required, email, maxLength: maxLength(40), $autoDirty: true },
-  message: { required, minLength: minLength(3), maxLength: maxLength(1000), $autoDirty: true }
-}
-
-const v = useVuelidate(rules, state)
-
-const handleForm = async () => {
-  const isFormCorrect = await v.value.$validate()
-
-  if (!isFormCorrect) return
-}
+const contactStore = useContactStore()
+const { questionState, v1 } = storeToRefs(contactStore)
 </script>
 
 <template>
-  <form class="form" @submit.prevent="handleForm">
+  <form class="form" @submit.prevent="contactStore.handleQuestionForm">
     <section class="form__section">
       <input
         class="form__input"
         type="text"
         id="name"
         placeholder="Enter name..."
-        v-model.lazy="state.firstName"
-        @blur="v.firstName.$touch"
+        v-model.lazy="questionState.firstName"
+        @blur="v1.firstName.$touch"
       />
       <label class="form__label" for="name">First Name:</label>
-      <p class="error" v-if="v.firstName.$error">{{ v.firstName.$errors[0].$message }}</p>
+      <p class="error" v-if="v1.firstName.$error">{{ v1.firstName.$errors[0].$message }}</p>
     </section>
 
     <section class="form__section">
@@ -48,11 +28,11 @@ const handleForm = async () => {
         type="text"
         id="last-name"
         placeholder="Enter last name..."
-        v-model.lazy="state.lastName"
-        @blur="v.lastName.$touch"
+        v-model.lazy="questionState.lastName"
+        @blur="v1.lastName.$touch"
       />
       <label class="form__label" for="last-name">Last Name:</label>
-      <p class="error" v-if="v.lastName.$error">{{ v.lastName.$errors[0].$message }}</p>
+      <p class="error" v-if="v1.lastName.$error">{{ v1.lastName.$errors[0].$message }}</p>
     </section>
 
     <section class="form__section">
@@ -61,11 +41,11 @@ const handleForm = async () => {
         type="text"
         id="email"
         placeholder="Enter email..."
-        v-model.lazy="state.email"
-        @blur="v.email.$touch"
+        v-model.lazy="questionState.email"
+        @blur="v1.email.$touch"
       />
       <label class="form__label" for="email">Email address:</label>
-      <p class="error" v-if="v.email.$error">{{ v.email.$errors[0].$message }}</p>
+      <p class="error" v-if="v1.email.$error">{{ v1.email.$errors[0].$message }}</p>
     </section>
 
     <section class="form__section">
@@ -75,11 +55,11 @@ const handleForm = async () => {
         id="message"
         placeholder="What is your question?"
         rows="10"
-        v-model.lazy="state.message"
-        @blur="v.message.$touch"
+        v-model.lazy="questionState.message"
+        @blur="v1.message.$touch"
       />
       <label class="form__label" for="message">Message:</label>
-      <p class="error" v-if="v.message.$error">{{ v.message.$errors[0].$message }}</p>
+      <p class="error" v-if="v1.message.$error">{{ v1.message.$errors[0].$message }}</p>
     </section>
     <ButtonEl class="form__btn btn--medium btn--outline-black btn--slide-black">Submit</ButtonEl>
   </form>
