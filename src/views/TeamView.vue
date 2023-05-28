@@ -43,7 +43,11 @@ main {
   @include container;
 
   .description {
-    @include description($gap: 1vw, $width: 70ch);
+    @include description($gap: 6%, $width: 70ch);
+
+    p {
+      margin-block: 3rem;
+    }
   }
 
   .members {

@@ -77,13 +77,9 @@ const openModal = () => {
     &:has(.card__mini-btn:focus) {
       opacity: 1;
     }
-
+    .card__mini-occupation,
     .card__mini-description {
       .card__mini-person {
-        color: $color-white;
-      }
-
-      .card__mini-occupation {
         color: $color-white;
       }
     }

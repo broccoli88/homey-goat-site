@@ -1,22 +1,35 @@
-<script setup></script>
+<script setup>
+import BannerEl from '../template/BannerEl.vue'
+import GalleryTileEl from '../template/GalleryTileEl.vue'
+import galleryData from '../data/gallery.json'
+import { reactive } from 'vue'
+
+const gallery = reactive(galleryData)
+
+const systems = reactive(gallery.system)
+
+console.log(gallery)
+</script>
 <template>
   <main>
-    <h1>Gallery</h1>
-    <p>
-      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Alias modi a nihil rerum
-      consequuntur quia tempora officiis, sapiente unde harum quis repudiandae beatae voluptas sed
-      quo placeat amet. Debitis illo esse pariatur quaerat quas deleniti, libero aliquid quia
-      sapiente eos!
-    </p>
+    <BannerEl />
+    <section class="gallery" v-for="system in systems" :key="system.system">
+      <h2>{{ system.system }}</h2>
+      <section v-for="fraction in system.fraction" :key="fraction.title">
+        <h3>{{ fraction.title }}</h3>
+        <GalleryTileEl
+          v-for="miniature in fraction.images"
+          :key="miniature.name"
+          :img="miniature.img"
+          >{{ miniature.name }}
+        </GalleryTileEl>
+      </section>
+    </section>
   </main>
 </template>
 
 <style lang="scss" scoped>
 main {
-  margin-inline: auto;
-  max-width: 600px;
-  height: 100vh;
-  display: grid;
-  place-content: center;
+  @include container;
 }
 </style>

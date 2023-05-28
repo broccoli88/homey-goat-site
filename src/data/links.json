@@ -1,7 +1,7 @@
 {
   "links": {
     "main": { "name": "Main", "path": "/", "img": "" },
-    "gallery": { "name": "Gallery", "path": "/gallery", "img": "" },
+    "gallery": { "name": "Gallery", "path": "/gallery", "img": "/images/th-clean.webp" },
     "offer": { "name": "offer", "path": "/offer", "img": "/images/th-clean.webp" },
     "blog": { "name": "blog", "path": "/blog", "img": "" },
     "team": { "name": "About", "path": "/team", "img": "/images/HB-clean.webp" },
