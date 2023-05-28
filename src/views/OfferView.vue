@@ -6,7 +6,7 @@ import OfferMobile from '../components/OfferMobile.vue'
 <template>
   <main>
     <BannerEl />
-    <!-- <section class="description">
+    <section class="description">
       <h3>
         Across our four painting levels, we offer a minimum quality that is above the industry
         standard.
@@ -17,7 +17,7 @@ import OfferMobile from '../components/OfferMobile.vue'
         will find that even our most cost effective tier has a level of attention to detail that you
         will not find at any other studio.
       </p>
-    </section> -->
+    </section>
 
     <OfferMobile />
   </main>

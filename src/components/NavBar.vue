@@ -1,6 +1,7 @@
 <script setup>
 import linksData from '../data/links.json'
 import LogoEl from '../template/LogoEl.vue'
+import FadeScaleIconTransition from '../utils/transitions/FadeScaleIconTransition.vue'
 import { ref, reactive, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
@@ -58,10 +59,10 @@ onMounted(() => {
     <div class="nav-container" :class="navUnwrapped ? 'navToggled' : ''">
       <LogoEl class="logo" />
       <div class="menu" tabindex="0">
-        <transition name="fade" mode="out-in">
+        <FadeScaleIconTransition name="fade" mode="out-in">
           <img v-if="!navUnwrapped" @click="toggleNav" src="/svg/open.svg" alt="" />
           <img v-else @click="toggleNav" src="/svg/close.svg" alt="" />
-        </transition>
+        </FadeScaleIconTransition>
       </div>
       <nav class="nav">
         <ul class="nav__list">
@@ -267,16 +268,5 @@ header {
       }
     }
   }
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0.5;
-  scale: 0.5;
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: $transition-02;
 }
 </style>
