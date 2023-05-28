@@ -1,7 +1,7 @@
 <script setup>
 import BannerEl from '../template/BannerEl.vue'
 import CardEl from '../template/CardEl.vue'
-import MemberBioEl from '../components/MemberBioEl.vue'
+import MemberBioModal from '../components/MemberBioModal.vue'
 import { useMemberStore } from '../stores/MemberStore'
 import { storeToRefs } from 'pinia'
 
@@ -34,7 +34,7 @@ const { members } = storeToRefs(memberStore)
       <CardEl v-for="member in members" :key="member" :member="member" />
     </section>
 
-    <MemberBioEl />
+    <MemberBioModal />
   </main>
 </template>
 

@@ -68,6 +68,7 @@ const btnLink2 = ref('/gallery')
     .hero__heading,
     .hero__heading-fluff {
       color: $color-white;
+      text-transform: capitalize;
     }
 
     .hero__heading-fluff {

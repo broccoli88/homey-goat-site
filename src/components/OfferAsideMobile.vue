@@ -10,8 +10,8 @@ const unwrapContent = () => {
 
 <template>
   <section class="mobile-aside" :class="isUnwrapped ? 'shadow-bottom' : ''">
-    <header class="aside__heading" :class="isUnwrapped ? 'shadow-top' : ''" @click="unwrapContent">
-      <h3>
+    <header class="aside__header" :class="isUnwrapped ? 'active' : ''" @click="unwrapContent">
+      <h3 class="aside__header-heading">
         <slot name="section"></slot>
       </h3>
       <FadeScaleIconTransition>
@@ -64,7 +64,7 @@ const unwrapContent = () => {
   display: grid;
   position: relative;
 
-  .aside__heading {
+  .aside__header {
     text-transform: uppercase;
     display: flex;
     justify-content: space-between;
@@ -72,16 +72,17 @@ const unwrapContent = () => {
     cursor: pointer;
     margin-bottom: 0rem;
     transition: $transition-04;
+    position: relative;
 
-    h3 {
-      color: $color-font-light;
-      transition: $transition-04;
+    .aside__header-heading {
+      @include heading-underline-black;
     }
   }
   .aside__content {
     display: grid;
     grid-template-rows: 0fr;
     transition: $transition-04;
+    position: relative;
   }
 
   .overflow {
@@ -91,42 +92,21 @@ const unwrapContent = () => {
 
   .unwrapped {
     grid-template-rows: 1fr;
-    position: relative;
     margin-bottom: 2rem;
   }
 
-  .shadow-top {
-    position: relative;
+  .active {
     margin-bottom: 3rem;
 
-    h3 {
+    .aside__header-heading {
       color: $color-black;
+
+      &::before {
+        left: 50%;
+        transform: translateX(-50%);
+        opacity: 1;
+      }
     }
-
-    &::after {
-      content: '';
-
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 0.5px;
-
-      box-shadow: 0 2px 2px $bs-c-black-04;
-    }
-  }
-}
-.shadow-bottom {
-  &::after {
-    content: '';
-
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 0.5px;
-
-    box-shadow: 0 -2px 2px $bs-c-black-04;
   }
 }
 </style>

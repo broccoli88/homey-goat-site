@@ -43,7 +43,7 @@ const classCheck = computed(() => {
     @include description(2vw);
 
     .section__heading {
-      @include heading-underline;
+      @include heading-underline-purple;
     }
   }
 }

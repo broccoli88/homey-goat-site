@@ -67,7 +67,7 @@
 
 // Heading-underline
 
-@mixin heading-underline {
+@mixin heading-underline-purple {
   position: relative;
   margin-bottom: 1rem;
 
@@ -85,6 +85,26 @@
   }
 }
 
+@mixin heading-underline-black {
+  color: $color-font-light;
+  position: relative;
+  transition: $transition-04;
+
+  &::before {
+    content: '';
+    background-color: $color-black;
+
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: min(30%, 5rem);
+    height: 1px;
+    opacity: 0;
+
+    transform: translateX(0);
+    transition: $transition-04;
+  }
+}
 // Form
 
 @mixin error {

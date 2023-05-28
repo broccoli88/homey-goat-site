@@ -35,7 +35,7 @@ const classCheck = computed(() => {
   @include description;
 
   .single-col__heading {
-    @include heading-underline;
+    @include heading-underline-purple;
   }
 
   .single-col__fluff {

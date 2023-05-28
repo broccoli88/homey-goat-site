@@ -15,6 +15,6 @@
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: $transition-02;
+  transition: $transition-04;
 }
 </style>

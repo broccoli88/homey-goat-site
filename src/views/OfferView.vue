@@ -1,6 +1,27 @@
 <script setup>
 import BannerEl from '../template/BannerEl.vue'
 import OfferMobile from '../components/OfferMobile.vue'
+import OfferDesktop from '../components/OfferDesktop.vue'
+import FadeTransition from '../utils/transitions/FadeTransition.vue'
+import { ref, onMounted } from 'vue'
+
+function viewSwitchCheck() {
+  if (window.innerWidth >= 1024) {
+    viewSwitch.value = true
+  } else {
+    viewSwitch.value = false
+  }
+}
+
+const viewSwitch = ref()
+
+window.addEventListener('resize', () => {
+  viewSwitchCheck()
+})
+
+onMounted(() => {
+  viewSwitchCheck()
+})
 </script>
 
 <template>
@@ -18,8 +39,10 @@ import OfferMobile from '../components/OfferMobile.vue'
         will not find at any other studio.
       </p>
     </section>
-
-    <OfferMobile />
+    <FadeTransition>
+      <OfferDesktop v-if="viewSwitch" />
+      <OfferMobile v-else />
+    </FadeTransition>
   </main>
 </template>
 
@@ -29,6 +52,7 @@ main {
 
   .description {
     @include description($gap: 1vw, $width: 70ch);
+    margin-bottom: 5vw;
   }
 }
 </style>

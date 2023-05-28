@@ -36,19 +36,21 @@ const { questionForm } = storeToRefs(contactStore)
 
     <section class="contact__form">
       <div class="contact__form-cards">
-        <div
-          class="contact__form-card card-underline-left"
-          :class="questionForm ? 'card-left-active' : ''"
-          @click="contactStore.switchToQuestionForm"
-        >
-          <p class="">Ask a question</p>
+        <div class="contact__form-card" @click="contactStore.switchToQuestionForm">
+          <p
+            class="contact__form-card-heading card-underline-left"
+            :class="questionForm ? 'card-left-active' : ''"
+          >
+            Ask a question
+          </p>
         </div>
-        <div
-          class="contact__form-card card-underline-right"
-          :class="!questionForm ? 'card-right-active' : ''"
-          @click="contactStore.switchToQuoteForm"
-        >
-          <p class="">Ask for a quote</p>
+        <div class="contact__form-card" @click="contactStore.switchToQuoteForm">
+          <p
+            class="contact__form-card-heading card-underline-right"
+            :class="!questionForm ? 'card-right-active' : ''"
+          >
+            Ask for a quote
+          </p>
         </div>
       </div>
       <div class="contact__form-forms">
@@ -109,55 +111,43 @@ main {
         &:first-child {
           border-right: $bw-05 solid $bc-grayopacity-05;
         }
-      }
-    }
 
-    .card-underline-left,
-    .card-underline-right {
-      position: relative;
-      transition: $transition-04;
+        .contact__form-card-heading {
+          @include heading-underline-black;
+        }
 
-      &::before {
-        content: '';
-        background-color: $color-black;
+        .card-underline-right {
+          &::before {
+            right: 0;
+            left: auto;
+          }
+        }
+        .card-underline-left {
+          &::before {
+            left: 0;
+          }
+        }
 
-        position: absolute;
-        bottom: -5px;
-        width: min(30%, 5rem);
-        height: 1px;
-        opacity: 0;
+        .card-right-active,
+        .card-left-active {
+          color: $color-black;
+        }
 
-        transform: translateX(0);
-        transition: $transition-04;
-      }
-    }
+        .card-left-active {
+          &::before {
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 1;
+          }
+        }
 
-    .card-underline-right {
-      &::before {
-        right: 20%;
-      }
-    }
-
-    .card-underline-left {
-      &::before {
-        left: 20%;
-      }
-    }
-
-    .card-right-active,
-    .card-left-active {
-      color: black;
-
-      &::before {
-        opacity: 1;
-        transform: translateX(-50%);
-      }
-    }
-
-    .card-left-active,
-    .card-right-active {
-      &::before {
-        left: 50%;
+        .card-right-active {
+          &::before {
+            right: 50%;
+            transform: translateX(50%);
+            opacity: 1;
+          }
+        }
       }
     }
   }

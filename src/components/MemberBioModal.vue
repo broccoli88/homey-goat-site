@@ -54,6 +54,8 @@ const bio = ref()
   inset: 0;
   z-index: 99;
   margin-inline: 1.5rem;
+  font-family: 'Josefin Sans', sans-serif;
+  line-height: 1.6;
 
   display: grid;
   place-content: center;

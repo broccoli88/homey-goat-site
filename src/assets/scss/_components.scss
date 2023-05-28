@@ -31,7 +31,7 @@
 @mixin btn--medium {
   @include btn;
   font-weight: 600;
-  padding: 0.6em 2em 0.6em;
+  padding: 0.6em 2em 0.4em;
   font-size: clamp(1.2rem, 1rem + 0.8vw, 1.9rem);
 
   @content;
