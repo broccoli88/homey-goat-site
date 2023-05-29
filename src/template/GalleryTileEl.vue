@@ -1,12 +1,29 @@
 <script setup>
-const props = defineProps(['img'])
+import { useGalleryStore } from '../stores/GalleryStore'
+import { storeToRefs } from 'pinia'
+import { ref } from 'vue'
+
+const props = defineProps(['img', 'set'])
+
+const galleryStore = useGalleryStore()
+const { currentImg, currentFraction } = storeToRefs(galleryStore)
+
+const img = ref(props.img.img)
+const imginfo = ref(props.set.images)
+
+const openModal = () => {
+  currentImg.value = props.img
+  currentFraction.value = imginfo.value
+
+  galleryStore.toggleModal()
+}
 </script>
 
 <template>
   <section class="miniature">
     <section class="miniature__tile">
-      <img class="miniature__img" :src="props.img" alt="" />
-      <div class="miniature__magnify">
+      <img class="miniature__img" :src="img" alt="" />
+      <div class="miniature__magnify" @click="openModal" tabindex="0">
         <img class="miniature__magnify-img" src="/svg/eye.svg" alt="" />
       </div>
     </section>
@@ -20,15 +37,14 @@ const props = defineProps(['img'])
 
 <style lang="scss" scoped>
 .miniature__tile {
-  width: 100%;
-  max-width: 30rem;
   color: $color-white;
   font-size: 1.5rem;
 
   position: relative;
   cursor: pointer;
 
-  &:hover .miniature__magnify {
+  &:hover .miniature__magnify,
+  &:focus .miniature__magnify {
     opacity: 1;
   }
 
@@ -50,6 +66,11 @@ const props = defineProps(['img'])
 
     opacity: 0;
     transition: $transition-03;
+
+    &:active .miniature__magnify-img {
+      opacity: 0.7;
+      scale: 0.9;
+    }
 
     .miniature__magnify-img {
       width: 78px;

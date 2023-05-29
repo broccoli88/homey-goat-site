@@ -1,16 +1,17 @@
 @mixin btn {
-  display: inline-block;
-  border: none;
-  outline: none;
-  background: none;
-  text-transform: uppercase;
-  cursor: pointer;
-  position: relative;
-  isolation: isolate;
-  transition: $transition-04;
-
   align-self: center;
+  background: none;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  display: inline-block;
+  isolation: isolate;
   justify-self: center;
+  outline: none;
+  position: relative;
+  text-transform: uppercase;
+  transition: $transition-04;
+  overflow: hidden;
 }
 
 // Button Sizes
@@ -154,5 +155,19 @@
   &:hover::before,
   &:focus::before {
     width: 100%;
+  }
+}
+
+// Scale Butons
+
+@mixin scale-button {
+  &:hover,
+  &:focus {
+    opacity: 1;
+  }
+
+  &:active {
+    opacity: 0.7;
+    scale: 0.9;
   }
 }

@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, watch } from 'vue'
+import { useModal } from '../utils/modules/useModal'
 import team from '../data/team.json'
 
 export const useMemberStore = defineStore('memberStore', () => {
@@ -12,11 +13,7 @@ export const useMemberStore = defineStore('memberStore', () => {
     showModal.value = !showModal.value
   }
 
-  const body = document.body
-
-  watch(showModal, () => {
-    showModal.value ? (body.style.overflow = 'hidden') : (body.style.overflow = 'initial')
-  })
+  useModal(showModal)
 
   return { member, members, showModal, toggleModal }
 })
