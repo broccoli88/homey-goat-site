@@ -96,6 +96,7 @@ header {
     justify-content: space-between;
     align-items: center;
     padding-block: 1.5rem;
+    margin-bottom: 0;
 
     transition: $transition-04;
 

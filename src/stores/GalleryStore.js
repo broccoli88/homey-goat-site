@@ -1,10 +1,36 @@
 import { defineStore } from 'pinia'
 import { useModal } from '../utils/modules/useModal'
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import galleryData from '../data/gallery.json'
 
 export const useGalleryStore = defineStore('galleryStore', () => {
-  const systems = reactive(galleryData.system)
+  const systems = reactive(galleryData)
+
+  // ...::: [GALLERY]:::..
+
+  const showAll = ref(true)
+  const currentSystem = ref('')
+
+  const filteredSystem = computed(() => {
+    return Object.values(systems).filter((s) => {
+      if (s.abbr === currentSystem.value) {
+        return s
+      }
+    })[0]
+  })
+
+  function findSystem(system) {
+    showAll.value = true
+    setTimeout(() => {
+      currentSystem.value = system.abbr
+      showAll.value = false
+    }, 10)
+  }
+
+  function switchToAll() {
+    showAll.value = true
+  }
+  // ...::: [CAROUSEL]:::..
 
   // Carousel
 
@@ -14,11 +40,33 @@ export const useGalleryStore = defineStore('galleryStore', () => {
   const currentImg = ref('')
   const count = ref(0)
   const showImgTransition = ref(false)
-  const transitionName = ref('')
 
-  function checkIndex() {
+  const transitionName = ref({
+    left: {
+      active: false,
+      title: 'left'
+    },
+    right: {
+      active: false,
+      title: 'right'
+    },
+    remove: {
+      active: false,
+      title: 'remove'
+    }
+  })
+
+  const currentTransition = ref('')
+
+  function checkTransition() {
+    currentTransition.value = Object.values(transitionName.value).filter((t) => {
+      return t.active
+    })[0].title
+  }
+
+  function checkIndex(el) {
     return currentFraction.value.findIndex((i) => {
-      return i.name === currentImg.value.name
+      return i.name === el.name
     })
   }
 
@@ -30,18 +78,25 @@ export const useGalleryStore = defineStore('galleryStore', () => {
   }
 
   function switchImg(el) {
-    currentImg.value = el
+    transitionName.value.right.active = false
+    transitionName.value.left.active = false
+    transitionName.value.remove.active = true
 
-    count.value = checkIndex()
-    const selectedImg = orderedCurrentFraction.value.splice(count.value, 1)
-    // orderedCurrentFraction.value.unshift(selectedImg[0])
-    // putInOrder()
-    console.log(selectedImg)
-    // console.log(el)
+    checkTransition()
+
+    count.value = checkIndex(el)
+    currentImg.value = el
+    showImgTransition.value = !showImgTransition.value
+    putInOrder()
   }
 
-  const moveRight = () => {
-    transitionName.value = 'right'
+  function moveRight() {
+    transitionName.value.remove.active = false
+    transitionName.value.left.active = false
+    transitionName.value.right.active = true
+
+    checkTransition()
+
     count.value++
     if (count.value >= orderedCurrentFraction.value.length) {
       count.value = 0
@@ -53,10 +108,17 @@ export const useGalleryStore = defineStore('galleryStore', () => {
     setTimeout(() => {
       orderedCurrentFraction.value.push(firstEl)
     }, 100)
+
+    // console.log(currentTransition.value)
   }
 
-  const moveLeft = () => {
-    transitionName.value = 'left'
+  function moveLeft() {
+    transitionName.value.right.active = false
+    transitionName.value.remove.active = false
+    transitionName.value.left.active = true
+
+    checkTransition()
+
     count.value--
     if (count.value < 0) {
       count.value = currentFraction.value.length - 1
@@ -73,9 +135,9 @@ export const useGalleryStore = defineStore('galleryStore', () => {
 
   const showModal = ref(false)
 
-  const toggleModal = () => {
+  function toggleModal() {
     showModal.value = !showModal.value
-    count.value = checkIndex()
+    count.value = checkIndex(currentImg.value)
     putInOrder()
   }
 
@@ -90,6 +152,12 @@ export const useGalleryStore = defineStore('galleryStore', () => {
     showImgTransition,
     orderedCurrentFraction,
     transitionName,
+    currentTransition,
+    showAll,
+    currentSystem,
+    filteredSystem,
+    findSystem,
+    switchToAll,
     toggleModal,
     moveRight,
     moveLeft,
