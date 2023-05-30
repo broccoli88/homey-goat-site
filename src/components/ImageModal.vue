@@ -32,18 +32,14 @@ const { showImgTransition, orderedCurrentFraction, currentTransition } = storeTo
               @click="galleryStore.moveLeft"
               class="chevron-left"
               xmlns="http://www.w3.org/2000/svg"
-              width="32"
-              height="32"
+              width="34"
+              height="34"
               viewBox="0 0 24 24"
             >
-              <g fill="white">
+              <g fill="none" stroke="white" stroke-linecap="round" stroke-width="1.5">
+                <path stroke-linejoin="round" d="M16 12H8m0 0l3-3m-3 3l3 3" />
                 <path
-                  d="m7.757 10.586l1.415-1.414L12 12l2.828-2.828l1.415 1.414L12 14.828l-4.243-4.242Z"
-                />
-                <path
-                  fill-rule="evenodd"
-                  d="M1 5a4 4 0 0 1 4-4h14a4 4 0 0 1 4 4v14a4 4 0 0 1-4 4H5a4 4 0 0 1-4-4V5Zm4-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"
-                  clip-rule="evenodd"
+                  d="M22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12s0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464c.974.974 1.3 2.343 1.41 4.536"
                 />
               </g>
             </svg>
@@ -67,18 +63,14 @@ const { showImgTransition, orderedCurrentFraction, currentTransition } = storeTo
               @click="galleryStore.moveRight"
               class="chevron-right"
               xmlns="http://www.w3.org/2000/svg"
-              width="32"
-              height="32"
+              width="34"
+              height="34"
               viewBox="0 0 24 24"
             >
-              <g fill="white">
+              <g fill="none" stroke="white" stroke-linecap="round" stroke-width="1.5">
+                <path stroke-linejoin="round" d="M8 12h8m0 0l-3-3m3 3l-3 3" />
                 <path
-                  d="m7.757 10.586l1.415-1.414L12 12l2.828-2.828l1.415 1.414L12 14.828l-4.243-4.242Z"
-                />
-                <path
-                  fill-rule="evenodd"
-                  d="M1 5a4 4 0 0 1 4-4h14a4 4 0 0 1 4 4v14a4 4 0 0 1-4 4H5a4 4 0 0 1-4-4V5Zm4-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"
-                  clip-rule="evenodd"
+                  d="M22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12s0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464c.974.974 1.3 2.343 1.41 4.536"
                 />
               </g>
             </svg>
@@ -140,14 +132,6 @@ const { showImgTransition, orderedCurrentFraction, currentTransition } = storeTo
       .chevron-left,
       .chevron-right {
         cursor: pointer;
-      }
-
-      .chevron-left {
-        transform: rotateZ(90deg);
-      }
-
-      .chevron-right {
-        transform: rotateZ(-90deg);
       }
 
       .close-btn:active,
