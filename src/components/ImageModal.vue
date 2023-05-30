@@ -4,18 +4,19 @@ import { useGalleryStore } from '../stores/GalleryStore'
 import { storeToRefs } from 'pinia'
 
 const galleryStore = useGalleryStore()
-const { showImgTransition, currentFraction } = storeToRefs(galleryStore)
+
+const { showImgTransition, orderedCurrentFraction, transitionName } = storeToRefs(galleryStore)
 </script>
 
 <template>
   <Teleport to="#image-modal">
     <FadeTransition>
       <div class="modal-container" v-if="galleryStore.showModal">
-        <transition-group tag="ul" name="list" class="modal__miniatures">
-          <li v-for="model in currentFraction" :key="model.name">
-            <img :src="model.img" alt="" />
+        <TransitionGroup tag="ul" :name="transitionName" class="modal__miniatures">
+          <li v-for="model in orderedCurrentFraction" :key="model.name">
+            <img :src="model.img" alt="" @click="galleryStore.switchImg(model)" />
           </li>
-        </transition-group>
+        </TransitionGroup>
         <div class="modal__wrapper">
           <FadeTransition>
             <img
@@ -158,19 +159,29 @@ const { showImgTransition, currentFraction } = storeToRefs(galleryStore)
   }
 }
 
-// .fade-enter-from,
-// .fade-leave-to {
-//   opacity: 0;
-//   transform: translateY(-20px);
-// }
+.left-enter-from,
+.left-leave-to,
+.right-leave-to,
+.right-enter-from {
+  opacity: 0;
+}
 
-// .fade-move,
-// .fade-enter-active,
-// .fade-leave-active {
-//   transition: $transition-03;
-// }
+.left-leave-to,
+.right-enter-from {
+  transform: translateX(100px);
+}
 
-// .fade-leave-active {
-//   position: absolute;
-// }
+.left-enter-from,
+.right-leave-to {
+  transform: translateX(-100px);
+}
+
+.left-move,
+.right-move,
+.left-enter-active,
+.left-leave-active,
+.right-enter-active,
+.right-leave-active {
+  transition: all 0.5s ease;
+}
 </style>
