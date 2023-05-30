@@ -1,7 +1,8 @@
 <script setup>
 import { useGalleryStore } from '../stores/GalleryStore'
+import useImageObserver from '../utils/modules/useImageObserver'
 import { storeToRefs } from 'pinia'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 
 const props = defineProps(['img', 'set'])
 
@@ -17,12 +18,22 @@ const openModal = () => {
 
   galleryStore.toggleModal()
 }
+
+// Intersection Observer
+const imageObserver = useImageObserver.observeImages()
+
+onMounted(() => {
+  const imgs = document.querySelectorAll('[data-src]')
+  imgs.forEach((img) => {
+    imageObserver.observe(img)
+  })
+})
 </script>
 
 <template>
   <section class="miniature">
     <section class="miniature__tile">
-      <img class="miniature__img" :src="img" alt="" />
+      <img class="miniature__img" :data-src="img" src="" alt="" />
       <div class="miniature__magnify" @click="openModal" tabindex="0">
         <img class="miniature__magnify-img" src="/svg/eye.svg" alt="" />
       </div>
