@@ -1,8 +1,8 @@
 <script setup>
 import BannerEl from '../template/BannerEl.vue'
 import LogoEl from '../template/LogoEl.vue'
-import QuestionForm from '../components/QuestionForm.vue'
-import GetQuoteForm from '../components/GetQuoteForm.vue'
+import ContactQuestionForm from '../components/ContactQuestionForm.vue'
+import ContactGetQuoteForm from '../components/ContactGetQuoteForm.vue'
 import FadeTransition from '../utils/transitions/FadeTransition.vue'
 import { useContactStore } from '../stores/ContactStore'
 import { storeToRefs } from 'pinia'
@@ -56,7 +56,7 @@ const { questionForm } = storeToRefs(contactStore)
       <div class="contact__form-forms">
         <FadeTransition>
           <keep-alive>
-            <component :is="questionForm ? QuestionForm : GetQuoteForm" />
+            <component :is="questionForm ? ContactQuestionForm : ContactGetQuoteForm" />
           </keep-alive>
         </FadeTransition>
       </div>

@@ -2,7 +2,7 @@
 import BannerEl from '../template/BannerEl.vue'
 import GalleryTileEl from '../template/GalleryTileEl.vue'
 import ButtonEl from '../template/ButtonEl.vue'
-import ImageModal from '../components/ImageModal.vue'
+import ModalGallery from '../components/ModalGallery.vue'
 import FadeTransition from '../utils/transitions/FadeTransition.vue'
 import { useGalleryStore } from '../stores/GalleryStore'
 import { storeToRefs } from 'pinia'
@@ -68,7 +68,7 @@ const { systems, showAll, filteredSystem, currentSystem } = storeToRefs(galleryS
         </section>
       </section>
     </FadeTransition>
-    <ImageModal />
+    <ModalGallery />
   </main>
 </template>
 
