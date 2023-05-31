@@ -5,6 +5,11 @@ import GalleryView from '../views/GalleryView.vue'
 import ContactView from '../views/ContactView.vue'
 import OfferView from '../views/OfferView.vue'
 import BlogView from '../views/BlogView.vue'
+import AdminLoginView from '../views/AdminLoginView.vue'
+import AdminPanelView from '../views/AdminPanelView.vue'
+import AdminPanelMessageView from '../views/AdminPanelMessageView.vue'
+import AdminPanelGalleryView from '../views/AdminPanelGalleryView.vue'
+import AdminPanelBlogView from '../views/AdminPanelBlogView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,6 +43,33 @@ const router = createRouter({
       path: '/blog',
       name: 'blog',
       component: BlogView
+    },
+    {
+      path: '/admin-login',
+      name: 'admin-login',
+      component: AdminLoginView
+    },
+    {
+      path: '/admin-panel',
+      name: 'admin-panel',
+      component: AdminPanelView,
+      children: [
+        {
+          path: '',
+          name: 'admin-messages',
+          component: AdminPanelMessageView
+        },
+        {
+          path: 'gallery',
+          name: 'admin-gallery',
+          component: AdminPanelGalleryView
+        },
+        {
+          path: 'blog',
+          name: 'admin-blog',
+          component: AdminPanelBlogView
+        }
+      ]
     }
   ]
 })

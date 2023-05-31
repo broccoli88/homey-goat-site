@@ -10,14 +10,14 @@ const header = ref()
 const navHeight = ref()
 const route = useRoute()
 
-// Current route
-
 // Navbar toggle
 
 const navUnwrapped = ref(false)
 const toggleNav = () => {
   navUnwrapped.value = !navUnwrapped.value
 }
+
+// Disabling navbar in admin panel + navUnwrapped = false
 
 watch(
   () => route.fullPath,
@@ -27,31 +27,41 @@ watch(
 )
 
 window.addEventListener('resize', () => {
-  if (window.innerWidth >= 768) {
-    navUnwrapped.value = false
+  if (!header.value || header.value.classList === null) {
+    return
+  } else {
+    if (window.innerWidth >= 768) {
+      navUnwrapped.value = false
+    }
+    navHeight.value = header.value.clientHeight
   }
-  navHeight.value = header.value.clientHeight
 })
 
-//  Intersection Observer
+//  Intersection Observer + Nav Height
 onMounted(() => {
-  const watchedEl = document.createElement('div')
-  header.value.before(watchedEl)
+  // Nav Observer
 
-  const navObserver = new IntersectionObserver(
-    (entries) => {
-      header.value.classList.toggle('shrink', !entries[0].isIntersecting)
-    },
-    { rootMargin: '30px 0px 0px 0px' }
-  )
+  if (header.value) {
+    const watchedEl = document.createElement('div')
+    header.value.before(watchedEl)
 
-  navObserver.observe(watchedEl)
-})
+    const navObserver = new IntersectionObserver(
+      (entries) => {
+        if (!header.value || header.value.classList === null) {
+          return
+        } else {
+          header.value.classList.toggle('shrink', !entries[0].isIntersecting)
+        }
+      },
+      { rootMargin: '30px 0px 0px 0px' }
+    )
 
-//  Nav height
+    navObserver.observe(watchedEl)
 
-onMounted(() => {
-  navHeight.value = header.value.clientHeight
+    //   Nav Height
+
+    navHeight.value = header.value.clientHeight
+  } else return
 })
 </script>
 <template>

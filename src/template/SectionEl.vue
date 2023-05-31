@@ -9,28 +9,16 @@ const img = ref(props.imgLink)
 const classCheck = computed(() => {
   return img.value === '/contact' || img.value === '/offer' ? true : false
 })
-
-// Image Observer
-const imageObserver = useImageObserver.observeImages()
-
-onMounted(() => {
-  const imgs = document.querySelectorAll('[data-src]')
-  imgs.forEach((image) => {
-    imageObserver.observe(image)
-  })
-})
 </script>
 
 <template>
   <section class="section">
-    <img class="section__img" :data-src="img" :src="img" alt="" ref="images" />
+    <img class="section__img" :data-src="img" :src="img" alt="" />
     <article class="section__description">
       <h2 class="section__heading">
         <slot name="heading"></slot>
       </h2>
-      <p>
-        <slot name="description"></slot>
-      </p>
+      <p><slot name="description"></slot></p>
       <ButtonLinkEl
         :btn-link="props.btnLink"
         class="btn--medium btn--gray btn--slide-black"

@@ -72,6 +72,14 @@ const btnLink2 = ref('/gallery')
     }
 
     .hero__heading-fluff {
+      text-transform: capitalize;
+    }
+
+    .hero__heading {
+      text-transform: uppercase;
+    }
+
+    .hero__heading-fluff {
       margin-bottom: 2.5vw;
     }
 

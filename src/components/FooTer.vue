@@ -1,6 +1,7 @@
 <script setup>
 import LinksData from '../data/links.json'
 import LogoEl from '../template/LogoEl.vue'
+
 import { ref } from 'vue'
 
 const links = ref(LinksData.links)

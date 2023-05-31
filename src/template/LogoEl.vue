@@ -11,39 +11,24 @@
 
 <style lang="scss" scoped>
 .logo {
-  display: flex;
-  align-items: center;
-
-  &:focus {
-    outline: $outline-purple;
-  }
+  @include logo;
 
   .logo__img {
-    width: clamp(5rem, 1rem + 5vw, 8rem);
-    transition: $transition-04;
+    @include logo-img;
   }
 
   .logo__text {
-    line-height: 1;
+    @include logo-text;
 
     .logo__brand {
-      font-size: clamp(1.5rem, 1rem + 1.2vw, 2.5rem);
-      font-weight: 700;
-      letter-spacing: 0.8px;
-      text-transform: uppercase;
-      color: $color-black;
-      transition: $transition-04;
+      @include logo-brand;
     }
 
     .logo__fluff {
-      font-size: clamp(1rem, 0.95vw, 1.4rem);
-      color: $color-gray-darker;
-      letter-spacing: 0;
-      transition: $transition-04;
+      @include logo-fluff;
     }
   }
 }
-
 .shrink {
   .logo {
     .logo__img {
