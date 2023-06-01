@@ -15,7 +15,7 @@ const { questionState, v1 } = storeToRefs(contactStore)
         type="text"
         id="name"
         placeholder="Enter name..."
-        v-model.lazy="questionState.firstName"
+        v-model="questionState.firstName"
         @blur="v1.firstName.$touch"
       />
       <label class="form__label" for="name">First Name:</label>
@@ -28,7 +28,7 @@ const { questionState, v1 } = storeToRefs(contactStore)
         type="text"
         id="last-name"
         placeholder="Enter last name..."
-        v-model.lazy="questionState.lastName"
+        v-model="questionState.lastName"
         @blur="v1.lastName.$touch"
       />
       <label class="form__label" for="last-name">Last Name:</label>
@@ -41,7 +41,7 @@ const { questionState, v1 } = storeToRefs(contactStore)
         type="text"
         id="email"
         placeholder="Enter email..."
-        v-model.lazy="questionState.email"
+        v-model="questionState.email"
         @blur="v1.email.$touch"
       />
       <label class="form__label" for="email">Email address:</label>
@@ -54,7 +54,7 @@ const { questionState, v1 } = storeToRefs(contactStore)
         type="text"
         id="subject"
         placeholder="Enter subject..."
-        v-model.lazy="questionState.subject"
+        v-model="questionState.subject"
         @blur="v1.subject.$touch"
       />
       <label class="form__label" for="subject">Subject:</label>
@@ -68,7 +68,7 @@ const { questionState, v1 } = storeToRefs(contactStore)
         id="message"
         placeholder="What is your question?"
         rows="10"
-        v-model.lazy="questionState.message"
+        v-model="questionState.message"
         @blur="v1.message.$touch"
       />
       <label class="form__label" for="message">Message:</label>

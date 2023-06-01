@@ -1,4 +1,5 @@
 <script setup>
+import FadeTransition from './utils/transitions/FadeTransition.vue'
 import Navbar from './components/NavBar.vue'
 import FooTer from './components/FooTer.vue'
 import { RouterView } from 'vue-router'
@@ -13,13 +14,17 @@ const currentRoute = computed(() => {
 })
 </script>
 <template>
-  <Navbar ref="navbar" v-if="!currentRoute" />
+  <FadeTransition>
+    <Navbar ref="navbar" v-if="!currentRoute" />
+  </FadeTransition>
   <RouterView v-slot="{ Component }">
-    <transition name="fade" mode="out-in">
+    <FadeTransition>
       <component :is="Component" />
-    </transition>
+    </FadeTransition>
   </RouterView>
-  <FooTer v-if="!currentRoute" />
+  <FadeTransition>
+    <FooTer v-if="!currentRoute" />
+  </FadeTransition>
 </template>
 
 <style lang="scss" scoped>

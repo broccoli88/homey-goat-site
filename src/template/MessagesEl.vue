@@ -1,6 +1,15 @@
 <script setup>
 import ButtonEl from './ButtonEl.vue'
-import { ref } from 'vue'
+import FadeScaleIconTransition from '../utils/transitions/FadeScaleIconTransition.vue'
+import { useAdminStore } from '../stores/AdminStore'
+import { computed, ref } from 'vue'
+
+const props = defineProps(['message'])
+const adminStore = useAdminStore()
+
+const isMessage = computed(() => {
+  return props.message.type === 'message'
+})
 
 const showMessage = ref(false)
 const toggleMessage = () => {
@@ -15,58 +24,74 @@ const toggleMessage = () => {
       @click="toggleMessage"
       :class="{ 'header-active': showMessage }"
     >
-      <p class="messages__header-heading">Jon Doe</p>
-      <svg
-        class="messages__icon"
-        v-if="!showMessage"
-        xmlns="http://www.w3.org/2000/svg"
-        width="30"
-        height="30"
-        viewBox="0 0 24 24"
-      >
-        <g fill="none">
+      <p class="messages__header-heading">{{ message.firstName }} {{ message.lastName }}</p>
+
+      <p class="message__side-info">{{ message.type }}</p>
+      <p class="message__side-info">{{ message.date }}</p>
+
+      <FadeScaleIconTransition>
+        <svg
+          class="messages__icon"
+          v-if="!showMessage"
+          xmlns="http://www.w3.org/2000/svg"
+          width="30"
+          height="30"
+          viewBox="0 0 24 24"
+        >
+          <g fill="none">
+            <path
+              fill="black"
+              d="M9 12a1 1 0 1 1-2 0a1 1 0 0 1 2 0Zm4 0a1 1 0 1 1-2 0a1 1 0 0 1 2 0Zm4 0a1 1 0 1 1-2 0a1 1 0 0 1 2 0Z"
+            />
+            <path
+              stroke="black"
+              stroke-linecap="round"
+              stroke-width="1.5"
+              d="M22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12s0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464c.974.974 1.3 2.343 1.41 4.536"
+            />
+          </g>
+        </svg>
+        <svg v-else xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
           <path
-            fill="black"
-            d="M9 12a1 1 0 1 1-2 0a1 1 0 0 1 2 0Zm4 0a1 1 0 1 1-2 0a1 1 0 0 1 2 0Zm4 0a1 1 0 1 1-2 0a1 1 0 0 1 2 0Z"
-          />
-          <path
+            fill="none"
             stroke="black"
             stroke-linecap="round"
             stroke-width="1.5"
-            d="M22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12s0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464c.974.974 1.3 2.343 1.41 4.536"
+            d="m14.5 9.5l-5 5m0-5l5 5M22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12s0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464c.974.974 1.3 2.343 1.41 4.536"
           />
-        </g>
-      </svg>
-      <svg v-else xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
-        <path
-          fill="none"
-          stroke="black"
-          stroke-linecap="round"
-          stroke-width="1.5"
-          d="m14.5 9.5l-5 5m0-5l5 5M22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12s0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464c.974.974 1.3 2.343 1.41 4.536"
-        />
-      </svg>
+        </svg>
+      </FadeScaleIconTransition>
     </header>
-    <article class="messages__message" :class="{ active: showMessage }">
+    <article v-if="isMessage" class="messages__message" :class="{ active: showMessage }">
       <div class="content-wrapper">
-        <p class="messages__content email">Email: kode.kudaki@gmail.com</p>
+        <p class="messages__content email">Email: {{ message.email }}</p>
+        <p class="messages__content">Subject: {{ message.subject }}</p>
         <p class="messages__content">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi asperiores eveniet
-          distinctio eum corrupti id cupiditate provident. Molestias, quasi animi quia, iste earum
-          libero asperiores illo, ducimus aperiam natus tempora.
+          {{ message.message }}
         </p>
-        <ButtonEl class="messages__btn btn--small btn--outline-black btn--slide-black"
-          >Delete</ButtonEl
+        <ButtonEl
+          @click="adminStore.deleteMessage(message.id)"
+          class="messages__btn btn--small btn--outline-black btn--slide-black"
         >
+          Delete
+        </ButtonEl>
       </div>
     </article>
-    <!-- <article class="messages__message">
-      <p class="messages__content email"></p>
-      <p class="messages__content"></p>
-      <p class="messages__content"></p>
-      <p class="messages__content"></p>
-      <p class="messages__content"></p>
-    </article> -->
+    <article v-else class="messages__message" :class="{ active: showMessage }">
+      <div class="content-wrapper">
+        <p class="messages__content email">Email: {{ message.email }}</p>
+        <p class="messages__content">Country: {{ message.country }}</p>
+        <p class="messages__content">Model supply: {{ message.modelSupply }}</p>
+        <p class="messages__content">Service: {{ message.service }}</p>
+        <p class="messages__content">{{ message.message }}</p>
+        <ButtonEl
+          @click="adminStore.deleteMessage(message.id)"
+          class="messages__btn btn--small btn--outline-black btn--slide-black"
+        >
+          Delete
+        </ButtonEl>
+      </div>
+    </article>
   </section>
 </template>
 
@@ -81,6 +106,7 @@ const toggleMessage = () => {
     display: grid;
     grid-auto-flow: column;
     justify-content: space-between;
+    align-items: center;
 
     padding-block: 1rem;
     border-bottom: $bw-05 solid $bc-grayopacity-05;
@@ -99,6 +125,7 @@ const toggleMessage = () => {
         color: $color-black;
       }
     }
+
     .messages__message,
     .messages__header,
     .messages__header-heading,
@@ -110,6 +137,10 @@ const toggleMessage = () => {
       path {
         stroke: $color-font-light;
       }
+    }
+
+    .message__side-info {
+      font-size: 1.5rem;
     }
 
     .messages__header-heading {
@@ -128,15 +159,20 @@ const toggleMessage = () => {
       display: grid;
       gap: 1.5rem;
       overflow: hidden;
-    }
+      .email {
+        font-weight: 600;
+      }
 
-    .email {
-      font-weight: 600;
-    }
+      .messages__content {
+        max-width: 70ch;
+        word-wrap: break-word;
+        word-break: break-all;
+      }
 
-    .messages__btn {
-      justify-self: end;
-      margin-top: 2rem;
+      .messages__btn {
+        justify-self: end;
+        margin-top: 2rem;
+      }
     }
   }
 

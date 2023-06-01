@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import { useModal } from '../utils/modules/useModal'
 import team from '../data/team.json'
 

@@ -11,21 +11,35 @@
 
 <style lang="scss" scoped>
 .logo {
-  @include logo;
+  display: flex;
+  align-items: center;
+
+  &:focus {
+    outline: $outline-purple;
+  }
 
   .logo__img {
-    @include logo-img;
+    width: clamp(5rem, 1rem + 5vw, 8rem);
+    transition: $transition-04;
   }
 
   .logo__text {
-    @include logo-text;
+    line-height: 1;
 
     .logo__brand {
-      @include logo-brand;
+      font-size: clamp(1.5rem, 1rem + 1.2vw, 2.5rem);
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: $color-black;
+      transition: $transition-04;
     }
 
     .logo__fluff {
-      @include logo-fluff;
+      font-size: clamp(1rem, 0.95vw, 1.4rem);
+      color: $color-gray-darker;
+      letter-spacing: 0;
+      transition: $transition-04;
     }
   }
 }

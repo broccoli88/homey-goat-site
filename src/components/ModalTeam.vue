@@ -15,10 +15,9 @@ const bio = ref()
     <ScaleSlideTransition>
       <section class="bio-container" ref="bio" v-if="showModal">
         <article class="bio">
-          <section class="bio__heading">
+          <section class="bio__header">
             <h2 class="bio__name">{{ member.name }}</h2>
             <svg
-              class="bio__close"
               xmlns="http://www.w3.org/2000/svg"
               width="24"
               height="24"
@@ -32,7 +31,7 @@ const bio = ref()
             </svg>
           </section>
           <section class="bio__bio">
-            <h3 class="bio__role">{{ member.role }}</h3>
+            <h3>{{ member.role }}</h3>
             <p class="bio__description">
               {{ member.bio }}
             </p>
@@ -50,52 +49,17 @@ const bio = ref()
 
 <style lang="scss" scoped>
 .bio-container {
-  position: fixed;
-  inset: 0;
-  z-index: 99;
-  margin-inline: 1.5rem;
-  font-family: 'Josefin Sans', sans-serif;
-  line-height: 1.6;
+  @include modal-container;
 
-  display: grid;
-  place-content: center;
-
-  background-color: hsl(0, 0%, 100%, 0.6);
   .bio {
-    width: min(80rem, 100%);
-    display: grid;
-    grid-template-rows: auto 1fr auto;
+    @include modal;
 
-    border: $bw-05 solid $bc-grayopacity-05;
-    border-radius: 5px;
-    box-shadow: $box-shadow-5;
-    background-color: white;
-
-    padding: 2rem;
-    margin-inline: auto;
-
-    .bio__heading {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid $color-gray-lighter;
-
-      .bio__close {
-        cursor: pointer;
-      }
+    .bio__header {
+      @include modal-header;
     }
 
     .bio__bio {
-      margin-block: 2rem;
-      padding-bottom: 2rem;
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-      border-bottom: 1px solid $color-gray-lighter;
-
-      .bio__description {
-        font-size: clamp(1.5rem, 1rem + 0.7vw, 2.2rem);
-      }
+      @include modal-description;
     }
 
     .btn__bio {

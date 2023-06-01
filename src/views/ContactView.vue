@@ -1,4 +1,5 @@
 <script setup>
+import ModalContact from '../components/ModalContact.vue'
 import BannerEl from '../template/BannerEl.vue'
 import LogoEl from '../template/LogoEl.vue'
 import ContactQuestionForm from '../components/ContactQuestionForm.vue'
@@ -61,6 +62,7 @@ const { questionForm } = storeToRefs(contactStore)
         </FadeTransition>
       </div>
     </section>
+    <ModalContact />
   </main>
 </template>
 

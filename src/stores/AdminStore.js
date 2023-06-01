@@ -1,9 +1,31 @@
 import { defineStore } from 'pinia'
 import { useVuelidate } from '@vuelidate/core'
 import { required, minLength, maxLength, sameAs, helpers } from '@vuelidate/validators'
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
+import db from '../firebase/db'
+import { collection, query, onSnapshot, doc, deleteDoc } from 'firebase/firestore'
 
 export const useAdminStore = defineStore('adminStore', () => {
+  // Disabling NavBar and Footer
+
+  const isMobileView = ref(false)
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth >= 768) {
+      isMobileView.value = false
+    } else {
+      isMobileView.value = true
+    }
+  })
+
+  window.addEventListener('load', () => {
+    if (window.innerWidth >= 768) {
+      isMobileView.value = false
+    } else {
+      isMobileView.value = true
+    }
+  })
+
   // ...::: [LOGIN VALIDATION ] :::...
 
   const adminState = reactive({
@@ -46,6 +68,23 @@ export const useAdminStore = defineStore('adminStore', () => {
 
     if (!isLoginCorrect) return
   }
+  // ...::: [ ADMIN PANEL - MESSAGES]] :::...
+  let messages = ref([])
 
-  return { v, adminState, handleLogIn }
+  async function getMessages() {
+    const m = query(collection(db, 'messages'))
+    onSnapshot(m, (snap) => {
+      messages.value = []
+      snap.forEach((doc) => {
+        messages.value.push({ ...doc.data(), id: doc.id })
+      })
+    })
+  }
+
+  async function deleteMessage(id) {
+    const docRef = doc(db, 'messages', id)
+    await deleteDoc(docRef)
+  }
+
+  return { isMobileView, v, adminState, messages, handleLogIn, getMessages, deleteMessage }
 })

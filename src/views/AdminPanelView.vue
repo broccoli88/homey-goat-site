@@ -1,26 +1,12 @@
 <script setup>
-import { ref } from 'vue'
 import AdminNav from '../components/AdminNav.vue'
 import FadeTransition from '../utils/transitions/FadeTransition.vue'
 import { RouterView } from 'vue-router'
+import { useAdminStore } from '../stores/AdminStore'
+import { storeToRefs } from 'pinia'
 
-const isMobileView = ref(false)
-
-window.addEventListener('resize', () => {
-  if (window.innerWidth >= 768) {
-    isMobileView.value = false
-  } else {
-    isMobileView.value = true
-  }
-})
-
-window.addEventListener('load', () => {
-  if (window.innerWidth >= 768) {
-    isMobileView.value = false
-  } else {
-    isMobileView.value = true
-  }
-})
+const adminStore = useAdminStore()
+const { isMobileView } = storeToRefs(adminStore)
 </script>
 
 <template>
