@@ -1,7 +1,7 @@
 <script setup>
 import ButtonEl from '../template/ButtonEl.vue'
 import LogoEl from '../template/LogoEl.vue'
-import { useAdminStore } from '../stores/adminStore'
+import { useAdminStore } from '../stores/AdminStore'
 import { storeToRefs } from 'pinia'
 
 const adminStore = useAdminStore()
