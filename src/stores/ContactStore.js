@@ -27,6 +27,7 @@ export const useContactStore = defineStore('contactStore', () => {
       maxLength: maxLength(40),
       $autoDirty: true
     },
+    subject: { required: helpers.withMessage('Enter what this message is about...', required) },
     country: { required, minLength: minLength(3), maxLength: maxLength(15), $autoDirty: true },
     modelSupply: { required: helpers.withMessage('Select an option', required) },
     service: { required: helpers.withMessage('At least one option must be selected', required) },

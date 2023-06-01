@@ -49,6 +49,19 @@ const { questionState, v1 } = storeToRefs(contactStore)
     </section>
 
     <section class="form__section">
+      <input
+        class="form__input"
+        type="text"
+        id="subject"
+        placeholder="Enter subject..."
+        v-model.lazy="questionState.firstName"
+        @blur="v1.subject.$touch"
+      />
+      <label class="form__label" for="subject">Subject:</label>
+      <p class="error" v-if="v1.subject.$error">{{ v1.subject.$errors[0].$message }}</p>
+    </section>
+
+    <section class="form__section">
       <textarea
         class="form__input resize"
         type="text"
