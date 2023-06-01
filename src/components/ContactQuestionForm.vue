@@ -54,7 +54,7 @@ const { questionState, v1 } = storeToRefs(contactStore)
         type="text"
         id="subject"
         placeholder="Enter subject..."
-        v-model.lazy="questionState.firstName"
+        v-model.lazy="questionState.subject"
         @blur="v1.subject.$touch"
       />
       <label class="form__label" for="subject">Subject:</label>

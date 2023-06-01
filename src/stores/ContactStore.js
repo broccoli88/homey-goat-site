@@ -47,7 +47,7 @@ export const useContactStore = defineStore('contactStore', () => {
 
   const handleQuestionForm = async () => {
     const isFormCorrect = await v1.value.$validate()
-
+    console.log(questionState)
     if (!isFormCorrect) return
   }
 
