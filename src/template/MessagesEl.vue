@@ -159,6 +159,7 @@ const toggleMessage = () => {
       display: grid;
       gap: 1.5rem;
       overflow: hidden;
+
       .email {
         font-weight: 600;
       }

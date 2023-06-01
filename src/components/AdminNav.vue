@@ -13,6 +13,16 @@ import LogoEl from '../template/LogoEl.vue'
         </li>
         <li class="nav__item">
           <router-link to="/admin-panel/gallery" class="nav__link">Gallery</router-link>
+          <ul class="nav__sub">
+            <li class="nav__sub-item">
+              <router-link to="/admin-panel/gallery" class="nav__sub-link"> Manage </router-link>
+            </li>
+            <li class="nav__sub-item">
+              <router-link to="/admin-panel/gallery/add-img" class="nav__sub-link">
+                Add
+              </router-link>
+            </li>
+          </ul>
         </li>
         <li class="nav__item">
           <router-link to="/admin-panel/blog" class="nav__link">Blog</router-link>
