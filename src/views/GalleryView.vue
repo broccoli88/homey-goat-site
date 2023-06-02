@@ -8,7 +8,9 @@ import { useGalleryStore } from '../stores/GalleryStore'
 import { storeToRefs } from 'pinia'
 
 const galleryStore = useGalleryStore()
-const { systems, showAll, filteredSystem, currentSystem } = storeToRefs(galleryStore)
+const { systems, showAll, filteredSystem, currentSystem, fractionData } = storeToRefs(galleryStore)
+
+galleryStore.getSystems()
 </script>
 <template>
   <main>
@@ -31,15 +33,15 @@ const { systems, showAll, filteredSystem, currentSystem } = storeToRefs(galleryS
       >
     </section>
     <FadeTransition>
-      <div v-if="showAll">
-        <section class="gallery" v-for="system in systems" :key="system.system">
+      <div v-if="fractionData.length > 0">
+        <section class="gallery" v-for="system in fractionData" :key="system.system">
           <h2>{{ system.system }}</h2>
           <section
-            v-for="fraction in system.fraction"
-            :key="fraction.title"
+            v-for="fraction in system.fractions"
+            :key="fraction.fraction"
             class="gallery__fraction"
           >
-            <h3 class="gallery__fraction-title">{{ fraction.title }}</h3>
+            <h3 class="gallery__fraction-title">{{ fraction.fraction }}</h3>
             <GalleryTileEl
               v-for="miniature in fraction.images"
               :key="miniature.name"
@@ -50,7 +52,7 @@ const { systems, showAll, filteredSystem, currentSystem } = storeToRefs(galleryS
           </section>
         </section>
       </div>
-      <section class="gallery" v-else>
+      <!-- <section class="gallery" v-else>
         <h2>{{ filteredSystem.system }}</h2>
         <section
           v-for="fraction in filteredSystem.fraction"
@@ -66,7 +68,7 @@ const { systems, showAll, filteredSystem, currentSystem } = storeToRefs(galleryS
           >
           </GalleryTileEl>
         </section>
-      </section>
+      </section> -->
     </FadeTransition>
     <ModalGallery />
   </main>

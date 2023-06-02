@@ -1,7 +1,7 @@
 <script setup>
 import ButtonLinkEl from './ButtonLinkEl.vue'
 import useImageObserver from '../utils/modules/useImageObserver'
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 
 const props = defineProps(['imgLink', 'btnLink'])
 const img = ref(props.imgLink)

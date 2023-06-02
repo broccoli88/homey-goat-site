@@ -135,7 +135,8 @@ const toggleSubNav = () => {
             }
           }
 
-          &:hover {
+          &:hover,
+          &:focus {
             svg {
               path {
                 stroke: white;

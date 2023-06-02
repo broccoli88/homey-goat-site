@@ -2,6 +2,8 @@ import { defineStore } from 'pinia'
 import { useModal } from '../utils/modules/useModal'
 import { ref, reactive, computed } from 'vue'
 import galleryData from '../data/gallery.json'
+import db from '../firebase/db'
+import { collection, getDocs } from 'firebase/firestore'
 
 export const useGalleryStore = defineStore('galleryStore', () => {
   const systems = reactive(galleryData)
@@ -143,6 +145,27 @@ export const useGalleryStore = defineStore('galleryStore', () => {
 
   useModal(showModal)
 
+  //   ...::: [ GET DATA ] :::...
+
+  const systemss = ref(['wm', 'wh40k'])
+  const fractionData = ref([])
+
+  async function getFractionData(system) {
+    const imgRef = collection(db, system)
+    const dataSnapshot = await getDocs(imgRef)
+    dataSnapshot.forEach((doc) => {
+      fractionData.value.push({ ...doc.data(), id: doc.id })
+    })
+    console.log(fractionData.value)
+  }
+
+  async function getSystems() {
+    fractionData.value = []
+    systemss.value.forEach((system) => {
+      getFractionData(system)
+    })
+  }
+
   return {
     currentImg,
     showModal,
@@ -161,6 +184,12 @@ export const useGalleryStore = defineStore('galleryStore', () => {
     toggleModal,
     moveRight,
     moveLeft,
-    switchImg
+    switchImg,
+    // Firestore
+
+    fractionData,
+    systemss,
+    getFractionData,
+    getSystems
   }
 })

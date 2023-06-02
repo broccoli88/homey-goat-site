@@ -3,9 +3,9 @@ const props = defineProps(['btnLink'])
 </script>
 
 <template>
-  <router-link :to="props.btnLink">
+  <a :href="props.btnLink">
     <slot />
-  </router-link>
+  </a>
 </template>
 
 <style lang="scss"></style>

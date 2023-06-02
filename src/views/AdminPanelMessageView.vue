@@ -2,16 +2,12 @@
 import MessagesEl from '../template/MessagesEl.vue'
 import { useAdminStore } from '../stores/AdminStore'
 import { storeToRefs } from 'pinia'
-import { computed, onMounted } from 'vue'
+import { computed } from 'vue'
 
 const adminStore = useAdminStore()
 const { messages } = storeToRefs(adminStore)
 
 adminStore.getMessages()
-
-// onMounted(async () => {
-//   await adminStore.getMessages()
-//  })
 
 const checkIfEmpty = computed(() => {
   return messages.value.length > 0
