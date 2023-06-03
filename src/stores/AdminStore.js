@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { useVuelidate } from '@vuelidate/core'
 import { required, minLength, maxLength, sameAs, helpers } from '@vuelidate/validators'
 import { reactive, ref } from 'vue'
-import db from '../firebase/db'
+import { db } from '../firebase/db'
 import { collection, query, onSnapshot, doc, deleteDoc } from 'firebase/firestore'
 
 export const useAdminStore = defineStore('adminStore', () => {

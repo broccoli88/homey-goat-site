@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { useModal } from '../utils/modules/useModal.js'
 import { useVuelidate } from '@vuelidate/core'
 import { required, email, minLength, maxLength, helpers } from '@vuelidate/validators'
-import db from '../firebase/db'
+import { db } from '../firebase/db'
 import { collection, addDoc } from 'firebase/firestore'
 import { ref, reactive } from 'vue'
 

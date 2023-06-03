@@ -5,12 +5,15 @@ import ButtonEl from '../template/ButtonEl.vue'
 import ModalGallery from '../components/ModalGallery.vue'
 import FadeTransition from '../utils/transitions/FadeTransition.vue'
 import { useGalleryStore } from '../stores/GalleryStore'
+import { useFireBaseStore } from '../stores/FireBaseStore'
 import { storeToRefs } from 'pinia'
 
 const galleryStore = useGalleryStore()
+const fbStore = useFireBaseStore()
 const { systems, showAll, filteredSystem, currentSystem, fractionData } = storeToRefs(galleryStore)
 
-galleryStore.getSystems()
+fbStore.getModels()
+// galleryStore.getSystems()
 </script>
 <template>
   <main>

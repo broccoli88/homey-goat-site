@@ -2,7 +2,8 @@ import { defineStore } from 'pinia'
 import { useModal } from '../utils/modules/useModal'
 import { ref, reactive, computed } from 'vue'
 import galleryData from '../data/gallery.json'
-import db from '../firebase/db'
+import { db } from '../firebase/db'
+
 import { collection, getDocs } from 'firebase/firestore'
 
 export const useGalleryStore = defineStore('galleryStore', () => {
@@ -156,7 +157,6 @@ export const useGalleryStore = defineStore('galleryStore', () => {
     dataSnapshot.forEach((doc) => {
       fractionData.value.push({ ...doc.data(), id: doc.id })
     })
-    console.log(fractionData.value)
   }
 
   async function getSystems() {
