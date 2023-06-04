@@ -105,8 +105,8 @@ export const useAdminStore = defineStore('adminStore', () => {
   // ...::: [ ADMIN PANEL - GALLERY] :::...
 
   const data = vref([])
-  const systems = vref(['Warmachine and Hordes', 'Warhammer 40k'])
-  const fractions = vref(['Cygnar', 'Protectorate of Menoth', 'Space Marines'])
+  const systems = vref([])
+  const fractions = vref([])
 
   //   Getting data
 
@@ -144,18 +144,15 @@ export const useAdminStore = defineStore('adminStore', () => {
       data.value.push(system.data())
     })
 
-    systems.value = data.value.map((item) => {
-      return item.system.split('-').join(' ')
-    })
-
-    data.value.forEach((i) => {
-      //   console.log(i.fractions)
-      i.fractions.forEach((f) => {
-        fractions.value.push(Object.keys(f).toString().split('-').join(' '))
+    data.value.forEach((system) => {
+      systems.value.push(system.system.split('-').join(' '))
+      system.fractions.forEach((fraction) => {
+        fractions.value.push(fraction.fraction.split('-').join(' '))
       })
     })
 
-    // console.log(data.value)
+    console.log(systems.value)
+    console.log(fractions.value)
   }
 
   // Image upload functions
@@ -203,6 +200,7 @@ export const useAdminStore = defineStore('adminStore', () => {
     // Firestore Refs
 
     const fractionFbRef = doc(db, 'systems', newSystem.system)
+
     const fractionSnap = await getDoc(fractionFbRef)
 
     if (fractionSnap.exists()) {
@@ -231,7 +229,7 @@ export const useAdminStore = defineStore('adminStore', () => {
   //   Upload compete data
 
   async function uploadData(fileInputRef) {
-    // await uploadImg(fileInputRef)
+    await uploadImg(fileInputRef)
     await uploadDataToFireStore()
 
     openModal()

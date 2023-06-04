@@ -35,12 +35,12 @@ const fractionBtnOption = computed(() => {
 // Get existing fractions and systems
 
 const fileInput = ref()
-// adminStore.getSystems()
+adminStore.getSystems()
 
 const uploadData = async () => {
-  await adminStore.uploadData(fileInput)
+  //   await adminStore.uploadData(fileInput)
 
-  //   adminStore.getSystems()
+  adminStore.getSystems()
 }
 </script>
 
@@ -105,11 +105,11 @@ const uploadData = async () => {
                 v-model="modelAssignement.fraction"
               >
                 <option disabled selected value>-- select an option --</option>
-                <!-- <optgroup :label="system.system" v-for="system in data" :key="system"> -->
-                <option :value="fraction" v-for="fraction in fractions" :key="fraction">
-                  {{ fraction }}
-                </option>
-                <!-- </optgroup> -->
+                <optgroup :label="system" v-for="system in systems" :key="system">
+                  <option :value="fraction" v-for="fraction in fractions" :key="fraction">
+                    {{ fraction }}
+                  </option>
+                </optgroup>
               </select>
             </div>
             <div v-else class="form__input-container">
