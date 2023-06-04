@@ -1,15 +1,13 @@
 <script setup>
 import FadeTransition from '../utils/transitions/FadeTransition.vue'
 import ButtonEl from '../template/ButtonEl.vue'
-import { computed, reactive } from 'vue'
-import { ref as vref } from 'vue'
-import { storageRef } from '../firebase/db'
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
-import { db } from '../firebase/db'
-import { arrayUnion, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
+import ModalAdminAddImg from '../components/ModalAdminAddImg.vue'
+import { computed, reactive, ref } from 'vue'
+import { useAdminStore } from '../stores/AdminStore'
+import { storeToRefs } from 'pinia'
 
-const systems = reactive(['Warmachine and Hordes', 'Warhammer 40k'])
-const fractions = reactive(['Cygnar', 'Protectorat of Menoth', 'Space Marines'])
+const adminStore = useAdminStore()
+const { modelAssignement, systems, fractions, data } = storeToRefs(adminStore)
 
 const doesExists = reactive({
   system: true,
@@ -30,63 +28,26 @@ const systemBtnOption = computed(() => {
 const chooseFromExisistngFraction = () => {
   doesExists.fraction = !doesExists.fraction
 }
-
 const fractionBtnOption = computed(() => {
   return !doesExists.fraction ? 'Existing Fraction' : 'Add new fraction'
 })
 
-// DATA
+// Get existing fractions and systems
 
-const modelTree = reactive({
-  system: '',
-  fraction: '',
-  model: '',
-  url: ''
-})
+const fileInput = ref()
+// adminStore.getSystems()
 
-const fileInput = vref()
+const uploadData = async () => {
+  await adminStore.uploadData(fileInput)
 
-const uploadImg = async () => {
-  const galleryRef = ref(storageRef, 'gallery')
-  const systemName = vref(modelTree.system.split(' ').join('-'))
-  const fractionName = vref(modelTree.fraction.split(' ').join('-'))
-  const modelName = vref(modelTree.model.split(' ').join('-'))
-  const modelRef = ref(galleryRef, `${systemName.value}/${fractionName.value}/${modelName.value}`)
-  const docRef = doc(db, `systems`, systemName.value)
-
-  //   await uploadBytes(modelRef, fileInput.value.files[0])
-  //   await getDownloadURL(modelRef).then((url) => {
-  //     modelTree.url = url
-  //   })
-
-  const newObject = reactive({
-    system: systemName.value,
-    fractions: [
-      {
-        [fractionName.value]: {
-          fraction: fractionName.value,
-          images: [{ img: 'url', model: modelName.value }]
-        }
-      }
-    ]
-  })
-
-  const docSnap = await getDoc(docRef)
-
-  if (docSnap.exists()) {
-    await updateDoc(docRef, {
-      fractions: arrayUnion(newObject.fractions[0])
-    })
-  } else {
-    await setDoc(docRef, newObject)
-  }
+  //   adminStore.getSystems()
 }
 </script>
 
 <template>
   <section class="container">
     <h3>Add Img</h3>
-    <form action="" class="form" @submit.prevent="uploadImg">
+    <form action="" class="form" @submit.prevent="uploadData">
       <section class="form__section">
         <fieldset class="form__fieldset">
           <legend>Choose/Add System</legend>
@@ -99,7 +60,12 @@ const uploadImg = async () => {
           <FadeTransition>
             <div v-if="doesExists.system" class="form__input-container">
               <label for="system">Choose system</label>
-              <select id="system" name="system" class="form__input" v-model="modelTree.system">
+              <select
+                id="system"
+                name="system"
+                class="form__input"
+                v-model="modelAssignement.system"
+              >
                 <option disabled selected value>-- select an option --</option>
                 <option :value="system" v-for="system in systems" :key="system">
                   {{ system }}
@@ -114,7 +80,7 @@ const uploadImg = async () => {
                 name="system"
                 placeholder="Enter new system name..."
                 class="form__input"
-                v-model="modelTree.system"
+                v-model="modelAssignement.system"
               />
             </div>
           </FadeTransition>
@@ -136,12 +102,14 @@ const uploadImg = async () => {
                 id="fraction"
                 name="fraction"
                 class="form__input"
-                v-model="modelTree.fraction"
+                v-model="modelAssignement.fraction"
               >
                 <option disabled selected value>-- select an option --</option>
-                <option v-for="fraction in fractions" :key="fraction" :value="fraction">
+                <!-- <optgroup :label="system.system" v-for="system in data" :key="system"> -->
+                <option :value="fraction" v-for="fraction in fractions" :key="fraction">
                   {{ fraction }}
                 </option>
+                <!-- </optgroup> -->
               </select>
             </div>
             <div v-else class="form__input-container">
@@ -152,7 +120,7 @@ const uploadImg = async () => {
                 name="fraction"
                 placeholder="Enter new fraction name..."
                 class="form__input"
-                v-model="modelTree.fraction"
+                v-model="modelAssignement.fraction"
               />
             </div>
           </FadeTransition>
@@ -169,7 +137,7 @@ const uploadImg = async () => {
               name="model"
               placeholder="Enter models name..."
               class="form__input"
-              v-model="modelTree.model"
+              v-model="modelAssignement.model"
             />
           </div>
           <div class="form__input-container">
@@ -187,6 +155,7 @@ const uploadImg = async () => {
       <ButtonEl class="btn--medium btn--outline-black btn--slide-black">Submit</ButtonEl>
     </form>
   </section>
+  <ModalAdminAddImg />
 </template>
 
 <style lang="scss" scoped>

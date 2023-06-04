@@ -1,27 +1,24 @@
 <script setup>
-import FadeTransition from '../utils/transitions/FadeTransition.vue'
 import ModalEl from '../template/ModalEl.vue'
 import ButtonEl from '../template/ButtonEl.vue'
-import { useContactStore } from '../stores/ContactStore'
-import { storeToRefs } from 'pinia'
+import FadeTransition from '../utils/transitions/FadeTransition.vue'
+import { useAdminStore } from '../stores/AdminStore'
 
-const contactStore = useContactStore()
-const { showModal } = storeToRefs(contactStore)
+const adminStore = useAdminStore()
 </script>
 
 <template>
-  <Teleport to="#contact-modal">
+  <Teleport to="#admin-add-img-modal">
     <FadeTransition>
-      <section class="modal-container" v-if="showModal">
+      <section class="modal-container" v-if="adminStore.showModal">
         <ModalEl class="contact-modal">
-          <template v-slot:heading>Message Submitted</template>
+          <template v-slot:heading>Img Uploaded</template>
           <template v-slot:description>
-            <p>We will contact you within 2 working days.</p>
             <p>Stay tuned!</p>
           </template>
           <template v-slot:button>
             <ButtonEl
-              @click="contactStore.closeModal"
+              @click="adminStore.closeModal"
               class="btn--small btn--outline-black btn--slide-black"
             >
               Close
@@ -36,5 +33,6 @@ const { showModal } = storeToRefs(contactStore)
 <style lang="scss" scoped>
 .modal-container {
   @include modal-container;
+  background-color: transparent;
 }
 </style>
