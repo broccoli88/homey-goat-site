@@ -5,7 +5,13 @@ import { storeToRefs } from 'pinia'
 
 const galleryStore = useGalleryStore()
 
-const { showImgTransition, orderedCurrentFraction, currentTransition } = storeToRefs(galleryStore)
+const {
+  currentModel,
+  currentFraction,
+  orderedCurrentFraction,
+  showImgTransition,
+  currentTransition
+} = storeToRefs(galleryStore)
 </script>
 
 <template>
@@ -13,28 +19,23 @@ const { showImgTransition, orderedCurrentFraction, currentTransition } = storeTo
     <FadeTransition>
       <div class="modal-container" v-if="galleryStore.showModal">
         <TransitionGroup tag="ul" :name="currentTransition" class="modal__miniatures">
-          <li v-for="model in orderedCurrentFraction" :key="model.name">
-            <img :src="model.img" alt="" @click="galleryStore.switchImg(model)" />
+          <li v-for="{ img, model } in orderedCurrentFraction" :key="model">
+            <img :src="img" alt="" @click="galleryStore.switchImg(img)" />
           </li>
         </TransitionGroup>
         <div class="modal__wrapper">
           <FadeTransition>
-            <img
-              v-if="showImgTransition"
-              class="modal__image"
-              :src="galleryStore.currentImg.img"
-              alt=""
-            />
-            <img v-else class="modal__image" :src="galleryStore.currentImg.img" alt="" />
+            <img v-if="showImgTransition" class="modal__image" :src="currentModel" alt="" />
+            <img v-else class="modal__image" :src="currentModel" alt="" />
           </FadeTransition>
           <section class="modal__btns">
             <svg
-              @click="galleryStore.moveLeft"
               class="chevron-left"
               xmlns="http://www.w3.org/2000/svg"
               width="34"
               height="34"
               viewBox="0 0 24 24"
+              @click="galleryStore.moveLeft"
             >
               <g fill="none" stroke="white" stroke-linecap="round" stroke-width="1.5">
                 <path stroke-linejoin="round" d="M16 12H8m0 0l3-3m-3 3l3 3" />
@@ -60,12 +61,12 @@ const { showImgTransition, orderedCurrentFraction, currentTransition } = storeTo
               />
             </svg>
             <svg
-              @click="galleryStore.moveRight"
               class="chevron-right"
               xmlns="http://www.w3.org/2000/svg"
               width="34"
               height="34"
               viewBox="0 0 24 24"
+              @click="galleryStore.moveRight"
             >
               <g fill="none" stroke="white" stroke-linecap="round" stroke-width="1.5">
                 <path stroke-linejoin="round" d="M8 12h8m0 0l-3-3m3 3l-3 3" />
@@ -119,6 +120,7 @@ const { showImgTransition, orderedCurrentFraction, currentTransition } = storeTo
 
     .modal__image {
       @include img;
+      height: auto;
     }
 
     .modal__btns {

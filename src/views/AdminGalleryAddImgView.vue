@@ -7,7 +7,7 @@ import { useAdminStore } from '../stores/AdminStore'
 import { storeToRefs } from 'pinia'
 
 const adminStore = useAdminStore()
-const { modelAssignement, systems, fractions, data } = storeToRefs(adminStore)
+const { modelAssignement, systems, data } = storeToRefs(adminStore)
 
 const doesExists = reactive({
   system: true,
@@ -38,9 +38,8 @@ const fileInput = ref()
 adminStore.getSystems()
 
 const uploadData = async () => {
-  //   await adminStore.uploadData(fileInput)
-
   adminStore.getSystems()
+  await adminStore.uploadData(fileInput)
 }
 </script>
 
@@ -105,9 +104,13 @@ const uploadData = async () => {
                 v-model="modelAssignement.fraction"
               >
                 <option disabled selected value>-- select an option --</option>
-                <optgroup :label="system" v-for="system in systems" :key="system">
-                  <option :value="fraction" v-for="fraction in fractions" :key="fraction">
-                    {{ fraction }}
+                <optgroup
+                  :label="system.toUpperCase().split('-').join(' ')"
+                  v-for="{ system, fractions } in data"
+                  :key="system"
+                >
+                  <option :value="fraction.fraction" v-for="fraction in fractions" :key="fraction">
+                    {{ fraction.fraction.split('-').join(' ') }}
                   </option>
                 </optgroup>
               </select>

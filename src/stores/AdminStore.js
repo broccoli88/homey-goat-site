@@ -134,6 +134,7 @@ export const useAdminStore = defineStore('adminStore', () => {
   // Getting saved systems and fractions
 
   async function getSystems() {
+    data.value = []
     systems.value = []
     fractions.value = []
 
@@ -150,15 +151,13 @@ export const useAdminStore = defineStore('adminStore', () => {
         fractions.value.push(fraction.fraction.split('-').join(' '))
       })
     })
-
-    console.log(systems.value)
-    console.log(fractions.value)
   }
 
   // Image upload functions
 
   async function uploadImg(fileInputRef) {
     //   Storage refs
+
     const galleryStorageRef = ref(storageRef, 'gallery')
     const modelStorageRef = ref(
       galleryStorageRef,

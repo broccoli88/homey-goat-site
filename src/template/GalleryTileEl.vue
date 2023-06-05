@@ -4,36 +4,32 @@ import useImageObserver from '../utils/modules/useImageObserver'
 import { storeToRefs } from 'pinia'
 import { ref, onMounted } from 'vue'
 
-const props = defineProps(['img', 'set'])
+const props = defineProps(['model', 'set'])
 
 const galleryStore = useGalleryStore()
-const { currentImg, currentFraction } = storeToRefs(galleryStore)
-
-const img = ref(props.img.img)
-const imginfo = ref(props.set.images)
+const { currentModel, currentFraction } = storeToRefs(galleryStore)
 
 const openModal = () => {
-  currentImg.value = props.img
-  currentFraction.value = imginfo.value
+  currentModel.value = props.model
+  currentFraction.value = props.set
 
   galleryStore.toggleModal()
 }
 
 // Intersection Observer
+
+const imgRef = ref(null)
 const imageObserver = useImageObserver.observeImages()
 
 onMounted(() => {
-  const imgs = document.querySelectorAll('[data-src]')
-  imgs.forEach((img) => {
-    imageObserver.observe(img)
-  })
+  imageObserver.observe(imgRef.value)
 })
 </script>
 
 <template>
   <section class="miniature">
     <section class="miniature__tile">
-      <img class="miniature__img" :data-src="img" src="" alt="" />
+      <img class="miniature__img" :data-src="model" alt="" ref="imgRef" />
       <div class="miniature__magnify" @click="openModal" tabindex="0">
         <img class="miniature__magnify-img" src="/svg/eye.svg" alt="" />
       </div>
