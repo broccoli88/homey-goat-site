@@ -153,6 +153,7 @@ const links = ref(LinksData.links)
     display: flex;
     align-items: center;
     gap: 0.6rem;
+    margin-top: 2rem;
 
     & > p {
       font-size: clamp(1.1rem, 1rem + 0.3vw, 1.6rem);

@@ -43,6 +43,10 @@ const classCheck = computed(() => {
       margin-bottom: 1.5vw;
     }
   }
+
+  p {
+    margin-block: 2rem;
+  }
 }
 // }
 .single-col--alt {

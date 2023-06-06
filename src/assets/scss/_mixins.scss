@@ -50,9 +50,9 @@
   width: min($width, 80%);
   margin: 2rem auto;
   text-align: center;
-  place-content: center;
 
   display: grid;
+  place-content: center;
   gap: $gap;
 
   @content;
@@ -79,7 +79,7 @@
     position: absolute;
     bottom: -5px;
     left: 50%;
-    width: min(30%, 150px);
+    width: min(30%, 80px);
     height: 3px;
 
     transform: translateX(-50%);

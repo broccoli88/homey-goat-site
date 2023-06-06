@@ -1,13 +1,12 @@
 <script setup>
 import ButtonLinkEl from './ButtonLinkEl.vue'
-import useImageObserver from '../utils/modules/useImageObserver'
 import { computed, ref } from 'vue'
 
 const props = defineProps(['imgLink', 'btnLink'])
 const img = ref(props.imgLink)
 
 const classCheck = computed(() => {
-  return img.value === '/contact' || img.value === '/offer' ? true : false
+  return props.btnLink === '/contact' || props.btnLink === '/offer' ? true : false
 })
 </script>
 
@@ -33,7 +32,7 @@ const classCheck = computed(() => {
 <style lang="scss" scoped>
 .section {
   @include section-double-col;
-  grid-template-rows: 400px 1fr;
+  grid-template-rows: 350px 1fr;
 
   .section__img {
     @include img;
@@ -44,6 +43,10 @@ const classCheck = computed(() => {
 
     .section__heading {
       @include heading-underline-purple;
+    }
+
+    p {
+      margin-block: 2rem;
     }
   }
 }

@@ -32,7 +32,8 @@ const btnLink2 = ref('/gallery')
 <style lang="scss" scoped>
 .hero {
   @include section-single-col;
-
+  min-height: 100vh;
+  min-height: 100dvh;
   place-items: center;
 
   color: $color-gray-lighter;
@@ -63,7 +64,8 @@ const btnLink2 = ref('/gallery')
   }
 
   .hero__description {
-    @include description;
+    @include description(2vw);
+    margin-block: 0;
 
     .hero__heading,
     .hero__heading-fluff {

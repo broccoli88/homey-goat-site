@@ -1,6 +1,6 @@
 <script setup>
 import ButtonEl from '../template/ButtonEl.vue'
-import ScaleSlideTransition from '../utils/transitions/ScaleSlideTransition.vue'
+import FadeTransition from '../utils/transitions/FadeTransition.vue'
 import { ref } from 'vue'
 import { useMemberStore } from '../stores/MemberStore'
 import { storeToRefs } from 'pinia'
@@ -12,11 +12,11 @@ const bio = ref()
 
 <template>
   <Teleport to="#bio-modal">
-    <ScaleSlideTransition>
-      <section class="bio-container" ref="bio" v-if="showModal">
-        <article class="bio">
-          <section class="bio__header">
-            <h2 class="bio__name">{{ member.name }}</h2>
+    <FadeTransition>
+      <section class="modal-container" ref="bio" v-if="showModal">
+        <article class="modal">
+          <section class="modal__header">
+            <h2 class="modal__name">{{ member.name }}</h2>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -30,9 +30,9 @@ const bio = ref()
               />
             </svg>
           </section>
-          <section class="bio__bio">
+          <section class="modal__bio">
             <h3>{{ member.role }}</h3>
-            <p class="bio__description">
+            <p class="modal__description">
               {{ member.bio }}
             </p>
           </section>
@@ -43,22 +43,22 @@ const bio = ref()
           >
         </article>
       </section>
-    </ScaleSlideTransition>
+    </FadeTransition>
   </Teleport>
 </template>
 
 <style lang="scss" scoped>
-.bio-container {
+.modal-container {
   @include modal-container;
 
-  .bio {
+  .modal {
     @include modal;
 
-    .bio__header {
+    .modal__header {
       @include modal-header;
     }
 
-    .bio__bio {
+    .modal__bio {
       @include modal-description;
     }
 

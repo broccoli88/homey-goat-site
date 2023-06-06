@@ -31,6 +31,7 @@ const currentBanner = computed(() => {
   .banner__fluff {
     font-weight: 600;
     text-transform: uppercase;
+    font-size: clamp(1.4rem, 0.5rem + 1.2vw, 2rem);
   }
 
   .banner__heading {
