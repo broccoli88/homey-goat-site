@@ -1,13 +1,12 @@
 <script setup>
 import BannerEl from '../template/BannerEl.vue'
-import GalleryTileEl from '../template/GalleryTileEl.vue'
 import ButtonEl from '../template/ButtonEl.vue'
 import ModalGallery from '../components/ModalGallery.vue'
-import FadeTransition from '../utils/transitions/FadeTransition.vue'
 import GalleryDisplayEl from '../template/GalleryDisplayEl.vue'
+import FadeTransition from '../utils/transitions/FadeTransition.vue'
 import { useAdminStore } from '../stores/AdminStore'
 import { storeToRefs } from 'pinia'
-import { computed, onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
 const adminStore = useAdminStore()
 const { data, systems } = storeToRefs(adminStore)
@@ -18,6 +17,7 @@ onMounted(async () => {
 })
 
 function chooseSystem(system) {
+  switchGallery.value = !switchGallery.value
   if (system === systemBtns.value[0]) {
     currentSystem.value = system
   } else {
@@ -27,64 +27,34 @@ function chooseSystem(system) {
 
 const systemBtns = ref(['all models'])
 const currentSystem = ref('all models')
-
-// const filteredSystem = computed(() => {
-//   return data.value.filter((s) => s.system === currentSystem.value)
-// })
-
-// const displaySystem = computed(() => {
-//   return currentSystem.value === systemBtns.value[0] ? data.value : filteredSystem.value
-// })
+const switchGallery = ref(true)
 </script>
 <template>
   <main>
     <BannerEl />
 
-    <section class="btns">
+    <section class="btns" v-if="systemBtns.length > 1">
       <ButtonEl
         v-for="system in systemBtns"
         :key="system"
         class="btn--small btn--outline-black btn--slide-black"
+        :class="currentSystem === system ? 'active' : ''"
         @click="chooseSystem(system)"
       >
         {{ system }}</ButtonEl
       >
     </section>
 
-    <div v-if="data.length > 0">
-      <GalleryDisplayEl :current-system="currentSystem" />
-      <!-- <section class="gallery" v-for="{ system, fractions } in displaySystem" :key="system">
-          <h2>{{ system }}</h2>
-          <section
-            v-for="{ fraction, images } in fractions"
-            :key="fraction"
-            class="gallery__fraction"
-          >
-            <h3 class="gallery__fraction-title">{{ fraction }}</h3>
-            <GalleryTileEl v-for="{ model, img } in images" :key="model" :model="img" :set="images">
-              {{ model }}
-            </GalleryTileEl>
-          </section>
-        </section> -->
-    </div>
-    <!-- <section class="gallery" v-else>
-        <h2>{{ filteredSystem[0].system }}</h2>
-        <section
-          v-for="fraction in filteredSystem[0].fractions"
-          :key="fraction.fraction"
-          class="gallery__fraction"
-        >
-          <h3 class="gallery__fraction-title">{{ fraction.fraction }}</h3>
-          <GalleryTileEl
-            v-for="model in fraction.images"
-            :key="model.model"
-            :model="model.img"
-            :set="fraction.images"
-          >
-            {{ model.model }}
-          </GalleryTileEl>
-        </section>
-      </section> -->
+    <section v-if="data.length > 0">
+      <FadeTransition>
+        <div v-if="switchGallery">
+          <GalleryDisplayEl :current-system="currentSystem" />
+        </div>
+        <div v-else>
+          <GalleryDisplayEl :current-system="currentSystem" />
+        </div>
+      </FadeTransition>
+    </section>
 
     <ModalGallery />
   </main>
@@ -119,7 +89,6 @@ main {
     }
   }
 }
-
 .active {
   background-color: $color-black;
   color: $color-white;

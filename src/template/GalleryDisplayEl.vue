@@ -2,7 +2,7 @@
 import GalleryTileEl from '../template/GalleryTileEl.vue'
 import { useAdminStore } from '../stores/AdminStore'
 import { storeToRefs } from 'pinia'
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 
 const props = defineProps(['currentSystem'])
 const adminStore = useAdminStore()
@@ -18,14 +18,16 @@ const displaySystem = computed(() => {
 </script>
 
 <template>
-  <section class="gallery" v-for="{ system, fractions } in displaySystem" :key="system">
-    <h2>{{ system }}</h2>
-    <section v-for="{ fraction, images } in fractions" :key="fraction" class="gallery__fraction">
-      <h3 class="gallery__fraction-title">{{ fraction }}</h3>
-      <GalleryTileEl v-for="{ model, img } in images" :key="model" :model="img" :set="images">
-        {{ model }}
-      </GalleryTileEl>
-    </section>
+  <section>
+    <article class="gallery" v-for="{ system, fractions } in displaySystem" :key="system">
+      <h2>{{ system }}</h2>
+      <section v-for="{ fraction, images } in fractions" :key="fraction" class="gallery__fraction">
+        <h3 class="gallery__fraction-title">{{ fraction }}</h3>
+        <GalleryTileEl v-for="{ model, img } in images" :key="model" :model="img" :set="images">
+          {{ model }}
+        </GalleryTileEl>
+      </section>
+    </article>
   </section>
 </template>
 
