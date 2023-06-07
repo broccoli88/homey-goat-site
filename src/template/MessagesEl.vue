@@ -26,7 +26,9 @@ const toggleMessage = () => {
     >
       <p class="messages__header-heading">{{ message.firstName }} {{ message.lastName }}</p>
 
-      <p class="message__side-info">{{ message.type }}</p>
+      <p class="message__side-info" :class="message.type === 'quote' ? 'quote' : 'not-quote'">
+        {{ message.type }}
+      </p>
       <p class="message__side-info">{{ message.date }}</p>
 
       <FadeScaleIconTransition>
@@ -66,7 +68,7 @@ const toggleMessage = () => {
       <div class="content-wrapper">
         <p class="messages__content email">Email: {{ message.email }}</p>
         <p class="messages__content">Subject: {{ message.subject }}</p>
-        <p class="messages__content">
+        <p class="messages__content font-size">
           {{ message.message }}
         </p>
         <ButtonEl
@@ -83,7 +85,7 @@ const toggleMessage = () => {
         <p class="messages__content">Country: {{ message.country }}</p>
         <p class="messages__content">Model supply: {{ message.modelSupply }}</p>
         <p class="messages__content">Service: {{ message.service }}</p>
-        <p class="messages__content">{{ message.message }}</p>
+        <p class="messages__content font-size">{{ message.message }}</p>
         <ButtonEl
           @click="adminStore.deleteMessage(message.id)"
           class="messages__btn btn--small btn--outline-black btn--slide-black"
@@ -97,9 +99,6 @@ const toggleMessage = () => {
 
 <style lang="scss" scoped>
 .messages {
-  @include container;
-  margin-inline: 0;
-
   display: grid;
 
   .messages__header {
@@ -160,6 +159,9 @@ const toggleMessage = () => {
       gap: 1.5rem;
       overflow: hidden;
 
+      .font-size {
+        font-size: clamp(1.5rem, 0.8rem + 0.7vw, 1.9rem);
+      }
       .email {
         font-weight: 600;
       }
@@ -191,6 +193,14 @@ const toggleMessage = () => {
         stroke: $color-black;
       }
     }
+  }
+
+  .quote {
+    color: $color-purple;
+  }
+
+  .not-quote {
+    color: teal;
   }
 }
 </style>

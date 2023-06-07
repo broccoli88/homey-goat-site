@@ -20,15 +20,6 @@ const openModal = () => {
 const route = useRoute()
 const displayDeleteButton = ref(false)
 
-watch(
-  () => route.fullPath,
-  () => {
-    if (route.fullPath.includes('/admin-panel')) {
-      displayDeleteButton.value = true
-    } else displayDeleteButton.value = false
-  }
-)
-
 // Intersection Observer
 
 const imgRef = ref(null)
@@ -79,6 +70,7 @@ onMounted(() => {
     background-color: white;
     display: flex;
     border-radius: 10px;
+    cursor: pointer;
 
     box-shadow: $box-shadow-5;
   }

@@ -7,7 +7,7 @@ import { useAdminStore } from '../stores/AdminStore'
 import { storeToRefs } from 'pinia'
 
 const adminStore = useAdminStore()
-const { modelAssignement, systems, data } = storeToRefs(adminStore)
+const { modelObj, systems, data } = storeToRefs(adminStore)
 
 const doesExists = reactive({
   system: true,
@@ -59,13 +59,8 @@ const uploadData = async () => {
           <FadeTransition>
             <div v-if="doesExists.system" class="form__input-container">
               <label for="system">Choose system</label>
-              <select
-                id="system"
-                name="system"
-                class="form__input"
-                v-model="modelAssignement.system"
-              >
-                <option disabled selected value>-- select an option --</option>
+              <select id="system" name="system" class="form__input" v-model="modelObj.system">
+                <option disabled selected value>-- Select an option --</option>
                 <option :value="system" v-for="system in systems" :key="system">
                   {{ system }}
                 </option>
@@ -79,7 +74,7 @@ const uploadData = async () => {
                 name="system"
                 placeholder="Enter new system name..."
                 class="form__input"
-                v-model="modelAssignement.system"
+                v-model="modelObj.system"
               />
             </div>
           </FadeTransition>
@@ -97,12 +92,8 @@ const uploadData = async () => {
           </span>
           <FadeTransition>
             <div v-if="doesExists.fraction" class="form__input-container">
-              <select
-                id="fraction"
-                name="fraction"
-                class="form__input"
-                v-model="modelAssignement.fraction"
-              >
+              <label for="fraction">Choose fraction</label>
+              <select id="fraction" name="fraction" class="form__input" v-model="modelObj.fraction">
                 <option disabled selected value>-- select an option --</option>
                 <optgroup
                   :label="system.toUpperCase().split('-').join(' ')"
@@ -123,7 +114,7 @@ const uploadData = async () => {
                 name="fraction"
                 placeholder="Enter new fraction name..."
                 class="form__input"
-                v-model="modelAssignement.fraction"
+                v-model="modelObj.fraction"
               />
             </div>
           </FadeTransition>
@@ -140,7 +131,7 @@ const uploadData = async () => {
               name="model"
               placeholder="Enter models name..."
               class="form__input"
-              v-model="modelAssignement.model"
+              v-model="modelObj.model"
             />
           </div>
           <div class="form__input-container">
@@ -157,13 +148,14 @@ const uploadData = async () => {
       </section>
       <ButtonEl class="btn--medium btn--outline-black btn--slide-black">Submit</ButtonEl>
     </form>
+    <ModalAdminAddImg />
   </section>
-  <ModalAdminAddImg />
 </template>
 
 <style lang="scss" scoped>
 .container {
-  margin-block: 4vw;
+  margin: $margin-admin;
+  display: grid;
 
   h3 {
     margin-bottom: 3rem;
@@ -176,7 +168,7 @@ const uploadData = async () => {
   }
 
   .form {
-    max-width: 70ch;
+    // max-width: 70ch;
     display: grid;
     gap: 3vw;
   }

@@ -33,15 +33,14 @@ const displaySystem = computed(() => {
 
 <style lang="scss" scoped>
 .gallery {
-  padding-inline: 1.5rem;
-  margin-top: 2vw;
+  margin-block: 2vw;
 
   .gallery__fraction {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(30rem, 100%), 1fr));
-    gap: 0.5rem;
+    gap: 1vw;
 
-    margin-top: 3vw;
+    margin-block: 2vw;
 
     .gallery__fraction-title {
       grid-column: 1 / -1;

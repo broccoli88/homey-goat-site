@@ -8,7 +8,7 @@ import BlogView from '../views/BlogView.vue'
 import AdminLoginView from '../views/AdminLoginView.vue'
 import AdminPanelView from '../views/AdminPanelView.vue'
 import AdminPanelMessageView from '../views/AdminPanelMessageView.vue'
-import AdminPanelGalleryView from '../views/AdminPanelGalleryView.vue'
+
 import AdminPanelBlogView from '../views/AdminPanelBlogView.vue'
 import AdminGalleryManageImgView from '../views/AdminGalleryManageImgView.vue'
 import AdminGalleryAddImgView from '../views/AdminGalleryAddImgView.vue'
@@ -62,22 +62,16 @@ const router = createRouter({
           component: AdminPanelMessageView
         },
         {
-          path: 'gallery',
-          name: 'admin-gallery',
-          component: AdminPanelGalleryView,
-          children: [
-            {
-              path: '',
-              name: 'manage-img',
-              component: AdminGalleryManageImgView
-            },
-            {
-              path: 'add-img',
-              name: 'add-img',
-              component: AdminGalleryAddImgView
-            }
-          ]
+          path: 'add-img',
+          name: 'add-img',
+          component: AdminGalleryManageImgView
         },
+        {
+          path: 'manage-gallery',
+          name: 'manage-gallery',
+          component: AdminGalleryAddImgView
+        },
+
         {
           path: 'blog',
           name: 'admin-blog',

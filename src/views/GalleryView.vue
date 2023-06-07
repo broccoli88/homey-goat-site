@@ -21,7 +21,7 @@ function chooseSystem(system) {
   if (system === systemBtns.value[0]) {
     currentSystem.value = system
   } else {
-    currentSystem.value = system.split(' ').join('-')
+    currentSystem.value = system
   }
 }
 
@@ -45,7 +45,7 @@ const switchGallery = ref(true)
       >
     </section>
 
-    <section v-if="data.length > 0">
+    <section class="gallery-container" v-if="data.length > 0">
       <FadeTransition>
         <div v-if="switchGallery">
           <GalleryDisplayEl :current-system="currentSystem" />
@@ -72,21 +72,8 @@ main {
     margin-top: 5vw;
   }
 
-  .gallery {
-    padding-inline: 1.5rem;
-    margin-top: 2vw;
-
-    .gallery__fraction {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(30rem, 100%), 1fr));
-      gap: 0.5rem;
-
-      margin-top: 3vw;
-
-      .gallery__fraction-title {
-        grid-column: 1 / -1;
-      }
-    }
+  .gallery-container {
+    margin: $margin-admin;
   }
 }
 .active {

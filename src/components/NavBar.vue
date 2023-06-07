@@ -111,7 +111,7 @@ header {
     transition: $transition-04;
 
     @include breakpoint {
-      padding: 2rem;
+      padding: 1rem;
     }
 
     .logo {
@@ -162,7 +162,7 @@ header {
 
         @include breakpoint {
           display: flex;
-          gap: 2vw;
+          gap: 2rem;
           // margin-right: 2rem;
         }
 

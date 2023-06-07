@@ -1,11 +1,11 @@
 <script setup>
 import ButtonEl from '../template/ButtonEl.vue'
 import LogoEl from '../template/LogoEl.vue'
-import { useAdminStore } from '../stores/AdminStore'
+import { useLoginStore } from '../stores/LoginStore'
 import { storeToRefs } from 'pinia'
 
-const adminStore = useAdminStore()
-const { v, adminState } = storeToRefs(adminStore)
+const loginStore = useLoginStore()
+const { v, loginState } = storeToRefs(loginStore)
 </script>
 
 <template>
@@ -14,10 +14,10 @@ const { v, adminState } = storeToRefs(adminStore)
       <LogoEl class="login__logo" />
       <h1 class="login__heading">Admin Login</h1>
       <article class="login__panel">
-        <form class="login__form" @submit.prevent="adminStore.handleLogIn">
+        <form class="login__form" @submit.prevent="loginStore.handleLogIn">
           <section class="login__section">
             <input
-              v-model="adminState.username"
+              v-model="loginState.username"
               @blur="v.username.$touch"
               class="login__input"
               placeholder="Username..."
@@ -29,7 +29,7 @@ const { v, adminState } = storeToRefs(adminStore)
           </section>
           <section class="login__section">
             <input
-              v-model="adminState.password.password"
+              v-model="loginState.password.password"
               @blur="v.password.password.$touch"
               class="login__input"
               placeholder="Password..."
@@ -43,7 +43,7 @@ const { v, adminState } = storeToRefs(adminStore)
           </section>
           <section class="login__section">
             <input
-              v-model="adminState.password.confirmPassword"
+              v-model="loginState.password.confirmPassword"
               @blur="v.password.confirmPassword.$touch"
               class="login__input"
               placeholder="Repeat password..."

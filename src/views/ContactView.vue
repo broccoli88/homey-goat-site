@@ -91,7 +91,7 @@ main {
     }
   }
   .contact__form {
-    width: min(60ch, 80%);
+    width: min(70ch, 80%);
     margin-inline: auto;
     display: grid;
     gap: 2vw;

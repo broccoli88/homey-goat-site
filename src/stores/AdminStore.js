@@ -1,7 +1,5 @@
 import { defineStore } from 'pinia'
-import { useVuelidate } from '@vuelidate/core'
-import { required, minLength, maxLength, sameAs, helpers } from '@vuelidate/validators'
-import { reactive, computed } from 'vue'
+import { reactive } from 'vue'
 import { ref as vref } from 'vue'
 import { db } from '../firebase/db'
 import {
@@ -18,8 +16,33 @@ import {
 } from 'firebase/firestore'
 import { storageRef } from '../firebase/db'
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
+import { useVuelidate } from '@vuelidate/core'
+import { required } from '@vuelidate/validators'
 
 export const useAdminStore = defineStore('adminStore', () => {
+  const modelObj = reactive({
+    system: '',
+    fraction: '',
+    model: '',
+    img: '',
+    url: ''
+  })
+
+  const rules = {
+    system: { required },
+    fraction: { required },
+    model: { required },
+    img: { required }
+  }
+
+  const v = useVuelidate(rules, modelObj)
+
+  async function uploadData(fileInputRef) {
+    await uploadImg(fileInputRef)
+    await uploadDataToFireStore()
+
+    openModal()
+  }
   // Disabling NavBar and Footer
 
   const isMobileView = vref(false)
@@ -39,49 +62,6 @@ export const useAdminStore = defineStore('adminStore', () => {
       isMobileView.value = true
     }
   })
-
-  // ...::: [LOGIN VALIDATION ] :::...
-
-  const adminState = reactive({
-    username: '',
-    password: {
-      password: '',
-      confirmPassword: ''
-    }
-  })
-
-  const rules = {
-    username: {
-      required: helpers.withMessage('State your username human!', required),
-      minLength: minLength(3),
-      maxLength: maxLength(20),
-      $autoDirty: true
-    },
-    password: {
-      password: {
-        required: helpers.withMessage('Enter password...', required),
-        minLength: minLength(3),
-        maxLength: maxLength(20),
-        $autoDirty: true
-      },
-      confirmPassword: {
-        required: helpers.withMessage('Repeat password...', required),
-        sameAs: helpers.withMessage(
-          'Input must be the same as password',
-          sameAs(() => adminState.password.password)
-        ),
-        $autoDirty: true
-      }
-    }
-  }
-
-  const v = useVuelidate(rules, adminState)
-
-  async function handleLogIn() {
-    const isLoginCorrect = v.value.$validate()
-
-    if (!isLoginCorrect) return
-  }
 
   // ...::: [ ADMIN PANEL - MESSAGES] :::...
 
@@ -104,32 +84,13 @@ export const useAdminStore = defineStore('adminStore', () => {
 
   // ...::: [ ADMIN PANEL - GALLERY] :::...
 
-  const data = vref([])
-  const systems = vref([])
-  const fractions = vref([])
+  // Add img form validation
 
   //   Getting data
 
-  const modelAssignement = reactive({
-    system: '',
-    fraction: '',
-    model: '',
-    url: ''
-  })
-
-  // refactoring strings for appropriate name for firebase and storaage
-
-  const systemName = computed(() => {
-    return modelAssignement.system.split(' ').join('-').toLowerCase()
-  })
-
-  const fractionName = computed(() => {
-    return modelAssignement.fraction.split(' ').join('-').toLowerCase()
-  })
-
-  const modelName = computed(() => {
-    return modelAssignement.model.split(' ').join('-').toLowerCase()
-  })
+  const data = vref([])
+  const systems = vref([])
+  const fractions = vref([])
 
   // Getting saved systems and fractions
 
@@ -146,9 +107,9 @@ export const useAdminStore = defineStore('adminStore', () => {
     })
 
     data.value.forEach((system) => {
-      systems.value.push(system.system.split('-').join(' '))
+      systems.value.push(system.system)
       system.fractions.forEach((fraction) => {
-        fractions.value.push(fraction.fraction.split('-').join(' '))
+        fractions.value.push(fraction.fraction)
       })
     })
   }
@@ -161,7 +122,7 @@ export const useAdminStore = defineStore('adminStore', () => {
     const galleryStorageRef = ref(storageRef, 'gallery')
     const modelStorageRef = ref(
       galleryStorageRef,
-      `${systemName.value}/${fractionName.value}/${modelName.value}`
+      `${modelObj.system}/${modelObj.fraction}/${modelObj.model}`
     )
 
     //   Image upload to storage
@@ -169,7 +130,7 @@ export const useAdminStore = defineStore('adminStore', () => {
     try {
       await uploadBytes(modelStorageRef, fileInputRef.value.files[0])
       await getDownloadURL(modelStorageRef).then((url) => {
-        modelAssignement.url = url
+        modelObj.url = url
       })
     } catch (err) {
       console.error(err)
@@ -182,17 +143,17 @@ export const useAdminStore = defineStore('adminStore', () => {
     // Model tree
 
     const newModel = reactive({
-      img: modelAssignement.url,
-      model: modelName.value
+      img: modelObj.url,
+      model: modelObj.model
     })
 
     const newFraction = reactive({
-      fraction: fractionName.value,
+      fraction: modelObj.fraction,
       images: [newModel]
     })
 
     const newSystem = reactive({
-      system: systemName.value,
+      system: modelObj.system,
       fractions: [newFraction]
     })
 
@@ -227,13 +188,6 @@ export const useAdminStore = defineStore('adminStore', () => {
 
   //   Upload compete data
 
-  async function uploadData(fileInputRef) {
-    await uploadImg(fileInputRef)
-    await uploadDataToFireStore()
-
-    openModal()
-  }
-
   //   Show modal after upload
 
   const showModal = vref(false)
@@ -243,24 +197,22 @@ export const useAdminStore = defineStore('adminStore', () => {
   }
 
   function closeModal() {
-    modelAssignement.system = ''
-    modelAssignement.fraction = ''
-    modelAssignement.model = ''
-    modelAssignement.url = ''
+    modelObj.system = ''
+    modelObj.fraction = ''
+    modelObj.model = ''
+    modelObj.url = ''
     showModal.value = false
   }
 
   return {
     isMobileView,
-    v,
-    adminState,
     messages,
-    modelAssignement,
+    modelObj,
     showModal,
     systems,
     fractions,
     data,
-    handleLogIn,
+    v,
     getMessages,
     deleteMessage,
     uploadData,

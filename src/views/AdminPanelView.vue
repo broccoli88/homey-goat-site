@@ -33,9 +33,12 @@ const { isMobileView } = storeToRefs(adminStore)
   align-items: start;
   grid-template-columns: auto 1fr;
 
+  .panel__section {
+    @include container;
+  }
+
   .panel__heading {
     margin-top: 3vw;
-    margin-left: 2vw;
   }
 }
 

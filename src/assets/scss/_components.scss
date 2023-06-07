@@ -265,6 +265,8 @@
 
   padding: 2rem;
   margin-inline: auto;
+
+  @content;
 }
 
 @mixin modal-header {
