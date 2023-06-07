@@ -4,6 +4,7 @@ import GalleryTileEl from '../template/GalleryTileEl.vue'
 import ButtonEl from '../template/ButtonEl.vue'
 import ModalGallery from '../components/ModalGallery.vue'
 import FadeTransition from '../utils/transitions/FadeTransition.vue'
+import GalleryDisplayEl from '../template/GalleryDisplayEl.vue'
 import { useAdminStore } from '../stores/AdminStore'
 import { storeToRefs } from 'pinia'
 import { computed, onMounted, ref } from 'vue'
@@ -11,29 +12,29 @@ import { computed, onMounted, ref } from 'vue'
 const adminStore = useAdminStore()
 const { data, systems } = storeToRefs(adminStore)
 
-onMounted(() => {
-  adminStore.getSystems()
+onMounted(async () => {
+  await adminStore.getSystems()
+  systemBtns.value = [...systemBtns.value, ...systems.value]
 })
 
-const showAll = ref(true)
-
-function switchToAll() {
-  showAll.value = true
-  choosenSystem.value = ''
+function chooseSystem(system) {
+  if (system === systemBtns.value[0]) {
+    currentSystem.value = system
+  } else {
+    currentSystem.value = system.split(' ').join('-')
+  }
 }
 
-const choosenSystem = ref('')
-const chooseSystem = (system) => {
-  showAll.value = true
-  setTimeout(() => {
-    choosenSystem.value = system
-    showAll.value = false
-  }, 10)
-}
+const systemBtns = ref(['all models'])
+const currentSystem = ref('all models')
 
-const filteredSystem = computed(() => {
-  return data.value.filter((s) => s.system === choosenSystem.value.split(' ').join('-'))
-})
+// const filteredSystem = computed(() => {
+//   return data.value.filter((s) => s.system === currentSystem.value)
+// })
+
+// const displaySystem = computed(() => {
+//   return currentSystem.value === systemBtns.value[0] ? data.value : filteredSystem.value
+// })
 </script>
 <template>
   <main>
@@ -41,24 +42,18 @@ const filteredSystem = computed(() => {
 
     <section class="btns">
       <ButtonEl
-        class="btn--small btn--outline-black btn--slide-black"
-        :class="showAll ? 'active' : ''"
-        @click="switchToAll"
-        >All Models</ButtonEl
-      >
-      <ButtonEl
-        v-for="system in systems"
+        v-for="system in systemBtns"
         :key="system"
         class="btn--small btn--outline-black btn--slide-black"
-        :class="system === choosenSystem ? 'active' : ''"
         @click="chooseSystem(system)"
       >
         {{ system }}</ButtonEl
       >
     </section>
-    <FadeTransition>
-      <div v-if="showAll">
-        <section class="gallery" v-for="{ system, fractions } in data" :key="system">
+
+    <div v-if="data.length > 0">
+      <GalleryDisplayEl :current-system="currentSystem" />
+      <!-- <section class="gallery" v-for="{ system, fractions } in displaySystem" :key="system">
           <h2>{{ system }}</h2>
           <section
             v-for="{ fraction, images } in fractions"
@@ -70,9 +65,9 @@ const filteredSystem = computed(() => {
               {{ model }}
             </GalleryTileEl>
           </section>
-        </section>
-      </div>
-      <section class="gallery" v-else>
+        </section> -->
+    </div>
+    <!-- <section class="gallery" v-else>
         <h2>{{ filteredSystem[0].system }}</h2>
         <section
           v-for="fraction in filteredSystem[0].fractions"
@@ -89,8 +84,8 @@ const filteredSystem = computed(() => {
             {{ model.model }}
           </GalleryTileEl>
         </section>
-      </section>
-    </FadeTransition>
+      </section> -->
+
     <ModalGallery />
   </main>
 </template>
