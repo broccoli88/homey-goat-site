@@ -68,6 +68,8 @@ export const useGalleryStore = defineStore('galleryStore', () => {
   }
 
   function moveRight() {
+    if (orderedCurrentFraction.value.length <= 1) return
+
     transitionName.value.remove.active = false
     transitionName.value.left.active = false
     transitionName.value.right.active = true
@@ -87,6 +89,8 @@ export const useGalleryStore = defineStore('galleryStore', () => {
   }
 
   function moveLeft() {
+    if (orderedCurrentFraction.value.length <= 1) return
+
     transitionName.value.right.active = false
     transitionName.value.remove.active = false
     transitionName.value.left.active = true
