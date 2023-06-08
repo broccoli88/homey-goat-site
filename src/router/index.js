@@ -64,12 +64,12 @@ const router = createRouter({
         {
           path: 'add-img',
           name: 'add-img',
-          component: AdminGalleryManageImgView
+          component: AdminGalleryAddImgView
         },
         {
           path: 'manage-gallery',
           name: 'manage-gallery',
-          component: AdminGalleryAddImgView
+          component: AdminGalleryManageImgView
         },
 
         {

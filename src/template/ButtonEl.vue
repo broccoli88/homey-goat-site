@@ -7,10 +7,6 @@
 </template>
 
 <style lang="scss">
-.btn--outline-white {
-  @include btn--outline-white;
-}
-
 // Sizes
 
 .btn--small {

@@ -1,12 +1,5 @@
 <script setup>
-import { ref } from 'vue'
 import LogoEl from '../template/LogoEl.vue'
-import FadeScaleIconTransition from '../utils/transitions/FadeScaleIconTransition.vue'
-
-const showSubNav = ref(false)
-const toggleSubNav = () => {
-  showSubNav.value = !showSubNav.value
-}
 </script>
 
 <template>
@@ -19,10 +12,12 @@ const toggleSubNav = () => {
           <router-link to="/admin-panel" class="nav__link">Main</router-link>
         </li>
         <li class="nav__item">
-          <router-link to="/admin-panel/manage-gallery" class="nav__link">Add Img</router-link>
+          <router-link to="/admin-panel/add-img" class="nav__link">Add Img</router-link>
         </li>
         <li class="nav__item">
-          <router-link to="/admin-panel/add-img" class="nav__link">Manage Gallery</router-link>
+          <router-link to="/admin-panel/manage-gallery" class="nav__link"
+            >Manage Gallery</router-link
+          >
         </li>
         <li class="nav__item">
           <router-link to="/admin-panel/blog" class="nav__link">Blog</router-link>

@@ -4,14 +4,30 @@ import Navbar from './components/NavBar.vue'
 import FooTer from './components/FooTer.vue'
 import { RouterView } from 'vue-router'
 import { useRoute } from 'vue-router'
-import { computed } from 'vue'
+import { useAdminGalleryStore } from './stores/AdminGalleryStore'
+import { storeToRefs } from 'pinia'
+import { computed, watch } from 'vue'
 
 const route = useRoute()
+const adminGalleryStore = useAdminGalleryStore()
+const { isInAdminPanel } = storeToRefs(adminGalleryStore)
+
 const currentRoute = computed(() => {
   return route.fullPath.includes('/admin-login') || route.fullPath.includes('/admin-panel')
     ? true
     : false
 })
+
+watch(
+  () => route.fullPath,
+  () => {
+    if (route.fullPath === '/admin-panel/manage-gallery') {
+      isInAdminPanel.value = true
+    } else {
+      isInAdminPanel.value = false
+    }
+  }
+)
 </script>
 <template>
   <FadeTransition>
