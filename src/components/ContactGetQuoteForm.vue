@@ -16,7 +16,7 @@ const { quoteState, v2 } = storeToRefs(contactStore)
         id="name"
         placeholder="Enter name..."
         @blur="v2.firstName.$touch"
-        v-model.lazy="quoteState.firstName"
+        v-model.trim="quoteState.firstName"
       />
       <label class="form__label" for="name">First Name:</label>
       <p class="error" v-if="v2.firstName.$error">{{ v2.firstName.$errors[0].$message }}</p>
@@ -29,7 +29,7 @@ const { quoteState, v2 } = storeToRefs(contactStore)
         id="last-name"
         placeholder="Enter last name..."
         @blur="v2.lastName.$touch"
-        v-model.lazy="quoteState.lastName"
+        v-model.trim="quoteState.lastName"
       />
       <label class="form__label" for="last-name">Last Name:</label>
       <p class="error" v-if="v2.lastName.$error">{{ v2.lastName.$errors[0].$message }}</p>
@@ -42,7 +42,7 @@ const { quoteState, v2 } = storeToRefs(contactStore)
         id="email"
         placeholder="Enter email..."
         @blur="v2.email.$touch"
-        v-model.lazy="quoteState.email"
+        v-model.trim="quoteState.email"
       />
       <label class="form__label" for="email">Email address:</label>
       <p class="error" v-if="v2.email.$error">{{ v2.email.$errors[0].$message }}</p>
@@ -55,7 +55,7 @@ const { quoteState, v2 } = storeToRefs(contactStore)
         id="country"
         placeholder="Enter country..."
         @blur="v2.country.$touch"
-        v-model.lazy="quoteState.country"
+        v-model.trim="quoteState.country"
       />
       <label class="form__label" for="country">Country:</label>
       <p class="error" v-if="v2.country.$error">{{ v2.country.$errors[0].$message }}</p>
@@ -133,7 +133,7 @@ const { quoteState, v2 } = storeToRefs(contactStore)
         placeholder="Message"
         rows="10"
         @blur="v2.message.$touch"
-        v-model.lazy="quoteState.message"
+        v-model.trim="quoteState.message"
       />
       <label class="form__label" for="message">Message:</label>
       <p class="error" v-if="v2.message.$error">{{ v2.message.$errors[0].$message }}</p>

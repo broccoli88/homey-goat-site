@@ -39,6 +39,7 @@ const { isMobileView } = storeToRefs(adminStore)
 
   .panel__heading {
     margin-top: 3vw;
+    margin-inline: 2vw;
   }
 }
 

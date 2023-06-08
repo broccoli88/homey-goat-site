@@ -17,7 +17,7 @@ import {
 import { storageRef } from '../firebase/db'
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
 import { useVuelidate } from '@vuelidate/core'
-import { required } from '@vuelidate/validators'
+import { required, helpers } from '@vuelidate/validators'
 
 export const useAdminStore = defineStore('adminStore', () => {
   const modelObj = reactive({
@@ -29,20 +29,23 @@ export const useAdminStore = defineStore('adminStore', () => {
   })
 
   const rules = {
-    system: { required },
-    fraction: { required },
-    model: { required },
-    img: { required }
+    system: {
+      required: helpers.withMessage('Choose existing system or enter new one', required),
+      $autoDirty: true
+    },
+    fraction: {
+      required: helpers.withMessage('Choose existing fraction or enter new one', required),
+      $autoDirty: true
+    },
+    model: { required: helpers.withMessage('Enter models name', required), $autoDirty: true },
+    img: {
+      required: helpers.withMessage('Choose file to upload', required),
+      $autoDirty: true
+    }
   }
 
   const v = useVuelidate(rules, modelObj)
 
-  async function uploadData(fileInputRef) {
-    await uploadImg(fileInputRef)
-    await uploadDataToFireStore()
-
-    openModal()
-  }
   // Disabling NavBar and Footer
 
   const isMobileView = vref(false)
@@ -187,6 +190,28 @@ export const useAdminStore = defineStore('adminStore', () => {
   }
 
   //   Upload compete data
+
+  async function uploadData(fileInputRef) {
+    const onFormSubmit = await v.value.$validate()
+
+    console.log(modelObj)
+
+    if (!onFormSubmit) return
+
+    await uploadImg(fileInputRef)
+    await uploadDataToFireStore()
+
+    openModal()
+
+    modelObj.system = ''
+    modelObj.fraction = ''
+    modelObj.model = ''
+    modelObj.img = ''
+
+    v.value.$reset()
+
+    await getSystems()
+  }
 
   //   Show modal after upload
 

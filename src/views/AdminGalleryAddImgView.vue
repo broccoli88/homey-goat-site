@@ -7,7 +7,11 @@ import { useAdminStore } from '../stores/AdminStore'
 import { storeToRefs } from 'pinia'
 
 const adminStore = useAdminStore()
-const { modelObj, systems, data } = storeToRefs(adminStore)
+const { modelObj, systems, data, v } = storeToRefs(adminStore)
+
+const systemSelect = ref()
+const fractionSelect = ref()
+const fileInput = ref()
 
 const doesExists = reactive({
   system: true,
@@ -18,6 +22,10 @@ const doesExists = reactive({
 
 const chooseFromExisistngSystem = () => {
   doesExists.system = !doesExists.system
+  modelObj.value.system = ''
+
+  if (!systemSelect.value) return
+  systemSelect.value.selectedIndex = 0
 }
 const systemBtnOption = computed(() => {
   return !doesExists.system ? 'Existing System' : 'Add new system'
@@ -27,20 +35,30 @@ const systemBtnOption = computed(() => {
 
 const chooseFromExisistngFraction = () => {
   doesExists.fraction = !doesExists.fraction
+  modelObj.value.fraction = ''
+
+  if (!fractionSelect.value) return
+  fractionSelect.value.selectedIndex = 0
 }
 const fractionBtnOption = computed(() => {
   return !doesExists.fraction ? 'Existing Fraction' : 'Add new fraction'
 })
 
+// Add file
+
+const addFile = (e) => {
+  if (!e.target.files[0]) {
+    modelObj.value = ''
+    return
+  }
+  modelObj.value.img = e.target.files[0].name
+}
+
 // Get existing fractions and systems
-
-const fileInput = ref()
-adminStore.getSystems()
-
 const uploadData = async () => {
-  adminStore.getSystems()
   await adminStore.uploadData(fileInput)
 }
+adminStore.getSystems()
 </script>
 
 <template>
@@ -59,12 +77,20 @@ const uploadData = async () => {
           <FadeTransition>
             <div v-if="doesExists.system" class="form__input-container">
               <label for="system">Choose system</label>
-              <select id="system" name="system" class="form__input" v-model="modelObj.system">
+              <select
+                id="system"
+                name="system"
+                class="form__input"
+                v-model="modelObj.system"
+                @blur="v.system.$touch"
+                ref="systemSelect"
+              >
                 <option disabled selected value>-- Select an option --</option>
                 <option :value="system" v-for="system in systems" :key="system">
                   {{ system }}
                 </option>
               </select>
+              <p v-if="v.system.$error" class="error">{{ v.system.$errors[0].$message }}</p>
             </div>
             <div v-else class="form__input-container">
               <label for="system">Add new system</label>
@@ -74,11 +100,12 @@ const uploadData = async () => {
                 name="system"
                 placeholder="Enter new system name..."
                 class="form__input"
-                v-model="modelObj.system"
+                v-model.trim="modelObj.system"
+                @blur="v.system.$touch"
               />
+              <p v-if="v.system.$error" class="error">{{ v.system.$errors[0].$message }}</p>
             </div>
           </FadeTransition>
-          <span class="form__btn btn--small btn--outline-black btn--slide-black">Next</span>
         </fieldset>
       </section>
       <section class="form__section">
@@ -93,8 +120,15 @@ const uploadData = async () => {
           <FadeTransition>
             <div v-if="doesExists.fraction" class="form__input-container">
               <label for="fraction">Choose fraction</label>
-              <select id="fraction" name="fraction" class="form__input" v-model="modelObj.fraction">
-                <option disabled selected value>-- select an option --</option>
+              <select
+                id="fraction"
+                name="fraction"
+                class="form__input"
+                v-model="modelObj.fraction"
+                @blur="v.fraction.$touch"
+                ref="fractionSelect"
+              >
+                <option disabled selected value>-- Select an option --</option>
                 <optgroup
                   :label="system.toUpperCase().split('-').join(' ')"
                   v-for="{ system, fractions } in data"
@@ -105,6 +139,7 @@ const uploadData = async () => {
                   </option>
                 </optgroup>
               </select>
+              <p v-if="v.fraction.$error" class="error">{{ v.fraction.$errors[0].$message }}</p>
             </div>
             <div v-else class="form__input-container">
               <label for="fraction">Add new fraction</label>
@@ -114,27 +149,32 @@ const uploadData = async () => {
                 name="fraction"
                 placeholder="Enter new fraction name..."
                 class="form__input"
-                v-model="modelObj.fraction"
+                v-model.trim="modelObj.fraction"
+                @blur="v.fraction.$touch"
               />
+              <p v-if="v.fraction.$error" class="error">{{ v.fraction.$errors[0].$message }}</p>
             </div>
           </FadeTransition>
-          <span class="form__btn btn--small btn--outline-black btn--slide-black">Next</span>
         </fieldset>
       </section>
       <section class="form__section">
         <fieldset class="form__fieldset">
           <legend>Add Model</legend>
           <div class="form__input-container">
+            <label for="model">Enter model name</label>
             <input
               type="text"
               id="model"
               name="model"
               placeholder="Enter models name..."
               class="form__input"
-              v-model="modelObj.model"
+              v-model.trim="modelObj.model"
+              @blur="v.model.$touch"
             />
+            <p v-if="v.model.$error" class="error">{{ v.model.$errors[0].$message }}</p>
           </div>
           <div class="form__input-container">
+            <label for="file">Choose image to upload</label>
             <input
               type="file"
               id="file"
@@ -142,7 +182,10 @@ const uploadData = async () => {
               placeholder="Enter models name..."
               class="form__input"
               ref="fileInput"
+              @blur="v.img.$touch"
+              @change="addFile"
             />
+            <p v-if="v.img.$error" class="error">{{ v.img.$errors[0].$message }}</p>
           </div>
         </fieldset>
       </section>
@@ -199,6 +242,10 @@ const uploadData = async () => {
     .form__input {
       @include form-input;
       order: initial;
+    }
+
+    .error {
+      @include error;
     }
   }
 }

@@ -40,17 +40,39 @@ export const useContactStore = defineStore('contactStore', () => {
   //   Validation Rules
 
   const rules1 = {
-    firstName: { required, minLength: minLength(3), maxLength: maxLength(15), $autoDirty: true },
-    lastName: { required, minLength: minLength(3), maxLength: maxLength(15), $autoDirty: true },
+    firstName: {
+      required,
+      minLength: minLength(3),
+      maxLength: maxLength(15),
+      $autoDirty: true,
+      $lazy: true
+    },
+    lastName: {
+      required,
+      minLength: minLength(3),
+      maxLength: maxLength(15),
+      $autoDirty: true,
+      $lazy: true
+    },
     email: {
       required: helpers.withMessage('Enter email', required),
       email,
       maxLength: maxLength(40),
-      $autoDirty: true
+      $autoDirty: true,
+      $lazy: true
     },
-    subject: { required: helpers.withMessage('Enter what this message is about...', required) },
+    subject: {
+      required: helpers.withMessage('Enter what this message is about...', required),
+      $lazy: true
+    },
 
-    message: { required, minLength: minLength(3), maxLength: maxLength(1000), $autoDirty: true }
+    message: {
+      required,
+      minLength: minLength(3),
+      maxLength: maxLength(1000),
+      $autoDirty: true,
+      $lazy: true
+    }
   }
 
   //   Question Form
@@ -97,18 +119,46 @@ export const useContactStore = defineStore('contactStore', () => {
   })
 
   const rules2 = {
-    firstName: { required, minLength: minLength(3), maxLength: maxLength(15), $autoDirty: true },
-    lastName: { required, minLength: minLength(3), maxLength: maxLength(15), $autoDirty: true },
+    firstName: {
+      required,
+      minLength: minLength(3),
+      maxLength: maxLength(15),
+      $autoDirty: true,
+      $lazy: true
+    },
+    lastName: {
+      required,
+      minLength: minLength(3),
+      maxLength: maxLength(15),
+      $autoDirty: true,
+      $lazy: true
+    },
     email: {
       required: helpers.withMessage('Enter email', required),
       email,
       maxLength: maxLength(40),
-      $autoDirty: true
+      $autoDirty: true,
+      $lazy: true
     },
-    country: { required, minLength: minLength(3), maxLength: maxLength(15), $autoDirty: true },
-    modelSupply: { required: helpers.withMessage('Select an option', required) },
-    service: { required: helpers.withMessage('At least one option must be selected', required) },
-    message: { required, minLength: minLength(3), maxLength: maxLength(1000), $autoDirty: true }
+    country: {
+      required,
+      minLength: minLength(3),
+      maxLength: maxLength(15),
+      $autoDirty: true,
+      $lazy: true
+    },
+    modelSupply: { required: helpers.withMessage('Select an option', required), $lazy: true },
+    service: {
+      required: helpers.withMessage('At least one option must be selected', required),
+      $lazy: true
+    },
+    message: {
+      required,
+      minLength: minLength(3),
+      maxLength: maxLength(1000),
+      $autoDirty: true,
+      $lazy: true
+    }
   }
 
   const v2 = useVuelidate(rules2, quoteState)
