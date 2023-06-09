@@ -1,5 +1,7 @@
 <script setup>
+import FadeTransition from '../utils/transitions/FadeTransition.vue'
 import GalleryTileEl from '../template/GalleryTileEl.vue'
+import GalleryOptionsWindowEl from '../template/GalleryOptionsWindowEl.vue'
 import { useAdminStore } from '../stores/AdminStore'
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
@@ -20,11 +22,20 @@ const displaySystem = computed(() => {
 <template>
   <section>
     <article class="gallery" v-for="{ system, fractions } in displaySystem" :key="system">
-      <h2>{{ system }}</h2>
+      <header class="gallery__header">
+        <h2>{{ system }}</h2>
+        <FadeTransition>
+          <GalleryOptionsWindowEl class="display-system-icon" />
+        </FadeTransition>
+      </header>
       <section v-for="{ fraction, images } in fractions" :key="fraction" class="gallery__fraction">
-        <h3 class="gallery__fraction-title">{{ fraction }}</h3>
+        <div class="gallery__fraction-title">
+          <h3>{{ fraction }}</h3>
+
+          <GalleryOptionsWindowEl class="display-fraction-icon" />
+        </div>
         <GalleryTileEl v-for="{ model, img } in images" :key="model" :model="img" :set="images">
-          {{ model }}
+          <p>{{ model }}</p>
         </GalleryTileEl>
       </section>
     </article>
@@ -35,6 +46,32 @@ const displaySystem = computed(() => {
 .gallery {
   margin-block: 2vw;
 
+  .gallery__fraction-title,
+  .gallery__header {
+    display: flex;
+    gap: 2rem;
+
+    .display-system-icon,
+    .display-fraction-icon {
+      opacity: 0;
+      transition: $transition-04;
+    }
+
+    &:hover {
+      .display-system-icon,
+      .display-fraction-icon {
+        opacity: 1;
+      }
+    }
+
+    .gallery__option-btns {
+      display: flex;
+      width: clamp(2rem, 1rem + 1.4vw, 2.6rem);
+      aspect-ratio: 1;
+      cursor: pointer;
+    }
+  }
+
   .gallery__fraction {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(30rem, 100%), 1fr));
@@ -44,6 +81,7 @@ const displaySystem = computed(() => {
 
     .gallery__fraction-title {
       grid-column: 1 / -1;
+      margin-bottom: 1rem;
     }
   }
 }

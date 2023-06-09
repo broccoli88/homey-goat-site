@@ -10,7 +10,7 @@
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0.5;
-  scale: 0.5;
+  transform: scale(0.5);
 }
 
 .fade-enter-active,

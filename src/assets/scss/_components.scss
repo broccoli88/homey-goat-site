@@ -16,6 +16,43 @@
   overflow: hidden;
 }
 
+// Icon Button
+
+@mixin btn-icon {
+  &:hover {
+    svg {
+      g {
+        stroke: $color-black;
+      }
+      path {
+        stroke: $color-black;
+      }
+    }
+  }
+}
+
+@mixin btn-icon-content {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+
+  p {
+    order: 2;
+  }
+
+  svg {
+    order: 1;
+    width: clamp(1.5rem, 0.7rem + 1vw, 1.8rem);
+
+    g {
+      transition: $transition-04;
+    }
+    path {
+      transition: $transition-04;
+    }
+  }
+}
+
 // Button Sizes
 
 // Small
@@ -253,8 +290,8 @@
   background-color: $modal-bg-light;
 }
 
-@mixin modal($min-width: 80rem) {
-  width: min($min-width, 100%);
+@mixin modal($min-width: 70ch) {
+  width: min($min-width, 80vw);
   display: grid;
   grid-template-rows: auto 1fr auto;
 

@@ -11,7 +11,7 @@ const currentBanner = computed(() => {
 </script>
 
 <template>
-  <section class="banner" ref="banner">
+  <section role="banner" class="banner" ref="banner">
     <h3 class="banner__fluff">homey goat</h3>
     <h1 class="banner__heading">{{ currentBanner.name }}</h1>
     <section class="banner__picture">

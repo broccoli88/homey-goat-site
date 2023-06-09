@@ -1,4 +1,5 @@
 <script setup>
+import ModalManageGallery from '../components/ModalManageGallery.vue'
 import ButtonEl from '../template/ButtonEl.vue'
 import GalleryDisplayEl from '../template/GalleryDisplayEl.vue'
 import FadeTransition from '../utils/transitions/FadeTransition.vue'
@@ -30,7 +31,9 @@ const switchGallery = ref(true)
 
 <template>
   <section class="container">
-    <h3>Manage Gallery</h3>
+    <header class="manage-gallery__header">
+      <h3>Manage Gallery</h3>
+    </header>
     <section class="btns" v-if="systemBtns.length > 1">
       <ButtonEl
         v-for="system in systemBtns"
@@ -39,8 +42,8 @@ const switchGallery = ref(true)
         :class="currentSystem === system ? 'active' : ''"
         @click="chooseSystem(system)"
       >
-        {{ system }}</ButtonEl
-      >
+        {{ system }}
+      </ButtonEl>
       <section v-if="data.length > 0">
         <FadeTransition>
           <div v-if="switchGallery">
@@ -52,6 +55,7 @@ const switchGallery = ref(true)
         </FadeTransition>
       </section>
     </section>
+    <ModalManageGallery />
   </section>
 </template>
 

@@ -22,7 +22,7 @@ const { showModal } = storeToRefs(contactStore)
           <template v-slot:button>
             <ButtonEl
               @click="contactStore.closeModal"
-              class="btn--small btn--outline-black btn--slide-black"
+              class="btn-close btn--small btn--outline-black btn--slide-black"
             >
               Close
             </ButtonEl>
@@ -36,5 +36,9 @@ const { showModal } = storeToRefs(contactStore)
 <style lang="scss" scoped>
 .modal-container {
   @include modal-container;
+
+  .btn-close {
+    justify-self: end;
+  }
 }
 </style>
