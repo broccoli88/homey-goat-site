@@ -8,6 +8,7 @@ import { storeToRefs } from 'pinia'
 import { ref, onMounted } from 'vue'
 
 const props = defineProps(['model', 'set'])
+const emits = defineEmits(['emit-delete'])
 
 const galleryStore = useGalleryStore()
 const { currentModel, currentFraction } = storeToRefs(galleryStore)
@@ -41,6 +42,12 @@ function toggleImageOptions() {
 
 function closeOptionsOnLeave() {
   showImageOptions.value = false
+}
+
+//  Deleting model
+
+const emitDelete = () => {
+  emits('emit-delete')
 }
 </script>
 
@@ -160,7 +167,12 @@ function closeOptionsOnLeave() {
               </svg>
               <div class="image__options-btns">
                 <ButtonEl class="btn--small btn--outline-white btn--slide-white">Rename</ButtonEl>
-                <ButtonEl class="btn--small btn--outline-white btn--slide-white">Delete</ButtonEl>
+                <ButtonEl class="btn--small btn--outline-white btn--slide-white"
+                  >Update Image</ButtonEl
+                >
+                <ButtonEl @click="emitDelete" class="btn--small btn--outline-white btn--slide-white"
+                  >Delete</ButtonEl
+                >
               </div>
             </div>
           </FadeTransition>

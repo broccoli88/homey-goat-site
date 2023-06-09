@@ -11,6 +11,9 @@ const props = defineProps(['currentSystem'])
 const adminStore = useAdminStore()
 const { data } = storeToRefs(adminStore)
 
+const adminGalleryStore = useAdminGalleryStore()
+const { deleteInfo } = storeToRefs(adminGalleryStore)
+
 const filteredSystem = computed(() => {
   return data.value.filter((s) => s.system === props.currentSystem)
 })
@@ -24,9 +27,6 @@ onMounted(() => {
 })
 
 // Delete Function
-
-const adminGalleryStore = useAdminGalleryStore()
-const { deleteInfo } = storeToRefs(adminGalleryStore)
 </script>
 
 <template>
@@ -54,7 +54,13 @@ const { deleteInfo } = storeToRefs(adminGalleryStore)
               @emit-delete="adminGalleryStore.deleteFraction(system, fraction)"
             />
           </div>
-          <GalleryTileEl v-for="{ model, img } in images" :key="model" :model="img" :set="images">
+          <GalleryTileEl
+            @emit-delete="adminGalleryStore.deleteModel(system, fraction, model)"
+            v-for="{ model, img } in images"
+            :key="model"
+            :model="img"
+            :set="images"
+          >
             <p>{{ model }}</p>
           </GalleryTileEl>
         </section>
