@@ -111,6 +111,7 @@ export const useAdminStore = defineStore('adminStore', () => {
 
     data.value.forEach((system) => {
       systems.value.push(system.system)
+
       system.fractions.forEach((fraction) => {
         fractions.value.push(fraction.fraction)
       })
@@ -193,8 +194,6 @@ export const useAdminStore = defineStore('adminStore', () => {
 
   async function uploadData(fileInputRef) {
     const onFormSubmit = await v.value.$validate()
-
-    console.log(modelObj)
 
     if (!onFormSubmit) return
 

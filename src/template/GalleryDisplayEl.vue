@@ -3,8 +3,9 @@ import FadeTransition from '../utils/transitions/FadeTransition.vue'
 import GalleryTileEl from '../template/GalleryTileEl.vue'
 import GalleryOptionsWindowEl from '../template/GalleryOptionsWindowEl.vue'
 import { useAdminStore } from '../stores/AdminStore'
+import { useAdminGalleryStore } from '../stores/AdminGalleryStore'
 import { storeToRefs } from 'pinia'
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 
 const props = defineProps(['currentSystem'])
 const adminStore = useAdminStore()
@@ -17,6 +18,15 @@ const filteredSystem = computed(() => {
 const displaySystem = computed(() => {
   return props.currentSystem === 'all models' ? data.value : filteredSystem.value
 })
+
+onMounted(() => {
+  //   console.log(data.value)
+})
+
+// Delete Function
+
+const adminGalleryStore = useAdminGalleryStore()
+const { deleteInfo } = storeToRefs(adminGalleryStore)
 </script>
 
 <template>
@@ -25,19 +35,30 @@ const displaySystem = computed(() => {
       <header class="gallery__header">
         <h2>{{ system }}</h2>
         <FadeTransition>
-          <GalleryOptionsWindowEl class="display-system-icon" />
+          <GalleryOptionsWindowEl
+            class="display-system-icon"
+            @emit-delete="adminGalleryStore.deleteSystem(system)"
+          />
         </FadeTransition>
       </header>
-      <section v-for="{ fraction, images } in fractions" :key="fraction" class="gallery__fraction">
-        <div class="gallery__fraction-title">
-          <h3>{{ fraction }}</h3>
-
-          <GalleryOptionsWindowEl class="display-fraction-icon" />
-        </div>
-        <GalleryTileEl v-for="{ model, img } in images" :key="model" :model="img" :set="images">
-          <p>{{ model }}</p>
-        </GalleryTileEl>
-      </section>
+      <div>
+        <section
+          v-for="{ fraction, images } in fractions"
+          :key="fraction"
+          class="gallery__fraction"
+        >
+          <div class="gallery__fraction-title">
+            <h3>{{ fraction }}</h3>
+            <GalleryOptionsWindowEl
+              class="display-fraction-icon"
+              @emit-delete="adminGalleryStore.deleteFraction(system, fraction)"
+            />
+          </div>
+          <GalleryTileEl v-for="{ model, img } in images" :key="model" :model="img" :set="images">
+            <p>{{ model }}</p>
+          </GalleryTileEl>
+        </section>
+      </div>
     </article>
   </section>
 </template>

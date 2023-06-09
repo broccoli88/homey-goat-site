@@ -4,6 +4,8 @@ import FadeTransition from '../utils/transitions/FadeTransition.vue'
 import { useAdminGalleryStore } from '../stores/AdminGalleryStore'
 import { ref } from 'vue'
 
+const emits = defineEmits(['emit-delete'])
+
 const adminGalleryStore = useAdminGalleryStore()
 
 const showOptions = ref(false)
@@ -18,6 +20,10 @@ const checkIfVisible = () => {
   if (btnsOptions.value.style.opacity === '') {
     showOptions.value = false
   }
+}
+
+const emitDelete = () => {
+  emits('emit-delete')
 }
 </script>
 
@@ -66,7 +72,10 @@ const checkIfVisible = () => {
             </svg>
           </template>
         </ButtonWithIconEl>
-        <ButtonWithIconEl class="btn--icon btn--small btn--outline-white btn--slide-white">
+        <ButtonWithIconEl
+          @click="emitDelete"
+          class="btn--icon btn--small btn--outline-white btn--slide-white"
+        >
           <template v-slot:text>delete</template>
           <template v-slot:icon>
             <svg
