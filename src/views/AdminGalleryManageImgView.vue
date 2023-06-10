@@ -1,5 +1,5 @@
 <script setup>
-import ModalManageGallery from '../components/ModalManageGallery.vue'
+import ModalRename from '../components/ModalRename.vue'
 import ModalDelete from '../components/ModalDelete.vue'
 import ButtonEl from '../template/ButtonEl.vue'
 import GalleryDisplayEl from '../template/GalleryDisplayEl.vue'
@@ -37,7 +37,7 @@ const { data, systemBtns, currentSystem, switchGallery } = storeToRefs(adminStor
         </FadeTransition>
       </section>
     </section>
-    <ModalManageGallery />
+    <ModalRename />
     <ModalDelete />
   </section>
 </template>

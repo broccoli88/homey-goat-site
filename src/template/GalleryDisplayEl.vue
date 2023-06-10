@@ -20,8 +20,6 @@ const filteredSystem = computed(() => {
 const displaySystem = computed(() => {
   return props.currentSystem === 'all models' ? data.value : filteredSystem.value
 })
-
-// Delete Function
 </script>
 
 <template>
@@ -31,8 +29,8 @@ const displaySystem = computed(() => {
         <h2>{{ system }}</h2>
         <FadeTransition>
           <GalleryOptionsWindowEl
-            @rename="adminGalleryStore.renameSystem(system)"
-            @delete="adminGalleryStore.toggleDeleteModal(system)"
+            @rename="adminGalleryStore.openRenameModal(system)"
+            @delete="adminGalleryStore.openDeleteModal(system)"
             class="display-system-icon"
           />
         </FadeTransition>
@@ -46,15 +44,15 @@ const displaySystem = computed(() => {
           <div class="gallery__fraction-title">
             <h3>{{ fraction }}</h3>
             <GalleryOptionsWindowEl
-              @rename="adminGalleryStore.renameFraction(system, fraction)"
-              @delete="adminGalleryStore.toggleDeleteModal(system, fraction)"
+              @rename="adminGalleryStore.openRenameModal(system, fraction)"
+              @delete="adminGalleryStore.openDeleteModal(system, fraction)"
               class="display-fraction-icon"
             />
           </div>
 
           <GalleryTileEl
-            @rename="adminGalleryStore.renameModel(system, fraction, model)"
-            @delete="adminGalleryStore.toggleDeleteModal(system, fraction, model)"
+            @rename="adminGalleryStore.openRenameModal(system, fraction, model)"
+            @delete="adminGalleryStore.openDeleteModal(system, fraction, model)"
             v-for="{ model, img } in images"
             :key="model"
             :model="img"

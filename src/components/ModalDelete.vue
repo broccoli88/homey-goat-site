@@ -10,7 +10,7 @@ const { showDeleteModal } = storeToRefs(adminGalleryStore)
 </script>
 
 <template>
-  <Teleport to="#admin-manage-delete">
+  <Teleport to="#admin-manage-delete-modal">
     <FadeTransition>
       <div class="modal-container" v-if="showDeleteModal">
         <ModalEl>

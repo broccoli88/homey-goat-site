@@ -339,6 +339,8 @@
   place-content: center;
 
   background-color: $modal-bg-light;
+
+  @content;
 }
 
 @mixin modal($min-width: 70ch) {
@@ -375,4 +377,5 @@
   gap: 2rem;
   border-bottom: 1px solid $color-gray-lighter;
   font-size: clamp(1.5rem, 1rem + 0.7vw, 2.2rem);
+  @content;
 }

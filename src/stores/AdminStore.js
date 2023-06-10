@@ -91,6 +91,7 @@ export const useAdminStore = defineStore('adminStore', () => {
   //   Getting data
 
   const data = vref([])
+  const data2 = vref([])
   const systems = vref([])
   const fractions = vref([])
 
@@ -118,6 +119,7 @@ export const useAdminStore = defineStore('adminStore', () => {
     const systemQuery = query(collection(db, 'systems'))
     onSnapshot(systemQuery, (querySnapshot) => {
       data.value = []
+
       systems.value = []
       fractions.value = []
 
@@ -191,6 +193,7 @@ export const useAdminStore = defineStore('adminStore', () => {
 
     const newSystem = reactive({
       system: modelObj.system,
+      id: modelObj.system,
       fractions: [newFraction]
     })
 
@@ -241,8 +244,6 @@ export const useAdminStore = defineStore('adminStore', () => {
     modelObj.img = ''
 
     v.value.$reset()
-
-    await getSystems()
   }
 
   //   Show modal after upload
@@ -272,6 +273,7 @@ export const useAdminStore = defineStore('adminStore', () => {
     currentSystem,
     switchGallery,
     data,
+    data2,
     v,
     getMessages,
     deleteMessage,
