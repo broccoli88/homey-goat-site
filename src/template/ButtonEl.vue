@@ -43,6 +43,14 @@
   @include btn--outline-black;
 }
 
+.btn--outline-green {
+  @include btn--outline-green;
+}
+
+.btn--outline-red {
+  @include btn--outline-red;
+}
+
 // Effects
 
 .btn--slide-black {
@@ -51,5 +59,13 @@
 
 .btn--slide-white {
   @include btn--slide-white;
+}
+
+.btn--slide-green {
+  @include btn--slide-green;
+}
+
+.btn--slide-red {
+  @include btn--slide-red;
 }
 </style>

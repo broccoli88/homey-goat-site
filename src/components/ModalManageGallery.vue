@@ -5,7 +5,7 @@ import { useAdminGalleryStore } from '../stores/AdminGalleryStore'
 import { storeToRefs } from 'pinia'
 
 const adminGalleryStore = useAdminGalleryStore()
-const { showModal, currentChange } = storeToRefs(adminGalleryStore)
+const { showModal, currentChange, newName } = storeToRefs(adminGalleryStore)
 </script>
 
 <template>
@@ -23,6 +23,7 @@ const { showModal, currentChange } = storeToRefs(adminGalleryStore)
                 name="system"
                 placeholder="Enter new system name..."
                 class="form__input"
+                v-model.trim="newName.newName"
               />
               <p class="error">Error</p>
             </div>

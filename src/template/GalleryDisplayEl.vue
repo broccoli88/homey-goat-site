@@ -5,7 +5,7 @@ import GalleryOptionsWindowEl from '../template/GalleryOptionsWindowEl.vue'
 import { useAdminStore } from '../stores/AdminStore'
 import { useAdminGalleryStore } from '../stores/AdminGalleryStore'
 import { storeToRefs } from 'pinia'
-import { computed, onMounted } from 'vue'
+import { computed } from 'vue'
 
 const props = defineProps(['currentSystem'])
 const adminStore = useAdminStore()
@@ -21,10 +21,6 @@ const displaySystem = computed(() => {
   return props.currentSystem === 'all models' ? data.value : filteredSystem.value
 })
 
-onMounted(() => {
-  //   console.log(data.value)
-})
-
 // Delete Function
 </script>
 
@@ -35,8 +31,9 @@ onMounted(() => {
         <h2>{{ system }}</h2>
         <FadeTransition>
           <GalleryOptionsWindowEl
+            @rename="adminGalleryStore.renameSystem(system)"
+            @delete="adminGalleryStore.toggleDeleteModal(system)"
             class="display-system-icon"
-            @emit-delete="adminGalleryStore.deleteSystem(system)"
           />
         </FadeTransition>
       </header>
@@ -49,21 +46,22 @@ onMounted(() => {
           <div class="gallery__fraction-title">
             <h3>{{ fraction }}</h3>
             <GalleryOptionsWindowEl
+              @rename="adminGalleryStore.renameFraction(system, fraction)"
+              @delete="adminGalleryStore.toggleDeleteModal(system, fraction)"
               class="display-fraction-icon"
-              @emit-delete="adminGalleryStore.deleteFraction(system, fraction)"
             />
           </div>
-          <div v-if="images.length > 0" class="gallery__model-container">
-            <GalleryTileEl
-              @emit-delete="adminGalleryStore.deleteModel(system, fraction, model)"
-              v-for="{ model, img } in images"
-              :key="model"
-              :model="img"
-              :set="images"
-            >
-              <p>{{ model }}</p>
-            </GalleryTileEl>
-          </div>
+
+          <GalleryTileEl
+            @rename="adminGalleryStore.renameModel(system, fraction, model)"
+            @delete="adminGalleryStore.toggleDeleteModal(system, fraction, model)"
+            v-for="{ model, img } in images"
+            :key="model"
+            :model="img"
+            :set="images"
+          >
+            <p>{{ model }}</p>
+          </GalleryTileEl>
         </section>
       </div>
     </article>
@@ -102,12 +100,9 @@ onMounted(() => {
 
   .gallery__fraction {
     margin-block: 2vw;
-
-    .gallery__model-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(20rem, 100%), 30rem));
-      gap: 1vw;
-    }
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(30rem, 100%), 1fr));
+    gap: 1vw;
 
     .gallery__fraction-title {
       grid-column: 1 / -1;

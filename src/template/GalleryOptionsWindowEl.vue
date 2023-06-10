@@ -4,7 +4,7 @@ import FadeTransition from '../utils/transitions/FadeTransition.vue'
 import { useAdminGalleryStore } from '../stores/AdminGalleryStore'
 import { ref } from 'vue'
 
-const emits = defineEmits(['emit-delete'])
+const emits = defineEmits(['delete', 'rename'])
 
 const adminGalleryStore = useAdminGalleryStore()
 
@@ -23,7 +23,11 @@ const checkIfVisible = () => {
 }
 
 const emitDelete = () => {
-  emits('emit-delete')
+  emits('delete')
+}
+
+const emitRename = () => {
+  emits('rename')
 }
 </script>
 
@@ -31,7 +35,10 @@ const emitDelete = () => {
   <section class="btns-options" v-if="adminGalleryStore.isInAdminPanel" ref="btnsOptions">
     <FadeTransition>
       <div class="options__window" v-if="showOptions" @mouseleave="checkIfVisible">
-        <ButtonWithIconEl class="btn--icon btn--small btn--outline-white btn--slide-white">
+        <ButtonWithIconEl
+          @click="emitRename"
+          class="btn--icon-black btn--small btn--outline-white btn--slide-white"
+        >
           <template v-slot:text>rename</template>
           <template v-slot:icon>
             <svg
@@ -74,7 +81,7 @@ const emitDelete = () => {
         </ButtonWithIconEl>
         <ButtonWithIconEl
           @click="emitDelete"
-          class="btn--icon btn--small btn--outline-white btn--slide-white"
+          class="btn--icon-black btn--small btn--outline-white btn--slide-white"
         >
           <template v-slot:text>delete</template>
           <template v-slot:icon>

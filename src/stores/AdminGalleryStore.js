@@ -3,6 +3,8 @@ import { db } from '../firebase/db'
 import { doc, deleteDoc, getDoc, updateDoc } from 'firebase/firestore'
 import { ref } from 'vue'
 import { useAdminStore } from './AdminStore'
+import { useVuelidate } from '@vuelidate/core'
+import { required, helpers } from '@vuelidate/validators'
 
 export const useAdminGalleryStore = defineStore('adminGalleryStore', () => {
   const adminStore = useAdminStore()
@@ -37,49 +39,69 @@ export const useAdminGalleryStore = defineStore('adminGalleryStore', () => {
   })
   //   Delete system
 
-  async function deleteSystem(systemName) {
-    deleteInfo.value.system.title = systemName
-    deleteInfo.value.system.toDelete = true
-    deleteInfo.value.fraction.title = ''
-    deleteInfo.value.fraction.toDelete = false
-    deleteInfo.value.model.title = ''
-    deleteInfo.value.model.toDelete = false
+  const showDeleteModal = ref(false)
 
+  function toggleDeleteModal(systemName, fractionName = '', modelName = '') {
+    showDeleteModal.value = true
+
+    deleteInfo.value.system.title = systemName
+    deleteInfo.value.fraction.title = fractionName
+    deleteInfo.value.model.title = modelName
+
+    if (fractionName === '' && modelName === '') {
+      deleteInfo.value.system.toDelete = true
+      deleteInfo.value.fraction.toDelete = false
+      deleteInfo.value.model.toDelete = false
+    } else if (fractionName !== '' && modelName === '') {
+      deleteInfo.value.system.toDelete = false
+      deleteInfo.value.fraction.toDelete = true
+      deleteInfo.value.model.toDelete = false
+    } else if (fractionName !== '' && modelName !== '') {
+      deleteInfo.value.system.toDelete = false
+      deleteInfo.value.fraction.toDelete = false
+      deleteInfo.value.model.toDelete = true
+    }
+  }
+
+  async function submitDelete() {
+    if (deleteInfo.value.system.toDelete) {
+      await deleteSystem()
+    } else if (deleteInfo.value.fraction.toDelete) {
+      await deleteFraction()
+    } else if (deleteInfo.value.model.toDelete) {
+      await deleteModel()
+    }
+
+    showDeleteModal.value = false
+  }
+
+  function closeDeleteModal() {
+    showDeleteModal.value = false
+  }
+
+  async function deleteSystem() {
     const systemRef = doc(db, 'systems', deleteInfo.value.system.title)
 
-    if (
-      deleteInfo.value.system.toDelete &&
-      !deleteInfo.value.fraction.toDelete &&
-      !deleteInfo.value.model.toDelete
-    ) {
+    try {
       await deleteDoc(systemRef)
-    } else {
-      return
+    } catch (err) {
+      console.error(err)
     }
   }
 
   //   Delete fraction
 
-  async function deleteFraction(systemName, fractionName) {
-    deleteInfo.value.system.title = systemName
-    deleteInfo.value.system.toDelete = true
-    deleteInfo.value.fraction.title = fractionName
-    deleteInfo.value.fraction.toDelete = true
-    deleteInfo.value.model.title = ''
-    deleteInfo.value.model.toDelete = false
+  async function deleteFraction() {
+    const docRef = doc(db, 'systems', deleteInfo.value.system.title)
+    const docSnap = await getDoc(docRef)
 
-    if (
-      deleteInfo.value.system.toDelete &&
-      deleteInfo.value.fraction.toDelete &&
-      !deleteInfo.value.model.toDelete
-    ) {
-      const docRef = doc(db, 'systems', systemName)
-      const docSnap = await getDoc(docRef)
-
+    try {
       if (docSnap.exists()) {
         const data = docSnap.data()
         const fractionsData = data.fractions
-        const index = fractionsData.findIndex((fraction) => fraction.fraction === fractionName)
+        const index = fractionsData.findIndex(
+          (fraction) => fraction.fraction === deleteInfo.value.fraction.title
+        )
 
         if (index !== -1) {
           fractionsData.splice(index, 1)
@@ -88,40 +110,36 @@ export const useAdminGalleryStore = defineStore('adminGalleryStore', () => {
       } else {
         console.log('Document does not exist')
       }
-    } else {
-      return
+    } catch (err) {
+      console.error(err)
     }
   }
 
   //   Delete model
 
-  async function deleteModel(systemName, fractionName, modelName) {
-    deleteInfo.value.system.title = systemName
-    deleteInfo.value.system.toDelete = true
-    deleteInfo.value.fraction.title = fractionName
-    deleteInfo.value.fraction.toDelete = true
-    deleteInfo.value.model.title = modelName
-    deleteInfo.value.model.toDelete = true
-
+  async function deleteModel() {
     try {
-      const docRef = doc(db, 'systems', systemName)
+      const docRef = doc(db, 'systems', deleteInfo.value.system.title)
       const docSnap = await getDoc(docRef)
 
       if (docSnap.exists()) {
         const data = docSnap.data()
         const fractionsData = [...data.fractions]
         const fractionIndex = fractionsData.findIndex(
-          (fraction) => fraction.fraction === fractionName
+          (fraction) => fraction.fraction === deleteInfo.value.fraction.title
         )
         const modelIndex = fractionsData[fractionIndex].images.findIndex(
-          (model) => model.model === modelName
+          (model) => model.model === deleteInfo.value.model.title
         )
 
         if (modelIndex !== -1) {
           fractionsData[fractionIndex].images.splice(modelIndex, 1)
 
           if (fractionsData[fractionIndex].images.length === 0) {
-            await deleteFraction(systemName, fractionName)
+            deleteInfo.value.system.toDelete = false
+            deleteInfo.value.fraction.toDelete = true
+            deleteInfo.value.model.toDelete = false
+            await deleteFraction()
           } else {
             await updateDoc(docRef, { fractions: fractionsData })
           }
@@ -131,18 +149,61 @@ export const useAdminGalleryStore = defineStore('adminGalleryStore', () => {
 
         if (newDocSnap.exists()) {
           const newData = newDocSnap.data().fractions
-          console.log(newData)
+
           if (newData.length <= 0) {
-            await deleteSystem(systemName)
+            deleteInfo.value.system.toDelete = true
+            deleteInfo.value.fraction.toDelete = false
+            deleteInfo.value.model.toDelete = false
+            await deleteSystem(deleteInfo.value.model.title)
           }
         }
       }
 
-      await adminStore.deleteImg(systemName, fractionName, modelName)
+      await adminStore.deleteImg(
+        deleteInfo.value.system.title,
+        deleteInfo.value.fraction.title,
+        deleteInfo.value.model.title
+      )
     } catch (err) {
       console.error(err)
     }
   }
+
+  // --- UPDATE operations ---
+
+  //  Update verification
+
+  const newName = ref({
+    newName: ''
+  })
+  const rules = {
+    newName: { required: helpers.withMessage('You must enter a name...', required) }
+  }
+
+  const v = useVuelidate(rules, newName.value)
+
+  function submitNameChange() {
+    const isFormCorrect = v.value.$validate()
+
+    if (!isFormCorrect) return
+  }
+
+  async function renameSystem(systemName) {
+    const systemNameRef = doc(db, 'systems', systemName)
+
+    await updateDoc(systemNameRef, { system: newName.value })
+  }
+  async function renameFraction(systemName, fractionName) {
+    // const modelsNameRef = doc(db, 'systems', systemName)
+
+    console.log(systemName, fractionName)
+  }
+  async function renameModel(systemName, fractionName, modelName) {
+    // const modelsNameRef = doc(db, 'systems', systemName)
+
+    console.log(systemName, fractionName, modelName)
+  }
+
   return {
     // Modal
     isInAdminPanel,
@@ -150,9 +211,18 @@ export const useAdminGalleryStore = defineStore('adminGalleryStore', () => {
     currentChange,
     closeModal,
     // Delete
+    showDeleteModal,
     deleteInfo,
     deleteSystem,
     deleteFraction,
-    deleteModel
+    deleteModel,
+    toggleDeleteModal,
+    closeDeleteModal,
+    submitDelete,
+    // Rename
+    newName,
+    renameSystem,
+    renameFraction,
+    renameModel
   }
 })

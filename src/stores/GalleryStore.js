@@ -109,7 +109,7 @@ export const useGalleryStore = defineStore('galleryStore', () => {
     }, 100)
   }
 
-  useModal(showModal)
+  //   useModal(showModal)
 
   return {
     showModal,

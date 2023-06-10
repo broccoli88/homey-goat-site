@@ -14,18 +14,34 @@
   text-transform: uppercase;
   transition: $transition-04;
   overflow: hidden;
+  font-family: 'Josefin Sans', sans-serif;
 }
 
 // Icon Button
 
-@mixin btn-icon {
+@mixin btn-icon-black {
+  &:hover {
+    .btn--icon-content {
+      svg {
+        g {
+          stroke: $color-black;
+        }
+        path {
+          stroke: $color-black;
+        }
+      }
+    }
+  }
+}
+
+@mixin btn-icon-white {
   &:hover {
     svg {
       g {
-        stroke: $color-black;
+        stroke: $color-white;
       }
       path {
-        stroke: $color-black;
+        stroke: $color-white;
       }
     }
   }
@@ -43,6 +59,7 @@
   svg {
     order: 1;
     width: clamp(1.5rem, 0.7rem + 1vw, 1.8rem);
+    height: 100%;
 
     g {
       transition: $transition-04;
@@ -128,6 +145,18 @@
   @content;
 }
 
+@mixin btn--outline-green {
+  border: 1px solid $color-green;
+  color: $color-green;
+  @content;
+}
+
+@mixin btn--outline-red {
+  border: 1px solid $color-error;
+  color: $color-error;
+  @content;
+}
+
 // Button Effects
 
 @mixin btn--fill-in {
@@ -139,12 +168,9 @@
   }
 }
 
-// Slide Black
-
-@mixin btn--slide-black {
+@mixin btn-slide {
   &::before {
     content: '';
-    background-color: $color-black;
 
     position: absolute;
     top: 0;
@@ -154,12 +180,6 @@
     z-index: -1;
 
     transition: $transition-04;
-  }
-
-  &:hover,
-  &:focus {
-    color: $color-white;
-    @content;
   }
 
   &:hover::before,
@@ -168,21 +188,27 @@
   }
 }
 
+// Slide Black
+
+@mixin btn--slide-black {
+  @include btn-slide;
+  &::before {
+    background-color: $color-black;
+  }
+
+  &:hover,
+  &:focus {
+    color: $color-white;
+    @content;
+  }
+}
+
 // Slide White
 
 @mixin btn--slide-white {
+  @include btn-slide;
   &::before {
-    content: '';
     background-color: $color-white;
-
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 0;
-    height: 100%;
-    z-index: -1;
-
-    transition: $transition-04;
   }
 
   &:hover,
@@ -190,10 +216,35 @@
     color: $color-black;
     @content;
   }
+}
 
-  &:hover::before,
-  &:focus::before {
-    width: 100%;
+// Slide Green
+
+@mixin btn--slide-green {
+  @include btn-slide;
+
+  &::before {
+    background-color: $color-green;
+  }
+
+  &:hover,
+  &:focus {
+    color: $color-white;
+    @content;
+  }
+}
+// Slide Red
+
+@mixin btn--slide-red {
+  @include btn-slide;
+  &::before {
+    background-color: $color-error;
+  }
+
+  &:hover,
+  &:focus {
+    color: $color-white;
+    @content;
   }
 }
 
