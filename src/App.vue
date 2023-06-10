@@ -5,8 +5,12 @@ import FooTer from './components/FooTer.vue'
 import { RouterView } from 'vue-router'
 import { useRoute } from 'vue-router'
 import { useAdminGalleryStore } from './stores/AdminGalleryStore'
+import { useAdminStore } from './stores/AdminStore'
 import { storeToRefs } from 'pinia'
 import { computed, watch } from 'vue'
+
+const adminStore = useAdminStore()
+adminStore.getSystems()
 
 const route = useRoute()
 const adminGalleryStore = useAdminGalleryStore()

@@ -12,7 +12,6 @@ const adminStore = useAdminStore()
 const { data } = storeToRefs(adminStore)
 
 const adminGalleryStore = useAdminGalleryStore()
-const { deleteInfo } = storeToRefs(adminGalleryStore)
 
 const filteredSystem = computed(() => {
   return data.value.filter((s) => s.system === props.currentSystem)
@@ -41,7 +40,7 @@ onMounted(() => {
           />
         </FadeTransition>
       </header>
-      <div>
+      <div v-if="fractions.length > 0">
         <section
           v-for="{ fraction, images } in fractions"
           :key="fraction"
@@ -54,15 +53,17 @@ onMounted(() => {
               @emit-delete="adminGalleryStore.deleteFraction(system, fraction)"
             />
           </div>
-          <GalleryTileEl
-            @emit-delete="adminGalleryStore.deleteModel(system, fraction, model)"
-            v-for="{ model, img } in images"
-            :key="model"
-            :model="img"
-            :set="images"
-          >
-            <p>{{ model }}</p>
-          </GalleryTileEl>
+          <div v-if="images.length > 0" class="gallery__model-container">
+            <GalleryTileEl
+              @emit-delete="adminGalleryStore.deleteModel(system, fraction, model)"
+              v-for="{ model, img } in images"
+              :key="model"
+              :model="img"
+              :set="images"
+            >
+              <p>{{ model }}</p>
+            </GalleryTileEl>
+          </div>
         </section>
       </div>
     </article>
@@ -100,11 +101,13 @@ onMounted(() => {
   }
 
   .gallery__fraction {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(30rem, 100%), 1fr));
-    gap: 1vw;
-
     margin-block: 2vw;
+
+    .gallery__model-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(20rem, 100%), 30rem));
+      gap: 1vw;
+    }
 
     .gallery__fraction-title {
       grid-column: 1 / -1;

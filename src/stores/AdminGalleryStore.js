@@ -2,8 +2,11 @@ import { defineStore } from 'pinia'
 import { db } from '../firebase/db'
 import { doc, deleteDoc, getDoc, updateDoc } from 'firebase/firestore'
 import { ref } from 'vue'
+import { useAdminStore } from './AdminStore'
 
 export const useAdminGalleryStore = defineStore('adminGalleryStore', () => {
+  const adminStore = useAdminStore()
+
   //   ...::: [ MODAL ] :::...
 
   const showModal = ref(false)
@@ -100,35 +103,44 @@ export const useAdminGalleryStore = defineStore('adminGalleryStore', () => {
     deleteInfo.value.model.title = modelName
     deleteInfo.value.model.toDelete = true
 
-    if (
-      deleteInfo.value.system.toDelete &&
-      deleteInfo.value.fraction.toDelete &&
-      deleteInfo.value.model.toDelete
-    ) {
+    try {
       const docRef = doc(db, 'systems', systemName)
       const docSnap = await getDoc(docRef)
 
       if (docSnap.exists()) {
         const data = docSnap.data()
-        const fractionsData = data.fractions
+        const fractionsData = [...data.fractions]
         const fractionIndex = fractionsData.findIndex(
           (fraction) => fraction.fraction === fractionName
         )
-        // console.log(fractionsData)
-        const modelsData = fractionsData[fractionIndex].images
-        const modelIndex = modelsData.findIndex((model) => (model.model = modelName))
+        const modelIndex = fractionsData[fractionIndex].images.findIndex(
+          (model) => model.model === modelName
+        )
 
         if (modelIndex !== -1) {
-          fractionsData[fractionIndex].images = modelsData.splice(modelIndex, 1)
-          await updateDoc(docRef, { fractions: fractionsData })
-        } else {
-          console.log('Something is wrong')
+          fractionsData[fractionIndex].images.splice(modelIndex, 1)
+
+          if (fractionsData[fractionIndex].images.length === 0) {
+            await deleteFraction(systemName, fractionName)
+          } else {
+            await updateDoc(docRef, { fractions: fractionsData })
+          }
         }
-      } else {
-        console.log('Document does not exist')
+
+        const newDocSnap = await getDoc(docRef)
+
+        if (newDocSnap.exists()) {
+          const newData = newDocSnap.data().fractions
+          console.log(newData)
+          if (newData.length <= 0) {
+            await deleteSystem(systemName)
+          }
+        }
       }
-    } else {
-      return
+
+      await adminStore.deleteImg(systemName, fractionName, modelName)
+    } catch (err) {
+      console.error(err)
     }
   }
   return {

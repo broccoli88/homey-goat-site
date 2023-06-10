@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { reactive } from 'vue'
+import { computed, reactive } from 'vue'
 import { ref as vref } from 'vue'
 import { db } from '../firebase/db'
 import {
@@ -10,12 +10,11 @@ import {
   deleteDoc,
   arrayUnion,
   getDoc,
-  getDocs,
   setDoc,
   updateDoc
 } from 'firebase/firestore'
 import { storageRef } from '../firebase/db'
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
+import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage'
 import { useVuelidate } from '@vuelidate/core'
 import { required, helpers } from '@vuelidate/validators'
 
@@ -95,27 +94,53 @@ export const useAdminStore = defineStore('adminStore', () => {
   const systems = vref([])
   const fractions = vref([])
 
+  const systemBtns = computed(() => {
+    return systems.value ? ['all models', ...systems.value] : []
+  })
+
+  const currentSystem = vref('all models')
+  const switchGallery = vref(true)
+
+  // Filtereing system
+
+  function chooseSystem(system) {
+    switchGallery.value = !switchGallery.value
+    if (system === systemBtns.value[0]) {
+      currentSystem.value = system
+    } else {
+      currentSystem.value = system
+    }
+  }
+
   // Getting saved systems and fractions
 
-  async function getSystems() {
-    data.value = []
-    systems.value = []
-    fractions.value = []
-
+  function getSystems() {
     const systemQuery = query(collection(db, 'systems'))
-    const systemSnap = await getDocs(systemQuery)
+    onSnapshot(systemQuery, (querySnapshot) => {
+      data.value = []
+      systems.value = []
+      fractions.value = []
 
-    systemSnap.forEach((system) => {
-      data.value.push(system.data())
-    })
-
-    data.value.forEach((system) => {
-      systems.value.push(system.system)
-
-      system.fractions.forEach((fraction) => {
-        fractions.value.push(fraction.fraction)
+      querySnapshot.forEach((doc) => {
+        data.value.push(doc.data())
       })
+
+      if (data.value.length !== 0) {
+        data.value.forEach((system) => {
+          systems.value.push(system.system)
+        })
+      } else return
+
+      if (systems.value.length !== 0) {
+        systems.value.forEach((fraction) => {
+          fractions.value.push(fraction)
+        })
+      }
     })
+
+    // console.log('Data =>', data.value)
+    // console.log('Systems =>', systems.value)
+    // console.log('Fractions =>', fractions.value)
   }
 
   // Image upload functions
@@ -139,6 +164,14 @@ export const useAdminStore = defineStore('adminStore', () => {
     } catch (err) {
       console.error(err)
     }
+  }
+
+  //   Delete Image
+
+  async function deleteImg(systemName, fracationName, modelName) {
+    const docRef = ref(storageRef, `gallery/${systemName}/${fracationName}/${modelName}`)
+
+    await deleteObject(docRef).catch((err) => console.error(err))
   }
 
   // Data upload to firestore
@@ -235,12 +268,17 @@ export const useAdminStore = defineStore('adminStore', () => {
     showModal,
     systems,
     fractions,
+    systemBtns,
+    currentSystem,
+    switchGallery,
     data,
     v,
     getMessages,
     deleteMessage,
     uploadData,
     closeModal,
-    getSystems
+    getSystems,
+    deleteImg,
+    chooseSystem
   }
 })
