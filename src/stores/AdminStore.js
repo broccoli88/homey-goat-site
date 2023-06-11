@@ -91,7 +91,6 @@ export const useAdminStore = defineStore('adminStore', () => {
   //   Getting data
 
   const data = vref([])
-  const data2 = vref([])
   const systems = vref([])
   const fractions = vref([])
 
@@ -170,8 +169,8 @@ export const useAdminStore = defineStore('adminStore', () => {
 
   //   Delete Image
 
-  async function deleteImg(systemName, fracationName, modelName) {
-    const docRef = ref(storageRef, `gallery/${systemName}/${fracationName}/${modelName}`)
+  async function deleteImg(systemId, fracationName, modelName) {
+    const docRef = ref(storageRef, `gallery/${systemId}/${fracationName}/${modelName}`)
 
     await deleteObject(docRef).catch((err) => console.error(err))
   }
@@ -199,7 +198,7 @@ export const useAdminStore = defineStore('adminStore', () => {
 
     // Firestore Refs
 
-    const fractionFbRef = doc(db, 'systems', newSystem.system)
+    const fractionFbRef = doc(db, 'systems', newSystem.id)
 
     const fractionSnap = await getDoc(fractionFbRef)
 
@@ -273,7 +272,6 @@ export const useAdminStore = defineStore('adminStore', () => {
     currentSystem,
     switchGallery,
     data,
-    data2,
     v,
     getMessages,
     deleteMessage,

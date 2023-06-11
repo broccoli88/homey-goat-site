@@ -1,6 +1,7 @@
 <script setup>
 import ModalRename from '../components/ModalRename.vue'
 import ModalDelete from '../components/ModalDelete.vue'
+import ModalUpdateImage from '../components/ModalUpdateImage.vue'
 import ButtonEl from '../template/ButtonEl.vue'
 import GalleryDisplayEl from '../template/GalleryDisplayEl.vue'
 import FadeTransition from '../utils/transitions/FadeTransition.vue'
@@ -39,6 +40,7 @@ const { data, systemBtns, currentSystem, switchGallery } = storeToRefs(adminStor
     </section>
     <ModalRename />
     <ModalDelete />
+    <ModalUpdateImage />
   </section>
 </template>
 

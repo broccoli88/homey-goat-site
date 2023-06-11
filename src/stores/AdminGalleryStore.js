@@ -3,6 +3,9 @@ import { db } from '../firebase/db'
 import { doc, deleteDoc, getDoc, updateDoc } from 'firebase/firestore'
 import { reactive, ref } from 'vue'
 import { useAdminStore } from './AdminStore'
+import { storageRef } from '../firebase/db'
+import { uploadBytes, getDownloadURL } from 'firebase/storage'
+import { ref as fref } from 'firebase/storage'
 
 export const useAdminGalleryStore = defineStore('adminGalleryStore', () => {
   const adminStore = useAdminStore()
@@ -16,6 +19,7 @@ export const useAdminGalleryStore = defineStore('adminGalleryStore', () => {
   const fieldInfo = reactive({
     system: {
       title: '',
+      id: '',
       toChange: false
     },
     fraction: {
@@ -24,6 +28,7 @@ export const useAdminGalleryStore = defineStore('adminGalleryStore', () => {
     },
     model: {
       title: '',
+      url: '',
       toChange: false
     }
   })
@@ -33,10 +38,11 @@ export const useAdminGalleryStore = defineStore('adminGalleryStore', () => {
 
   // Modal confirmation
 
-  function openDeleteModal(systemName, fractionName = '', modelName = '') {
+  function openDeleteModal(systemName, systemId, fractionName = '', modelName = '') {
     showDeleteModal.value = true
 
     fieldInfo.system.title = systemName
+    fieldInfo.system.id = systemId
     fieldInfo.fraction.title = fractionName
     fieldInfo.model.title = modelName
 
@@ -63,16 +69,23 @@ export const useAdminGalleryStore = defineStore('adminGalleryStore', () => {
     } else if (fieldInfo.model.toChange) {
       await deleteModel()
     }
-
-    showDeleteModal.value = false
+    closeDeleteModal()
   }
 
   function closeDeleteModal() {
     showDeleteModal.value = false
+    newName.value = ''
+    fieldInfo.system.title = ''
+    fieldInfo.system.id = ''
+    fieldInfo.fraction.title = ''
+    fieldInfo.model.title = ''
+    fieldInfo.system.toChange = false
+    fieldInfo.fraction.toChange = false
+    fieldInfo.model.toChange = false
   }
 
   async function deleteSystem() {
-    const systemRef = doc(db, 'systems', fieldInfo.system.title)
+    const systemRef = doc(db, 'systems', fieldInfo.system.id)
 
     try {
       await deleteDoc(systemRef)
@@ -84,7 +97,7 @@ export const useAdminGalleryStore = defineStore('adminGalleryStore', () => {
   //   Delete fraction
 
   async function deleteFraction() {
-    const docRef = doc(db, 'systems', fieldInfo.system.title)
+    const docRef = doc(db, 'systems', fieldInfo.system.id)
 
     try {
       const docSnap = await getDoc(docRef)
@@ -110,8 +123,8 @@ export const useAdminGalleryStore = defineStore('adminGalleryStore', () => {
   //   Delete model
 
   async function deleteModel() {
+    const docRef = doc(db, 'systems', fieldInfo.system.id)
     try {
-      const docRef = doc(db, 'systems', fieldInfo.system.title)
       const docSnap = await getDoc(docRef)
 
       if (docSnap.exists()) {
@@ -120,21 +133,28 @@ export const useAdminGalleryStore = defineStore('adminGalleryStore', () => {
         const fractionIndex = fractionsData.findIndex(
           (fraction) => fraction.fraction === fieldInfo.fraction.title
         )
-        const modelIndex = fractionsData[fractionIndex].images.findIndex(
-          (model) => model.model === fieldInfo.model.title
-        )
 
-        if (modelIndex !== -1) {
-          fractionsData[fractionIndex].images.splice(modelIndex, 1)
+        if (fractionIndex !== -1) {
+          const modelIndex = fractionsData[fractionIndex].images.findIndex(
+            (model) => model.model === fieldInfo.model.title
+          )
 
-          if (fractionsData[fractionIndex].images.length === 0) {
-            fieldInfo.system.toChange = false
-            fieldInfo.fraction.toChange = true
-            fieldInfo.model.toChange = false
-            await deleteFraction()
+          if (modelIndex !== -1) {
+            fractionsData[fractionIndex].images.splice(modelIndex, 1)
+
+            if (fractionsData[fractionIndex].images.length === 0) {
+              fieldInfo.system.toChange = false
+              fieldInfo.fraction.toChange = true
+              fieldInfo.model.toChange = false
+              await deleteFraction()
+            } else {
+              await updateDoc(docRef, { fractions: fractionsData })
+            }
           } else {
-            await updateDoc(docRef, { fractions: fractionsData })
+            console.log('Model does not exist')
           }
+        } else {
+          console.log('Fraction does not exist')
         }
 
         const newDocSnap = await getDoc(docRef)
@@ -149,10 +169,12 @@ export const useAdminGalleryStore = defineStore('adminGalleryStore', () => {
             await deleteSystem(fieldInfo.model.title)
           }
         }
+      } else {
+        console.log('Document does not exist')
       }
 
       await adminStore.deleteImg(
-        fieldInfo.system.title,
+        fieldInfo.system.id,
         fieldInfo.fraction.title,
         fieldInfo.model.title
       )
@@ -169,10 +191,11 @@ export const useAdminGalleryStore = defineStore('adminGalleryStore', () => {
   const elementToRename = ref('')
   const showRenameModal = ref(false)
 
-  function openRenameModal(systemName, fractionName = '', modelName = '') {
+  function openRenameModal(systemName, systemId, fractionName = '', modelName = '') {
     showRenameModal.value = true
 
     fieldInfo.system.title = systemName
+    fieldInfo.system.id = systemId
     fieldInfo.fraction.title = fractionName
     fieldInfo.model.title = modelName
 
@@ -192,15 +215,23 @@ export const useAdminGalleryStore = defineStore('adminGalleryStore', () => {
       fieldInfo.model.toChange = true
       elementToRename.value = 'model'
     }
-
-    console.log(fieldInfo)
   }
 
   function closeRenameModal() {
     showRenameModal.value = false
+    newName.value = ''
+    fieldInfo.system.title = ''
+    fieldInfo.system.id = ''
+    fieldInfo.fraction.title = ''
+    fieldInfo.model.title = ''
+    fieldInfo.system.toChange = false
+    fieldInfo.fraction.toChange = false
+    fieldInfo.model.toChange = false
   }
 
   async function submitRename() {
+    if (newName.value === '') return
+
     if (fieldInfo.system.toChange) {
       await renameSystem()
     } else if (fieldInfo.fraction.toChange) {
@@ -209,38 +240,175 @@ export const useAdminGalleryStore = defineStore('adminGalleryStore', () => {
       await renameModel()
     }
 
-    showRenameModal.value = false
+    closeRenameModal()
   }
 
-  // Update functions
+  //  --- Update functions ---
+
+  //   Update system name
 
   async function renameSystem() {
-    const systemNameRef = doc(db, 'systems', fieldInfo.system.title)
+    const systemNameRef = doc(db, 'systems', fieldInfo.system.id)
     try {
       await updateDoc(systemNameRef, { system: newName.value })
     } catch (err) {
       console.error(err)
     }
   }
+
+  //   Update fraction name
+
   async function renameFraction() {
-    const fractionNameRef = doc(db, 'systems', fieldInfo.fraction.title)
+    const fractionsNameRef = doc(db, 'systems', fieldInfo.system.id)
 
     try {
-      const fractionNameRef = getDoc(fractionNameRef)
+      const fractionsNameSnap = await getDoc(fractionsNameRef)
+      if (fractionsNameSnap.exists()) {
+        const fractionsNameData = fractionsNameSnap.data().fractions
+        const fractionsIndex = fractionsNameData.findIndex(
+          (fraction) => fraction.fraction === fieldInfo.fraction.title
+        )
+
+        if (fractionsIndex !== -1) {
+          fractionsNameData[fractionsIndex].fraction = newName.value
+          await updateDoc(fractionsNameRef, { fractions: fractionsNameData })
+        } else {
+          console.log('Document does not exist')
+        }
+      }
     } catch (err) {
       console.error(err)
     }
   }
-  async function renameModel(systemName, fractionName, modelName) {
-    // const modelsNameRef = doc(db, 'systems', systemName)
 
-    console.log(systemName, fractionName, modelName)
+  //   Update model name
+  async function renameModel() {
+    const modelsNameRef = doc(db, 'systems', fieldInfo.system.id)
+
+    try {
+      const modelsNameSnap = await getDoc(modelsNameRef)
+
+      if (modelsNameSnap.exists()) {
+        const fractionsNameData = modelsNameSnap.data().fractions
+        const fractionsIndex = fractionsNameData.findIndex(
+          (fraction) => fraction.fraction === fieldInfo.fraction.title
+        )
+
+        if (fractionsIndex !== -1) {
+          const modelsIndex = fractionsNameData[fractionsIndex].images.findIndex(
+            (model) => model.model === fieldInfo.model.title
+          )
+
+          if (modelsIndex !== -1) {
+            fractionsNameData[fractionsIndex].images[modelsIndex].model = newName.value
+
+            await updateDoc(modelsNameRef, {
+              fractions: fractionsNameData
+            })
+          } else {
+            console.log('Model does not exist')
+          }
+        } else {
+          console.log('Fraction does not exist')
+        }
+      } else {
+        console.log('Document does not exist')
+      }
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  //   Update image
+
+  const showUpdateImageModal = ref(false)
+
+  function openUpdateImageModal(systemName, systemId, fractionName, modelName, modelUrl) {
+    showUpdateImageModal.value = true
+
+    fieldInfo.system.title = systemName
+    fieldInfo.system.id = systemId
+    fieldInfo.fraction.title = fractionName
+    fieldInfo.model.title = modelName
+    fieldInfo.model.url = modelUrl
+  }
+
+  function closeUpdateImageModal() {
+    showUpdateImageModal.value = false
+    fieldInfo.system.title = ''
+    fieldInfo.system.id = ''
+    fieldInfo.fraction.title = ''
+    fieldInfo.model.title = ''
+    fieldInfo.model.url = ''
+  }
+
+  async function uploadNewImage(newImageRef) {
+    const galleryStorageRef = fref(storageRef, 'gallery')
+    const modelStorageRef = fref(
+      galleryStorageRef,
+      `${fieldInfo.system.id}/${fieldInfo.fraction.title}/${fieldInfo.model.title}`
+    )
+
+    try {
+      await uploadBytes(modelStorageRef, newImageRef.value.files[0])
+      await getDownloadURL(modelStorageRef).then((url) => {
+        fieldInfo.model.url = url
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  async function submitUpdateImage(newImageRef) {
+    try {
+      await adminStore.deleteImg(
+        fieldInfo.system.id,
+        fieldInfo.fraction.title,
+        fieldInfo.model.title
+      )
+
+      //   await uploadNewImage(newImageRef)
+
+      //   const modelsNameRef = doc(db, 'systems', fieldInfo.system.id)
+
+      //   const modelsNameSnap = await getDoc(modelsNameRef)
+
+      //   if (modelsNameSnap.exists()) {
+      //     const fractionsNameData = modelsNameSnap.data().fractions
+      //     const fractionsIndex = fractionsNameData.findIndex(
+      //       (fraction) => fraction.fraction === fieldInfo.fraction.title
+      //     )
+
+      //     if (fractionsIndex !== -1) {
+      //       const modelsIndex = fractionsNameData[fractionsIndex].images.findIndex(
+      //         (model) => model.model === fieldInfo.model.title
+      //       )
+
+      //       if (modelsIndex !== -1) {
+      //         fractionsNameData[fractionsIndex].images[modelsIndex].img = fieldInfo.model.url
+
+      //         await updateDoc(modelsNameRef, {
+      //           fractions: fractionsNameData
+      //         })
+      //       } else {
+      //         console.log('Model does not exist')
+      //       }
+      //     } else {
+      //       console.log('Fraction does not exist')
+      //     }
+      //   } else {
+      //     console.log('Document does not exist')
+      //   }
+
+      //   closeUpdateImageModal()
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   return {
     // Modal
     isInAdminPanel,
-    showRenameModal,
     closeRenameModal,
     openRenameModal,
     // Delete
@@ -255,9 +423,15 @@ export const useAdminGalleryStore = defineStore('adminGalleryStore', () => {
     // Rename
     newName,
     elementToRename,
+    showRenameModal,
     renameSystem,
     renameFraction,
     renameModel,
-    submitRename
+    submitRename,
+    // Update image
+    showUpdateImageModal,
+    openUpdateImageModal,
+    closeUpdateImageModal,
+    submitUpdateImage
   }
 })

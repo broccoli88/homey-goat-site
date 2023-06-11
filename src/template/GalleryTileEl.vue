@@ -8,7 +8,7 @@ import { storeToRefs } from 'pinia'
 import { ref, onMounted } from 'vue'
 
 const props = defineProps(['model', 'set'])
-const emits = defineEmits(['delete', 'rename'])
+const emits = defineEmits(['delete', 'rename', 'update-image'])
 
 const galleryStore = useGalleryStore()
 const { currentModel, currentFraction } = storeToRefs(galleryStore)
@@ -54,6 +54,11 @@ const emitDelete = () => {
 
 const emitUpdateName = () => {
   emits('rename')
+}
+// Updating imdage
+
+const emitUpdateImage = () => {
+  emits('update-image')
 }
 </script>
 
@@ -177,7 +182,9 @@ const emitUpdateName = () => {
                   class="btn--small btn--outline-white btn--slide-white"
                   >Rename</ButtonEl
                 >
-                <ButtonEl class="btn--small btn--outline-white btn--slide-white"
+                <ButtonEl
+                  @click="emitUpdateImage"
+                  class="btn--small btn--outline-white btn--slide-white"
                   >Update Image</ButtonEl
                 >
                 <ButtonEl @click="emitDelete" class="btn--small btn--outline-white btn--slide-white"
