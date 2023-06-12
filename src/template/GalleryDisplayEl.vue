@@ -29,7 +29,6 @@ const displaySystem = computed(() => {
         <h2>{{ system }}</h2>
         <FadeTransition>
           <GalleryOptionsWindowEl
-            @rename="adminGalleryStore.openRenameModal(system, id)"
             @delete="adminGalleryStore.openDeleteModal(system, id)"
             class="display-system-icon"
           />
@@ -44,15 +43,12 @@ const displaySystem = computed(() => {
           <div class="gallery__fraction-title">
             <h3>{{ fraction }}</h3>
             <GalleryOptionsWindowEl
-              @rename="adminGalleryStore.openRenameModal(system, id, fraction)"
               @delete="adminGalleryStore.openDeleteModal(system, id, fraction)"
               class="display-fraction-icon"
             />
           </div>
 
           <GalleryTileEl
-            @rename="adminGalleryStore.openRenameModal(system, id, fraction, model)"
-            @update-image="adminGalleryStore.openUpdateImageModal(system, id, fraction, model, img)"
             @delete="adminGalleryStore.openDeleteModal(system, id, fraction, model)"
             v-for="{ model, img } in images"
             :key="model"

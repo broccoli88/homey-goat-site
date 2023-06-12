@@ -4,7 +4,6 @@ import TeamView from '../views/TeamView.vue'
 import GalleryView from '../views/GalleryView.vue'
 import ContactView from '../views/ContactView.vue'
 import OfferView from '../views/OfferView.vue'
-import BlogView from '../views/BlogView.vue'
 import AdminLoginView from '../views/AdminLoginView.vue'
 import AdminPanelView from '../views/AdminPanelView.vue'
 import AdminPanelMessageView from '../views/AdminPanelMessageView.vue'
@@ -40,11 +39,6 @@ const router = createRouter({
       path: '/offer',
       name: 'offer',
       component: OfferView
-    },
-    {
-      path: '/blog',
-      name: 'blog',
-      component: BlogView
     },
     {
       path: '/admin-login',

@@ -49,17 +49,6 @@ function closeOptionsOnLeave() {
 const emitDelete = () => {
   emits('delete')
 }
-
-// Updating models name
-
-const emitUpdateName = () => {
-  emits('rename')
-}
-// Updating imdage
-
-const emitUpdateImage = () => {
-  emits('update-image')
-}
 </script>
 
 <template>
@@ -177,16 +166,6 @@ const emitUpdateImage = () => {
                 </g>
               </svg>
               <div class="image__options-btns">
-                <ButtonEl
-                  @click="emitUpdateName"
-                  class="btn--small btn--outline-white btn--slide-white"
-                  >Rename</ButtonEl
-                >
-                <ButtonEl
-                  @click="emitUpdateImage"
-                  class="btn--small btn--outline-white btn--slide-white"
-                  >Update Image</ButtonEl
-                >
                 <ButtonEl @click="emitDelete" class="btn--small btn--outline-white btn--slide-white"
                   >Delete</ButtonEl
                 >
