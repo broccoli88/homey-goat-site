@@ -246,6 +246,12 @@ header {
               }
             }
           }
+          .invisible {
+            display: none;
+          }
+          .visible {
+            display: initial;
+          }
         }
       }
     }

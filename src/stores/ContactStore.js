@@ -91,7 +91,7 @@ export const useContactStore = defineStore('contactStore', () => {
   async function handleQuestionForm() {
     const isFormCorrect = await v1.value.$validate()
 
-    if (isFormCorrect === false) return
+    if (!isFormCorrect) return
 
     await createMessage(questionState)
     questionState.firstName = ''

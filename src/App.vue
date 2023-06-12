@@ -6,8 +6,12 @@ import { RouterView } from 'vue-router'
 import { useRoute } from 'vue-router'
 import { useAdminGalleryStore } from './stores/AdminGalleryStore'
 import { useAdminStore } from './stores/AdminStore'
+import { useLoginStore } from './stores/LoginStore'
 import { storeToRefs } from 'pinia'
 import { computed, watch } from 'vue'
+
+const loginStore = useLoginStore()
+loginStore.fetchUser()
 
 const adminStore = useAdminStore()
 adminStore.getSystems()
