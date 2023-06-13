@@ -14,52 +14,43 @@ const { v, loginState } = storeToRefs(loginStore)
       <LogoEl class="login__logo" />
       <h1 class="login__heading">Admin Login</h1>
       <article class="login__panel">
-        <form class="login__form" @submit.prevent="loginStore.handleLogIn">
+        <form class="login__form" @submit.prevent="loginStore.logIn">
           <section class="login__section">
             <input
-              v-model="loginState.username"
-              @blur="v.username.$touch"
+              v-model="loginState.email"
+              @blur="v.email.$touch"
               class="login__input"
-              placeholder="Username..."
-              type="text"
-              id="username"
+              placeholder="Email..."
+              type="email"
+              id="email"
             />
-            <label for="username">Username</label>
-            <p v-if="v.username.$error" class="error">{{ v.username.$errors[0].$message }}</p>
+            <label for="email">Email</label>
+            <p v-if="v.email.$error" class="error">{{ v.email.$errors[0].$message }}</p>
           </section>
           <section class="login__section">
             <input
-              v-model="loginState.password.password"
-              @blur="v.password.password.$touch"
+              v-model="loginState.password"
+              @blur="v.password.$touch"
               class="login__input"
               placeholder="Password..."
               type="password"
               id="password"
             />
             <label for="password">Password</label>
-            <p v-if="v.password.password.$error" class="error">
-              {{ v.password.password.$errors[0].$message }}
+            <p v-if="v.password.$error" class="error">
+              {{ v.password.$errors[0].$message }}
             </p>
           </section>
-          <section class="login__section">
-            <input
-              v-model="loginState.password.confirmPassword"
-              @blur="v.password.confirmPassword.$touch"
-              class="login__input"
-              placeholder="Repeat password..."
-              type="password"
-              id="repeat-password"
-              ref="password"
-            />
-            <label for="repeat-password">Repeat password</label>
-            <p v-if="v.password.confirmPassword.$error" class="error">
-              {{ v.password.confirmPassword.$errors[0].$message }}
-            </p>
-          </section>
-          <ButtonEl type="submit" class="form__btn btn--medium btn--outline-black btn--slide-black">
+
+          <ButtonEl class="form__btn btn--medium btn--outline-black btn--slide-black">
             Log In
           </ButtonEl>
         </form>
+        <ButtonEl
+          @click="loginStore.goBack"
+          class="btn-back btn--medium btn--outline-black btn--slide-black"
+          >Go Back</ButtonEl
+        >
       </article>
     </section>
   </main>
@@ -86,7 +77,8 @@ const { v, loginState } = storeToRefs(loginStore)
 
   .login__panel {
     margin-inline: auto;
-    width: min(60ch, 80%);
+    width: min(50ch, 80%);
+    display: grid;
 
     .login__form {
       @include form;
@@ -105,6 +97,11 @@ const { v, loginState } = storeToRefs(loginStore)
         margin-top: 3rem;
       }
     }
+  }
+
+  .btn-back {
+    justify-self: stretch;
+    margin-top: 1rem;
   }
 }
 </style>

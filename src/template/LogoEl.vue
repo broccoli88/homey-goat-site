@@ -19,7 +19,7 @@
   }
 
   .logo__img {
-    width: clamp(5rem, 1rem + 5vw, 8rem);
+    width: clamp(3rem, 1rem + 4vw, 6rem);
     transition: $transition-04;
   }
 
@@ -27,7 +27,7 @@
     line-height: 1;
 
     .logo__brand {
-      font-size: clamp(1.5rem, 1rem + 1.2vw, 2.5rem);
+      font-size: clamp(1.5rem, 1rem + 1.3vw, 2rem);
       font-weight: 700;
       letter-spacing: 0.8px;
       text-transform: uppercase;

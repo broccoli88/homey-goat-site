@@ -1,11 +1,11 @@
 <script setup>
 import ButtonEl from './ButtonEl.vue'
 import FadeScaleIconTransition from '../utils/transitions/FadeScaleIconTransition.vue'
-import { useAdminStore } from '../stores/AdminStore'
+import { useContactStore } from '../stores/ContactStore'
 import { computed, ref } from 'vue'
 
 const props = defineProps(['message'])
-const adminStore = useAdminStore()
+const contactStore = useContactStore()
 
 const isMessage = computed(() => {
   return props.message.type === 'message'
@@ -14,6 +14,10 @@ const isMessage = computed(() => {
 const showMessage = ref(false)
 const toggleMessage = () => {
   showMessage.value = !showMessage.value
+
+  if (!showMessage.value) {
+    contactStore.checkIfMessageWasRead(props.message.id, props.message.checked)
+  }
 }
 </script>
 
@@ -72,7 +76,7 @@ const toggleMessage = () => {
           {{ message.message }}
         </p>
         <ButtonEl
-          @click="adminStore.deleteMessage(message.id)"
+          @click="contactStore.deleteMessage(message.id)"
           class="messages__btn btn--small btn--outline-black btn--slide-black"
         >
           Delete
@@ -87,7 +91,7 @@ const toggleMessage = () => {
         <p class="messages__content">Service: {{ message.service }}</p>
         <p class="messages__content font-size">{{ message.message }}</p>
         <ButtonEl
-          @click="adminStore.deleteMessage(message.id)"
+          @click="contactStore.deleteMessage(message.id)"
           class="messages__btn btn--small btn--outline-black btn--slide-black"
         >
           Delete

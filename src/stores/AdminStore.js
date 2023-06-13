@@ -7,7 +7,6 @@ import {
   query,
   onSnapshot,
   doc,
-  deleteDoc,
   arrayUnion,
   getDoc,
   setDoc,
@@ -17,6 +16,8 @@ import { storageRef } from '../firebase/db'
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage'
 import { useVuelidate } from '@vuelidate/core'
 import { required, helpers } from '@vuelidate/validators'
+
+// Add Img validation
 
 export const useAdminStore = defineStore('adminStore', () => {
   const modelObj = reactive({
@@ -64,25 +65,6 @@ export const useAdminStore = defineStore('adminStore', () => {
       isMobileView.value = true
     }
   })
-
-  // ...::: [ ADMIN PANEL - MESSAGES] :::...
-
-  let messages = vref([])
-
-  async function getMessages() {
-    const m = query(collection(db, 'messages'))
-    onSnapshot(m, (snap) => {
-      messages.value = []
-      snap.forEach((doc) => {
-        messages.value.push({ ...doc.data(), id: doc.id })
-      })
-    })
-  }
-
-  async function deleteMessage(id) {
-    const docRef = doc(db, 'messages', id)
-    await deleteDoc(docRef)
-  }
 
   // ...::: [ ADMIN PANEL - GALLERY] :::...
 
@@ -263,7 +245,7 @@ export const useAdminStore = defineStore('adminStore', () => {
 
   return {
     isMobileView,
-    messages,
+
     modelObj,
     showModal,
     systems,
@@ -273,8 +255,6 @@ export const useAdminStore = defineStore('adminStore', () => {
     switchGallery,
     data,
     v,
-    getMessages,
-    deleteMessage,
     uploadData,
     closeModal,
     getSystems,

@@ -3,7 +3,15 @@ import { useModal } from '../utils/modules/useModal.js'
 import { useVuelidate } from '@vuelidate/core'
 import { required, email, minLength, maxLength, helpers } from '@vuelidate/validators'
 import { db } from '../firebase/db'
-import { collection, addDoc } from 'firebase/firestore'
+import {
+  collection,
+  addDoc,
+  onSnapshot,
+  deleteDoc,
+  doc,
+  query,
+  updateDoc
+} from 'firebase/firestore'
 import { ref, reactive } from 'vue'
 
 export const useContactStore = defineStore('contactStore', () => {
@@ -79,6 +87,7 @@ export const useContactStore = defineStore('contactStore', () => {
 
   const questionState = reactive({
     type: 'message',
+    checked: false,
     firstName: '',
     lastName: '',
     email: '',
@@ -91,7 +100,7 @@ export const useContactStore = defineStore('contactStore', () => {
   async function handleQuestionForm() {
     const isFormCorrect = await v1.value.$validate()
 
-    if (isFormCorrect === false) return
+    if (!isFormCorrect) return
 
     await createMessage(questionState)
     questionState.firstName = ''
@@ -109,6 +118,7 @@ export const useContactStore = defineStore('contactStore', () => {
 
   const quoteState = reactive({
     type: 'quote',
+    checked: false,
     firstName: '',
     lastName: '',
     email: '',
@@ -183,6 +193,41 @@ export const useContactStore = defineStore('contactStore', () => {
     showModal.value = true
   }
 
+  // ...::: [ ADMIN PANEL - MESSAGES] :::...
+
+  let messages = ref([])
+
+  async function getMessages() {
+    const m = query(collection(db, 'messages'))
+    onSnapshot(m, (snap) => {
+      messages.value = []
+      snap.forEach((doc) => {
+        messages.value.push({ ...doc.data(), id: doc.id })
+      })
+    })
+  }
+
+  async function deleteMessage(id) {
+    const docRef = doc(db, 'messages', id)
+    await deleteDoc(docRef)
+  }
+
+  //   Check if message was read
+
+  async function checkIfMessageWasRead(id, checked) {
+    const messageRef = doc(db, 'messages', id)
+
+    try {
+      if (!checked) {
+        await setTimeout(() => {
+          updateDoc(messageRef, { checked: true })
+        }, 500)
+      } else return
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   return {
     questionForm,
     questionState,
@@ -190,10 +235,14 @@ export const useContactStore = defineStore('contactStore', () => {
     v1,
     v2,
     showModal,
+    messages,
     switchToQuestionForm,
     switchToQuoteForm,
     handleQuestionForm,
     handleQuoteForm,
-    closeModal
+    closeModal,
+    checkIfMessageWasRead,
+    getMessages,
+    deleteMessage
   }
 })

@@ -1,7 +1,9 @@
 <script setup></script>
 
 <template>
-  <section class="admin-blog"></section>
+  <main>
+    <h1>Pagae Not Found</h1>
+  </main>
 </template>
 
 <style lang="scss" scoped></style>

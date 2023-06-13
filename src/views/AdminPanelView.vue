@@ -4,6 +4,9 @@ import FadeTransition from '../utils/transitions/FadeTransition.vue'
 import { RouterView } from 'vue-router'
 import { useAdminStore } from '../stores/AdminStore'
 import { storeToRefs } from 'pinia'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
 
 const adminStore = useAdminStore()
 const { isMobileView } = storeToRefs(adminStore)
@@ -13,7 +16,7 @@ const { isMobileView } = storeToRefs(adminStore)
   <main class="panel" v-if="!isMobileView">
     <AdminNav />
     <section class="panel__section">
-      <h1 class="panel__heading">Admin Panel</h1>
+      <h1 class="panel__heading">{{ route.name }}</h1>
       <router-view v-slot="{ Component }">
         <FadeTransition>
           <component :is="Component" />

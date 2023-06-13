@@ -55,7 +55,6 @@ const displaySystem = computed(() => {
             :model="img"
             :set="images"
           >
-            <p>{{ model }}</p>
           </GalleryTileEl>
         </section>
       </div>
@@ -66,6 +65,10 @@ const displaySystem = computed(() => {
 <style lang="scss" scoped>
 .gallery {
   margin-block: 2vw;
+  background-color: $color-gray-lighter;
+  padding: 3rem 2rem;
+  //   box-shadow: $box-shadow-5;
+  box-shadow: 4px 5px 15px 1px hsl(0, 0%, 0%, 0.15);
 
   .gallery__fraction-title,
   .gallery__header {
@@ -76,6 +79,10 @@ const displaySystem = computed(() => {
     .display-fraction-icon {
       opacity: 0;
       transition: $transition-04;
+    }
+
+    h2 {
+      @include heading-underline-purple;
     }
 
     &:hover {

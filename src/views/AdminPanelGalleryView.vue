@@ -4,8 +4,6 @@ import { RouterView } from 'vue-router'
 
 <template>
   <section class="admin-gallery">
-    <h2>Gallery</h2>
-
     <RouterView />
   </section>
 </template>

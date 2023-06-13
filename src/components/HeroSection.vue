@@ -18,10 +18,10 @@ const btnLink2 = ref('/gallery')
         voluptate ullam incidunt aperiam!
       </p>
       <div class="hero__btns">
-        <ButtonLinkEl :btn-link="btnLink" class="btn--medium btn--gray btn--slide-black"
+        <ButtonLinkEl :btn-link="btnLink" class="btn--link btn--medium btn--gray btn--slide-black"
           >Ask for quote</ButtonLinkEl
         >
-        <ButtonLinkEl :btn-link="btnLink2" class="btn--medium btn--gray btn--slide-black">
+        <ButtonLinkEl :btn-link="btnLink2" class="btn--link btn--medium btn--gray btn--slide-black">
           Gallery
         </ButtonLinkEl>
       </div>
@@ -32,16 +32,17 @@ const btnLink2 = ref('/gallery')
 <style lang="scss" scoped>
 .hero {
   @include section-single-col;
-  min-height: 100vh;
-  min-height: 100dvh;
+  min-height: 130vh;
+  min-height: 130dvh;
   place-items: center;
 
   color: $color-gray-lighter;
+  background-color: $color-black;
 
-  background-image: url('/images/battle.webp');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
+  //   background-image: url('/images/battle.webp');
+  //   background-size: cover;
+  //   background-repeat: no-repeat;
+  //   background-position: center;
 
   position: relative;
   isolation: isolate;
@@ -54,13 +55,13 @@ const btnLink2 = ref('/gallery')
     z-index: -1;
     opacity: 0.8;
 
-    background-image: linear-gradient(
-      135deg,
-      hsl(0, 0%, 0%),
-      hsl(0, 0%, 25%),
-      hsl(0, 0%, 60%),
-      transparent 96%
-    );
+    //     background-image: linear-gradient(
+    //       135deg,
+    //       hsl(0, 0%, 0%),
+    //       hsl(0, 0%, 25%),
+    //       hsl(0, 0%, 60%),
+    //       transparent 96%
+    //     );
   }
 
   .hero__description {
