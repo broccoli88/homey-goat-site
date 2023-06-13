@@ -8,13 +8,23 @@ import { useAdminGalleryStore } from './stores/AdminGalleryStore'
 import { useAdminStore } from './stores/AdminStore'
 import { useLoginStore } from './stores/LoginStore'
 import { storeToRefs } from 'pinia'
-import { computed, watch } from 'vue'
+import { computed, watch, onMounted, ref } from 'vue'
 
 const loginStore = useLoginStore()
-loginStore.fetchUser()
 
 const adminStore = useAdminStore()
 adminStore.getSystems()
+
+const showAdminLogin = ref(false)
+
+onMounted(() => {
+  window.addEventListener('keydown', (e) => {
+    if (e.ctrlKey && e.key === 'k') {
+      showAdminLogin.value = !showAdminLogin.value
+    }
+  })
+  loginStore.fetchUser()
+})
 
 const route = useRoute()
 const adminGalleryStore = useAdminGalleryStore()
@@ -47,7 +57,7 @@ watch(
     </FadeTransition>
   </RouterView>
   <FadeTransition>
-    <FooTer v-if="!currentRoute" />
+    <FooTer v-if="!currentRoute" :admin-login="showAdminLogin" />
   </FadeTransition>
 </template>
 

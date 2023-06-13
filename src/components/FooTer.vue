@@ -1,8 +1,10 @@
 <script setup>
 import LinksData from '../data/links.json'
 import LogoEl from '../template/LogoEl.vue'
-
+import FadeTransition from '../utils/transitions/FadeTransition.vue'
 import { ref } from 'vue'
+
+defineProps(['adminLogin'])
 
 const links = ref(LinksData.links)
 </script>
@@ -37,6 +39,47 @@ const links = ref(LinksData.links)
         <router-link :to="value.path" class="footer__link">{{ value.name }}</router-link>
       </li>
     </ul>
+    <FadeTransition>
+      <router-link to="/admin-panel" class="admin-panel-login" v-if="adminLogin">
+        <svg
+          height="100%"
+          stroke-miterlimit="10"
+          style="
+            fill-rule: nonzero;
+            clip-rule: evenodd;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+          "
+          version="1.1"
+          viewBox="0 0 21.5 21.5"
+          width="100%"
+          xml:space="preserve"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+        >
+          <defs />
+          <g id="User">
+            <path
+              d="M20.75 10.75C20.75 15.464 20.75 17.821 19.285 19.285C17.822 20.75 15.464 20.75 10.75 20.75C6.036 20.75 3.679 20.75 2.214 19.285C0.75 17.822 0.75 15.464 0.75 10.75C0.75 6.036 0.75 3.679 2.214 2.214C3.68 0.75 6.036 0.75 10.75 0.75C15.464 0.75 17.821 0.75 19.285 2.214C20.259 3.188 20.585 4.557 20.695 6.75"
+              fill="none"
+              opacity="1"
+              stroke="#666"
+              stroke-linecap="round"
+              stroke-linejoin="miter"
+              stroke-width="1.5"
+            />
+            <path
+              d="M10.539 4.08276C12.0053 4.08276 13.194 5.27143 13.194 6.73772C13.194 8.20401 12.0053 9.39268 10.539 9.39268C9.07275 9.39268 7.88409 8.20401 7.88409 6.73772C7.88409 5.27143 9.07275 4.08276 10.539 4.08276M10.539 3.02078C8.48623 3.02078 6.8221 4.68491 6.8221 6.73772C6.8221 8.79053 8.48623 10.4547 10.539 10.4547C12.5919 10.4547 14.256 8.79053 14.256 6.73772C14.256 4.68491 12.5919 3.02078 10.539 3.02078ZM15.849 17.8885L14.787 17.8885L14.787 15.2336C14.787 13.7673 13.5983 12.5786 12.132 12.5786L8.94607 12.5786C7.47978 12.5786 6.29111 13.7673 6.29111 15.2336L6.29111 17.8885L5.22913 17.8885L5.22913 15.2336C5.22913 13.1808 6.89326 11.5166 8.94607 11.5166L12.132 11.5166C14.1848 11.5166 15.849 13.1808 15.849 15.2336L15.849 17.8885Z"
+              fill="#666"
+              fill-rule="nonzero"
+              opacity="1"
+              stroke="none"
+            />
+          </g>
+        </svg>
+        <p>Admin panel login</p>
+      </router-link>
+    </FadeTransition>
     <section class="maker">
       <p>Made by</p>
       <a href="https://paweljaromin.io/" class="maker__link">
@@ -124,27 +167,53 @@ const links = ref(LinksData.links)
       }
     }
   }
+
   .footer__list {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 1vw;
+  }
 
-    .footer__link {
-      font-size: clamp(1.1rem, 1rem + 0.3vw, 1.6rem);
-      text-transform: uppercase;
-      color: $color-font-light;
-      padding: 0.2rem 0.3rem 0rem;
-      transition: $transition-04;
+  .footer__link,
+  .admin-panel-login {
+    font-size: clamp(1.1rem, 1rem + 0.3vw, 1.6rem);
+    text-transform: uppercase;
+    color: $color-font-light;
+    padding: 0.2rem 0.3rem 0rem;
+    transition: $transition-04;
 
-      @include breakpoint {
-        font-weight: 600;
-      }
+    @include breakpoint {
+      font-weight: 600;
+    }
 
-      &:hover,
-      &:focus {
-        color: $color-black;
-        outline: none;
+    &:hover,
+    &:focus {
+      color: $color-black;
+      outline: none;
+    }
+  }
+
+  .admin-panel-login {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    svg {
+      align-self: baseline;
+      width: clamp(1.1rem, 1rem + 0.7vw, 1.8rem);
+      height: clamp(1.1rem, 1rem + 0.7vw, 1.8rem);
+    }
+
+    &:hover,
+    &:focus {
+      svg {
+        path:nth-of-type(1) {
+          stroke: $color-black;
+        }
+        path:nth-of-type(2) {
+          fill: $color-black;
+        }
       }
     }
   }

@@ -46,6 +46,8 @@ export const useLoginStore = defineStore('loginStore', () => {
       await setPersistence(auth, browserSessionPersistence)
       await signInWithEmailAndPassword(auth, loginState.email, loginState.password)
 
+      fetchUser()
+
       router.push('/admin-panel')
       loginState.email = ''
       loginState.password = ''

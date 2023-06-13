@@ -7,6 +7,12 @@
 </template>
 
 <style lang="scss">
+.btn--link {
+  a {
+    color: inherit;
+  }
+}
+
 // Sizes
 
 .btn--small {

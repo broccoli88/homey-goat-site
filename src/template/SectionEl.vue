@@ -20,7 +20,7 @@ const classCheck = computed(() => {
       <p><slot name="description"></slot></p>
       <ButtonLinkEl
         :btn-link="props.btnLink"
-        class="btn--medium btn--gray btn--slide-black"
+        class="btn--link btn--medium btn--gray btn--slide-black"
         :class="classCheck ? 'btn--white' : 'btn--gray'"
       >
         <slot name="button"></slot>

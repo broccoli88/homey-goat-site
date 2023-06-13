@@ -22,8 +22,8 @@ const { data, systemBtns, currentSystem, switchGallery } = storeToRefs(adminStor
         :class="currentSystem === system ? 'active' : ''"
         @click="adminStore.chooseSystem(system)"
       >
-        {{ system }}</ButtonEl
-      >
+        {{ system }}
+      </ButtonEl>
     </section>
 
     <section class="gallery-container" v-if="data.length > 0">
@@ -54,7 +54,7 @@ main {
   }
 
   .gallery-container {
-    margin: $margin-admin;
+    //     margin: $margin-admin;
   }
 }
 .active {

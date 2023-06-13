@@ -94,7 +94,7 @@ const loginStore = useLoginStore()
   height: 100dvh;
   padding-block: 4rem;
   background-color: $color-gray-lighter;
-  box-shadow: $box-shadow-5;
+  box-shadow: $box-shadow-10;
 
   .logo {
     // filter: invert(1);
