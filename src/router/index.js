@@ -35,39 +35,39 @@ const router = createRouter({
     },
     {
       path: '/admin-panel',
-      name: 'admin-panel',
+      name: 'admin panel',
       component: () => import('../views/AdminPanelView.vue'),
 
       meta: { requiresAuth: true },
-      beforeEnter: async (to, from, next) => {
-        if (to.path.includes('/admin-panel') && !auth.currentUser) {
-          next('/admin-login')
-          return
-        } else {
-          next()
-        }
-      },
+      // beforeEnter: async (to, from, next) => {
+      //   if (to.path.includes('/admin-panel') && !auth.currentUser) {
+      //     next('/admin-login')
+      //     return
+      //   } else {
+      //     next()
+      //   }
+      // },
 
       children: [
         {
           path: '',
-          name: 'admin-messages',
+          name: 'messages',
           component: () => import('../views/AdminPanelMessageView.vue')
         },
         {
           path: 'add-img',
-          name: 'add-img',
+          name: 'add img',
           component: () => import('../views/AdminGalleryAddImgView.vue')
         },
         {
           path: 'manage-gallery',
-          name: 'manage-gallery',
+          name: 'manage gallery',
           component: () => import('../views/AdminGalleryManageImgView.vue')
         },
 
         {
           path: 'blog',
-          name: 'admin-blog',
+          name: 'blog',
           component: () => import('../views/AdminPanelBlogView.vue')
         }
       ]

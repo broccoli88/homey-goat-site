@@ -2,7 +2,15 @@
 import LogoEl from '../template/LogoEl.vue'
 import ButtonEl from '../template/ButtonEl.vue'
 import { useLoginStore } from '../stores/LoginStore'
+import { useRouter } from 'vue-router'
+import { computed } from 'vue'
 
+const router = useRouter()
+const childRoutes = computed(() => {
+  return router.options.routes.filter((route) => {
+    return route.name === 'admin panel'
+  })
+})
 const loginStore = useLoginStore()
 </script>
 
@@ -12,19 +20,10 @@ const loginStore = useLoginStore()
 
     <nav class="nav__nav">
       <ul class="nav__list">
-        <li class="nav__item">
-          <router-link to="/admin-panel" class="nav__link">Main</router-link>
-        </li>
-        <li class="nav__item">
-          <router-link to="/admin-panel/add-img" class="nav__link">Add Img</router-link>
-        </li>
-        <li class="nav__item">
-          <router-link to="/admin-panel/manage-gallery" class="nav__link"
-            >Manage Gallery</router-link
-          >
-        </li>
-        <li class="nav__item">
-          <router-link to="/admin-panel/blog" class="nav__link">Blog</router-link>
+        <li v-for="child in childRoutes[0].children" :key="child.path" class="nav__item">
+          <router-link :to="`/admin-panel/${child.path}`" class="nav__link"
+            >{{ child.name }}
+          </router-link>
         </li>
       </ul>
     </nav>
@@ -139,7 +138,6 @@ const loginStore = useLoginStore()
     padding: 1.5rem;
 
     height: min-content;
-    border-top: 1px solid black;
 
     .user {
       display: flex;
