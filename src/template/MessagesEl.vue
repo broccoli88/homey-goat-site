@@ -12,6 +12,7 @@ const isMessage = computed(() => {
 })
 
 const showMessage = ref(false)
+
 const toggleMessage = () => {
   showMessage.value = !showMessage.value
 
@@ -19,10 +20,15 @@ const toggleMessage = () => {
     contactStore.checkIfMessageWasRead(props.message.id, props.message.checked)
   }
 }
+
+const openDeleteMessgeModal = () => {
+  showMessage.value = false
+  contactStore.openDeleteMessgeModal(props.message.id)
+}
 </script>
 
 <template>
-  <section class="messages">
+  <li class="messages">
     <header
       class="messages__header"
       @click="toggleMessage"
@@ -76,7 +82,7 @@ const toggleMessage = () => {
           {{ message.message }}
         </p>
         <ButtonEl
-          @click="contactStore.deleteMessage(message.id)"
+          @click="openDeleteMessgeModal"
           class="messages__btn btn--small btn--outline-black btn--slide-black"
         >
           Delete
@@ -91,14 +97,14 @@ const toggleMessage = () => {
         <p class="messages__content">Service: {{ message.service }}</p>
         <p class="messages__content font-size">{{ message.message }}</p>
         <ButtonEl
-          @click="contactStore.deleteMessage(message.id)"
+          @click="openDeleteMessgeModal"
           class="messages__btn btn--small btn--outline-black btn--slide-black"
         >
           Delete
         </ButtonEl>
       </div>
     </article>
-  </section>
+  </li>
 </template>
 
 <style lang="scss" scoped>

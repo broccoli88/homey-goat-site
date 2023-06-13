@@ -4,6 +4,7 @@ import FadeTransition from '../utils/transitions/FadeTransition.vue'
 import { ref } from 'vue'
 import { useMemberStore } from '../stores/MemberStore'
 import { storeToRefs } from 'pinia'
+import ModalEl from '../template/ModalEl.vue'
 
 const memberStore = useMemberStore()
 const { member, showModal } = storeToRefs(memberStore)
@@ -14,34 +15,27 @@ const bio = ref()
   <Teleport to="#bio-modal">
     <FadeTransition>
       <section class="modal-container" ref="bio" v-if="showModal">
-        <article class="modal">
-          <section class="modal__header">
-            <h2 class="modal__name">{{ member.name }}</h2>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 256 256"
+        <ModalEl>
+          <template v-slot:heading>
+            <h2>{{ member.name }}</h2>
+          </template>
+          <template v-slot:description>
+            <section class="modal__bio">
+              <h3>{{ member.role }}</h3>
+              <p>
+                {{ member.bio }}
+              </p>
+            </section>
+          </template>
+          <template v-slot:button>
+            <ButtonEl
               @click="memberStore.toggleModal"
+              class="btn__bio btn--small btn--outline-black btn--slide-black"
             >
-              <path
-                fill="black"
-                d="M204.24 195.76a6 6 0 1 1-8.48 8.48L128 136.49l-67.76 67.75a6 6 0 0 1-8.48-8.48L119.51 128L51.76 60.24a6 6 0 0 1 8.48-8.48L128 119.51l67.76-67.75a6 6 0 0 1 8.48 8.48L136.49 128Z"
-              />
-            </svg>
-          </section>
-          <section class="modal__bio">
-            <h3>{{ member.role }}</h3>
-            <p class="modal__description">
-              {{ member.bio }}
-            </p>
-          </section>
-          <ButtonEl
-            @click="memberStore.toggleModal"
-            class="btn__bio btn--small btn--outline-black btn--slide-black"
-            >Close</ButtonEl
-          >
-        </article>
+              Close
+            </ButtonEl>
+          </template>
+        </ModalEl>
       </section>
     </FadeTransition>
   </Teleport>
@@ -52,14 +46,14 @@ const bio = ref()
   @include modal-container;
 
   .modal {
-    @include modal;
-
-    .modal__header {
-      @include modal-header;
-    }
+    width: min(80rem, 85vw);
 
     .modal__bio {
-      @include modal-description;
+      text-align: left;
+
+      h3 {
+        margin-bottom: 1rem;
+      }
     }
 
     .btn__bio {

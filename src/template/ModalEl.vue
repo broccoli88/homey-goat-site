@@ -3,9 +3,9 @@
 <template>
   <article class="modal">
     <header class="modal__header">
-      <h2 class="modal__heading">
-        <slot name="heading"></slot>
-      </h2>
+      <!-- <h2 class="modal__heading"> -->
+      <slot name="heading"></slot>
+      <!-- </h2> -->
     </header>
     <section class="modal__description">
       <slot name="description"> </slot>
@@ -25,7 +25,6 @@
 
   .modal__description {
     @include modal-description;
-    text-align: center;
   }
 }
 </style>

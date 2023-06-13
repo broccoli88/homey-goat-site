@@ -12,9 +12,11 @@ const adminStore = useAdminStore()
     <FadeTransition>
       <section class="modal-container" v-if="adminStore.showModal">
         <ModalEl class="contact-modal">
-          <template v-slot:heading>Img Uploaded</template>
+          <template v-slot:heading>
+            <h2>Img Uploaded</h2>
+          </template>
           <template v-slot:description>
-            <p>Stay tuned!</p>
+            <p>Image uploaded successfuly. Stay tuned!</p>
           </template>
           <template v-slot:button>
             <ButtonEl

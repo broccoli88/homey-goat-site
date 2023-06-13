@@ -2,33 +2,33 @@
 import ModalEl from '../template/ModalEl.vue'
 import ButtonEl from '../template/ButtonEl.vue'
 import FadeTransition from '../utils/transitions/FadeTransition.vue'
-import { useAdminGalleryStore } from '../stores/AdminGalleryStore'
+import { useContactStore } from '../stores/ContactStore'
 import { storeToRefs } from 'pinia'
 
-const adminGalleryStore = useAdminGalleryStore()
-const { showDeleteModal } = storeToRefs(adminGalleryStore)
+const contactStore = useContactStore()
+const { showDeleteMessageModal } = storeToRefs(contactStore)
 </script>
 
 <template>
-  <Teleport to="#admin-manage-delete-modal">
+  <Teleport to="#admin-messages-modal">
     <FadeTransition>
-      <div class="modal-container" v-if="showDeleteModal">
+      <div class="modal-container" v-if="showDeleteMessageModal">
         <ModalEl>
           <template v-slot:heading>
-            <h2>Delete Item?</h2>
+            <h2>Delete Message?</h2>
           </template>
           <template v-slot:description>
-            <p>Are you sure you want to delete this item?</p>
+            <p>Are you sure you want to delete this message?</p>
           </template>
           <template v-slot:button>
             <div class="btns">
               <ButtonEl
-                @click="adminGalleryStore.submitDelete"
+                @click="contactStore.deleteMessage()"
                 class="btn--small btn--outline-black btn--slide-black"
                 >Delete</ButtonEl
               >
               <ButtonEl
-                @click="adminGalleryStore.closeDeleteModal"
+                @click="contactStore.closeDeleteMessageModal"
                 class="btn--small btn--outline-black btn--slide-black"
                 >Cancel</ButtonEl
               >

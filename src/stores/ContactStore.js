@@ -195,7 +195,9 @@ export const useContactStore = defineStore('contactStore', () => {
 
   // ...::: [ ADMIN PANEL - MESSAGES] :::...
 
-  let messages = ref([])
+  const messages = ref([])
+  const messageId = ref('')
+  const showDeleteMessageModal = ref(false)
 
   async function getMessages() {
     const m = query(collection(db, 'messages'))
@@ -207,9 +209,21 @@ export const useContactStore = defineStore('contactStore', () => {
     })
   }
 
-  async function deleteMessage(id) {
-    const docRef = doc(db, 'messages', id)
+  function openDeleteMessgeModal(id) {
+    messageId.value = id
+    showDeleteMessageModal.value = true
+  }
+
+  function closeDeleteMessageModal() {
+    showDeleteMessageModal.value = false
+    messageId.value = ''
+  }
+
+  async function deleteMessage() {
+    const docRef = doc(db, 'messages', messageId.value)
     await deleteDoc(docRef)
+
+    closeDeleteMessageModal()
   }
 
   //   Check if message was read
@@ -219,7 +233,7 @@ export const useContactStore = defineStore('contactStore', () => {
 
     try {
       if (!checked) {
-        await setTimeout(() => {
+        setTimeout(() => {
           updateDoc(messageRef, { checked: true })
         }, 500)
       } else return
@@ -236,6 +250,8 @@ export const useContactStore = defineStore('contactStore', () => {
     v2,
     showModal,
     messages,
+    showDeleteMessageModal,
+
     switchToQuestionForm,
     switchToQuoteForm,
     handleQuestionForm,
@@ -243,6 +259,8 @@ export const useContactStore = defineStore('contactStore', () => {
     closeModal,
     checkIfMessageWasRead,
     getMessages,
-    deleteMessage
+    deleteMessage,
+    openDeleteMessgeModal,
+    closeDeleteMessageModal
   }
 })

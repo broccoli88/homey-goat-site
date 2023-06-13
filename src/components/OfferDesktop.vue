@@ -94,8 +94,8 @@ const changeSection = (section) => {
         color: $color-black;
 
         &::before {
-          left: 50%;
-          transform: translateX(-50%);
+          left: 10%;
+          //   transform: translateX(-50%);
           opacity: 1;
         }
       }

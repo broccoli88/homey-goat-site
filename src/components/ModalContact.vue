@@ -13,11 +13,12 @@ const { showModal } = storeToRefs(contactStore)
   <Teleport to="#contact-modal">
     <FadeTransition>
       <section class="modal-container" v-if="showModal">
-        <ModalEl class="contact-modal">
-          <template v-slot:heading>Message Submitted</template>
+        <ModalEl>
+          <template v-slot:heading>
+            <h2>Message Submitted</h2>
+          </template>
           <template v-slot:description>
-            <p>We will contact you within 2 working days.</p>
-            <p>Stay tuned!</p>
+            <p>We will contact you within 2 working days. Stay tuned !</p>
           </template>
           <template v-slot:button>
             <ButtonEl
