@@ -1,12 +1,10 @@
 <script setup>
+import ButtonEl from '../template/ButtonEl.vue'
 import SingleColEl from '../template/SingleColEl.vue'
-import { ref } from 'vue'
-
-const btnLink = ref('/contact')
 </script>
 
 <template>
-  <SingleColEl :btn-link="btnLink">
+  <SingleColEl>
     <template v-slot:heading>Have Any questions?</template>
     <template v-slot:fluff>Contact us!</template>
     <template v-slot:description>
@@ -15,7 +13,11 @@ const btnLink = ref('/contact')
       voluptatum incidunt sint. Magnam repellat eligendi qui iste sapiente, id voluptas, et
       obcaecati accusamus, debitis at nostrum!</template
     >
-    <template v-slot:button>Learn More</template>
+    <template v-slot:button>
+      <ButtonEl class="btn--link btn--medium btn--white btn--slide-black">
+        <router-link to="/contact"> Learn More </router-link>
+      </ButtonEl>
+    </template>
   </SingleColEl>
 </template>
 

@@ -1,9 +1,5 @@
 <script setup>
-import ButtonLinkEl from '../template/ButtonLinkEl.vue'
-import { ref } from 'vue'
-
-const btnLink = ref('/contact')
-const btnLink2 = ref('/gallery')
+import ButtonEl from '../template/ButtonEl.vue'
 </script>
 
 <template>
@@ -18,12 +14,12 @@ const btnLink2 = ref('/gallery')
         voluptate ullam incidunt aperiam!
       </p>
       <div class="hero__btns">
-        <ButtonLinkEl :btn-link="btnLink" class="btn--link btn--medium btn--gray btn--slide-black"
-          >Ask for quote</ButtonLinkEl
-        >
-        <ButtonLinkEl :btn-link="btnLink2" class="btn--link btn--medium btn--gray btn--slide-black">
-          Gallery
-        </ButtonLinkEl>
+        <ButtonEl class="btn--link btn--medium btn--gray btn--slide-black">
+          <router-link to="/contact">Ask for quote</router-link>
+        </ButtonEl>
+        <ButtonEl class="btn--link btn--medium btn--gray btn--slide-black">
+          <router-link to="/gallery"> Gallery </router-link>
+        </ButtonEl>
       </div>
     </article>
   </section>

@@ -185,7 +185,7 @@ export const useContactStore = defineStore('contactStore', () => {
     quoteState.email = ''
     quoteState.country = ''
     quoteState.modelSupply = ''
-    quoteState.service = ''
+    quoteState.service = []
     quoteState.message = ''
 
     v2.value.$reset()
@@ -195,7 +195,9 @@ export const useContactStore = defineStore('contactStore', () => {
 
   // ...::: [ ADMIN PANEL - MESSAGES] :::...
 
-  let messages = ref([])
+  const messages = ref([])
+  const messageId = ref('')
+  const showDeleteMessageModal = ref(false)
 
   async function getMessages() {
     const m = query(collection(db, 'messages'))
@@ -207,9 +209,21 @@ export const useContactStore = defineStore('contactStore', () => {
     })
   }
 
-  async function deleteMessage(id) {
-    const docRef = doc(db, 'messages', id)
+  function openDeleteMessgeModal(id) {
+    messageId.value = id
+    showDeleteMessageModal.value = true
+  }
+
+  function closeDeleteMessageModal() {
+    showDeleteMessageModal.value = false
+    messageId.value = ''
+  }
+
+  async function deleteMessage() {
+    const docRef = doc(db, 'messages', messageId.value)
     await deleteDoc(docRef)
+
+    closeDeleteMessageModal()
   }
 
   //   Check if message was read
@@ -219,14 +233,16 @@ export const useContactStore = defineStore('contactStore', () => {
 
     try {
       if (!checked) {
-        await setTimeout(() => {
-          updateDoc(messageRef, { checked: true })
-        }, 500)
+        setTimeout(async () => {
+          await updateDoc(messageRef, { checked: true })
+        }, 800)
       } else return
     } catch (err) {
       console.error(err)
     }
   }
+
+  useModal(showDeleteMessageModal)
 
   return {
     questionForm,
@@ -236,6 +252,8 @@ export const useContactStore = defineStore('contactStore', () => {
     v2,
     showModal,
     messages,
+    showDeleteMessageModal,
+
     switchToQuestionForm,
     switchToQuoteForm,
     handleQuestionForm,
@@ -243,6 +261,8 @@ export const useContactStore = defineStore('contactStore', () => {
     closeModal,
     checkIfMessageWasRead,
     getMessages,
-    deleteMessage
+    deleteMessage,
+    openDeleteMessgeModal,
+    closeDeleteMessageModal
   }
 })

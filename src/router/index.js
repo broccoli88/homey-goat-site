@@ -63,13 +63,13 @@ const router = createRouter({
           path: 'manage-gallery',
           name: 'manage gallery',
           component: () => import('../views/AdminGalleryManageImgView.vue')
-        },
-
-        {
-          path: 'blog',
-          name: 'blog',
-          component: () => import('../views/AdminPanelBlogView.vue')
         }
+
+        //   {
+        //     path: 'blog',
+        //     name: 'blog',
+        //     component: () => import('../views/AdminPanelBlogView.vue')
+        //   }
       ]
     },
     {

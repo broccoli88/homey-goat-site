@@ -23,7 +23,7 @@ const unwrapContent = () => {
           viewBox="0 0 24 24"
         >
           <g transform="rotate(270 12 12)">
-            <g fill="black">
+            <g fill="#666">
               <path
                 d="m14.829 14.828l1.414-1.414L12 9.172l-4.243 4.242l1.415 1.415L12 12l2.829 2.828Z"
               />
@@ -37,7 +37,7 @@ const unwrapContent = () => {
         </svg>
 
         <svg v-else xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-          <g fill="black">
+          <g fill="#666">
             <path
               d="m7.757 10.586l1.415-1.414L12 12l2.828-2.828l1.415 1.414L12 14.828l-4.243-4.242Z"
             />
@@ -77,6 +77,10 @@ const unwrapContent = () => {
     .aside__header-heading {
       @include heading-underline-black;
     }
+
+    g {
+      transition: $transition-04;
+    }
   }
   .aside__content {
     display: grid;
@@ -106,6 +110,9 @@ const unwrapContent = () => {
         transform: translateX(-50%);
         opacity: 1;
       }
+    }
+    g {
+      fill: $color-black;
     }
   }
 }

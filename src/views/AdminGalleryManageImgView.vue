@@ -12,9 +12,6 @@ const { data, systemBtns, currentSystem, switchGallery } = storeToRefs(adminStor
 
 <template>
   <section class="container">
-    <header class="manage-gallery__header">
-      <h3>Manage Gallery</h3>
-    </header>
     <section class="btns" v-if="systemBtns.length > 1">
       <ButtonEl
         v-for="system in systemBtns"

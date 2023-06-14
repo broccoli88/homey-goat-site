@@ -1,13 +1,8 @@
 <script setup>
-import ButtonLinkEl from './ButtonLinkEl.vue'
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 
-const props = defineProps(['imgLink', 'btnLink'])
+const props = defineProps(['imgLink'])
 const img = ref(props.imgLink)
-
-const classCheck = computed(() => {
-  return props.btnLink === '/contact' || props.btnLink === '/offer' ? true : false
-})
 </script>
 
 <template>
@@ -18,13 +13,8 @@ const classCheck = computed(() => {
         <slot name="heading"></slot>
       </h2>
       <p><slot name="description"></slot></p>
-      <ButtonLinkEl
-        :btn-link="props.btnLink"
-        class="btn--link btn--medium btn--gray btn--slide-black"
-        :class="classCheck ? 'btn--white' : 'btn--gray'"
-      >
-        <slot name="button"></slot>
-      </ButtonLinkEl>
+
+      <slot name="button"></slot>
     </article>
   </section>
 </template>
@@ -33,6 +23,7 @@ const classCheck = computed(() => {
 .section {
   @include section-double-col;
   grid-template-rows: 350px 1fr;
+  padding-bottom: 4rem;
 
   .section__img {
     @include img;
@@ -40,6 +31,7 @@ const classCheck = computed(() => {
 
   .section__description {
     @include description(2vw);
+    margin-bottom: 0;
 
     .section__heading {
       @include heading-underline-purple;

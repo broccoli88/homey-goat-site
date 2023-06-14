@@ -1,13 +1,4 @@
-<script setup>
-import ButtonLinkEl from './ButtonLinkEl.vue'
-import { computed } from 'vue'
-
-const props = defineProps(['btnLink'])
-
-const classCheck = computed(() => {
-  return props.btnLink === '/contact' || props.btnLink === '/offer' ? true : false
-})
-</script>
+<script setup></script>
 
 <template>
   <section class="single-col__description">
@@ -20,19 +11,16 @@ const classCheck = computed(() => {
     <p>
       <slot name="description"> </slot>
     </p>
-    <ButtonLinkEl
-      :btn-link="props.btnLink"
-      class="btn--link btn--medium btn--gray btn--slide-black"
-      :class="classCheck ? 'btn--white' : 'btn--gray'"
-    >
-      <slot name="button"></slot>
-    </ButtonLinkEl>
+
+    <slot name="button"></slot>
   </section>
 </template>
 
 <style lang="scss" scoped>
 .single-col__description {
   @include description;
+  padding-bottom: 4rem;
+  margin-bottom: 0;
 
   .single-col__heading {
     @include heading-underline-purple;

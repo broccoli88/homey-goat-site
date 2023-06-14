@@ -63,7 +63,6 @@ adminStore.getSystems()
 
 <template>
   <section class="container">
-    <h3>Add Img</h3>
     <form action="" class="form" @submit.prevent="uploadData">
       <section class="form__section">
         <fieldset class="form__fieldset">

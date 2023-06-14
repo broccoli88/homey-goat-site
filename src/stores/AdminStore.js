@@ -16,6 +16,7 @@ import { storageRef } from '../firebase/db'
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage'
 import { useVuelidate } from '@vuelidate/core'
 import { required, helpers } from '@vuelidate/validators'
+import { useModal } from '../utils/modules/useModal'
 
 // Add Img validation
 
@@ -120,10 +121,6 @@ export const useAdminStore = defineStore('adminStore', () => {
         })
       }
     })
-
-    // console.log('Data =>', data.value)
-    // console.log('Systems =>', systems.value)
-    // console.log('Fractions =>', fractions.value)
   }
 
   // Image upload functions
@@ -242,6 +239,8 @@ export const useAdminStore = defineStore('adminStore', () => {
     modelObj.url = ''
     showModal.value = false
   }
+
+  useModal(showModal)
 
   return {
     isMobileView,

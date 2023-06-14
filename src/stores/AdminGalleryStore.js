@@ -3,6 +3,7 @@ import { db } from '../firebase/db'
 import { doc, deleteDoc, getDoc, updateDoc } from 'firebase/firestore'
 import { reactive, ref } from 'vue'
 import { useAdminStore } from './AdminStore'
+import { useModal } from '../utils/modules/useModal'
 
 export const useAdminGalleryStore = defineStore('adminGalleryStore', () => {
   const adminStore = useAdminStore()
@@ -71,6 +72,7 @@ export const useAdminGalleryStore = defineStore('adminGalleryStore', () => {
 
   function closeDeleteModal() {
     showDeleteModal.value = false
+
     fieldInfo.system.title = ''
     fieldInfo.system.id = ''
     fieldInfo.fraction.title = ''
@@ -178,6 +180,8 @@ export const useAdminGalleryStore = defineStore('adminGalleryStore', () => {
       console.error(err)
     }
   }
+
+  useModal(showDeleteModal)
 
   return {
     // Modal

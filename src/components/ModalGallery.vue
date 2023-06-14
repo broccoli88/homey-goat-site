@@ -5,14 +5,19 @@ import { storeToRefs } from 'pinia'
 
 const galleryStore = useGalleryStore()
 
-const { currentModel, orderedCurrentFraction, showImgTransition, currentTransition } =
-  storeToRefs(galleryStore)
+const {
+  currentModel,
+  orderedCurrentFraction,
+  showImgTransition,
+  currentTransition,
+  showCarouselModal
+} = storeToRefs(galleryStore)
 </script>
 
 <template>
   <Teleport to="#image-modal">
     <FadeTransition>
-      <div class="modal-container" v-if="galleryStore.showModal">
+      <div class="modal-container" v-if="showCarouselModal">
         <TransitionGroup tag="ul" :name="currentTransition" class="modal__miniatures">
           <li v-for="{ img, model } in orderedCurrentFraction" :key="model">
             <img class="modal__image" :src="img" alt="" @click="galleryStore.switchImg(img)" />

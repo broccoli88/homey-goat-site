@@ -13,7 +13,11 @@ const links = ref(LinksData.links)
   <footer class="footer">
     <LogoEl />
     <section class="media">
-      <a href="https://www.facebook.com/HomeyGoatStudio" class="footer__icon fb-icon">
+      <a
+        href="https://www.facebook.com/HomeyGoatStudio"
+        class="footer__icon fb-icon"
+        title="HomeyGoat Facebook"
+      >
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
           <path
             fill="white"
@@ -24,6 +28,7 @@ const links = ref(LinksData.links)
       <a
         href="https://www.instagram.com/homeygoat/?igshid=MjEwN2IyYWYwYw%3D%3D"
         class="footer__icon insta-icon"
+        title="HomeyGoat Instagram"
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 15 15">
           <path
@@ -82,8 +87,8 @@ const links = ref(LinksData.links)
     </FadeTransition>
     <section class="maker">
       <p>Made by</p>
-      <a href="https://paweljaromin.io/" class="maker__link">
-        <img src="/svg/pj.svg" alt="" />
+      <a href="https://paweljaromin.io/" class="maker__link" title="PJ Website">
+        <img src="/svg/pj.svg" alt="Letters P and J" />
       </a>
     </section>
   </footer>

@@ -1,7 +1,7 @@
 <script setup></script>
 <template>
   <router-link to="/" class="logo">
-    <img src="/svg/hg.svg" alt="" class="logo__img" />
+    <img src="/svg/hg.svg" alt="Goat head with crossed brushes behind" class="logo__img" />
     <div class="logo__text">
       <p class="logo__brand">homey goat</p>
       <p class="logo__fluff">Miniature painting studio</p>
