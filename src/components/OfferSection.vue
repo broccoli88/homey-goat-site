@@ -1,13 +1,13 @@
 <script setup>
 import SectionEl from '../template/SectionEl.vue'
+import ButtonEl from '../template/ButtonEl.vue'
 import { ref } from 'vue'
 
 const imgLink = ref('/images/th-cropped.webp')
-const btnLink = ref('/offer')
 </script>
 
 <template>
-  <SectionEl :img-link="imgLink" :btn-link="btnLink" class="reverse">
+  <SectionEl :img-link="imgLink" class="reverse">
     <template v-slot:heading>Painting, modeling, basing</template>
     <template v-slot:description>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta, a minima temporibus
@@ -15,7 +15,11 @@ const btnLink = ref('/offer')
       officiis libero dolor. Laborum adipisci consequatur, rem reprehenderit quidem eos ut sapiente
       fuga.
     </template>
-    <template v-slot:button> Prices & Levels </template>
+    <template v-slot:button>
+      <ButtonEl class="btn--link btn--medium btn--white btn--slide-black">
+        <router-link to="/offer"> Prices & Levels </router-link>
+      </ButtonEl>
+    </template>
   </SectionEl>
 </template>
 

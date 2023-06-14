@@ -15,11 +15,33 @@ const checkIfEmpty = computed(() => {
 })
 
 const newMessages = computed(() => {
-  return messages.value.filter((message) => !message.checked)
+  return messages.value
+    .filter((message) => !message.checked)
+    .sort((a, b) => {
+      const date1 = new Date(
+        a.date.split(',')[0].split('/').reverse().join('/') + ' ' + a.date.split(',')[1].trim()
+      )
+      const date2 = new Date(
+        b.date.split(',')[0].split('/').reverse().join('/') + ' ' + b.date.split(',')[1].trim()
+      )
+      return date1 - date2
+    })
+    .reverse()
 })
 
 const checkedMessages = computed(() => {
-  return messages.value.filter((message) => message.checked)
+  return messages.value
+    .filter((message) => message.checked)
+    .sort((a, b) => {
+      const date1 = new Date(
+        a.date.split(',')[0].split('/').reverse().join('/') + ' ' + a.date.split(',')[1].trim()
+      )
+      const date2 = new Date(
+        b.date.split(',')[0].split('/').reverse().join('/') + ' ' + b.date.split(',')[1].trim()
+      )
+      return date1 - date2
+    })
+    .reverse()
 })
 </script>
 
@@ -54,6 +76,10 @@ const checkedMessages = computed(() => {
 .admin-messages {
   display: grid;
   margin: 6vw 2vw;
+
+  ul {
+    position: relative;
+  }
 
   h3 {
     margin-bottom: 3rem;

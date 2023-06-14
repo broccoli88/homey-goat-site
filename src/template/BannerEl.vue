@@ -37,7 +37,11 @@ const currentBanner = computed(() => {
   .banner__heading {
     font-size: clamp(3.5rem, 1rem + 5vw, 6.5rem);
     @include heading-underline-purple;
-    margin-bottom: 3vw;
+    margin-bottom: 2.5rem;
+
+    @include breakpoint {
+      margin-bottom: 3vw;
+    }
   }
   .banner__picture {
     height: clamp(15rem, 5rem + 25vw, 50rem);

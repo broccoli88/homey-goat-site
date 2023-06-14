@@ -31,7 +31,7 @@ export const useGalleryStore = defineStore('galleryStore', () => {
     return Object.values(transitionName.value).filter((t) => t.active)[0].title
   })
 
-  const showModal = ref(false)
+  const showCarouselModal = ref(false)
 
   function useImageTransition() {
     showImgTransition.value = !showImgTransition.value
@@ -49,7 +49,7 @@ export const useGalleryStore = defineStore('galleryStore', () => {
   }
 
   function toggleModal() {
-    showModal.value = !showModal.value
+    showCarouselModal.value = !showCarouselModal.value
     currentIndex.value = checkIndex(currentModel.value)
     putInOrder()
   }
@@ -109,10 +109,10 @@ export const useGalleryStore = defineStore('galleryStore', () => {
     }, 100)
   }
 
-  //   useModal(showModal)
+  useModal(showCarouselModal)
 
   return {
-    showModal,
+    showCarouselModal,
     currentModel,
     currentFraction,
     orderedCurrentFraction,

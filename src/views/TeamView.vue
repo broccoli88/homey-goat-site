@@ -29,7 +29,6 @@ const { members } = storeToRefs(memberStore)
         nesciunt minima impedit cupiditate reiciendis facilis eos?
       </p>
     </article>
-
     <section class="members">
       <CardEl v-for="member in members" :key="member" :member="member" />
     </section>
@@ -43,10 +42,15 @@ main {
   @include container;
 
   .description {
-    @include description($gap: 6%, $width: 70ch);
+    @include description($gap: 2rem, $width: 70ch);
+    place-content: inherit;
+
+    @include breakpoint {
+      gap: 2vw;
+    }
 
     p {
-      margin-block: 3rem;
+      margin-block: 1.5rem;
     }
   }
 

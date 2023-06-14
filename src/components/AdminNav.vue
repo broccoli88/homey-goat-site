@@ -12,6 +12,10 @@ const childRoutes = computed(() => {
   })
 })
 const loginStore = useLoginStore()
+
+const defaultLogin = computed(() => {
+  return !loginStore.userData ? 'your-admin@mail.com' : loginStore.userData
+})
 </script>
 
 <template>
@@ -65,7 +69,7 @@ const loginStore = useLoginStore()
             />
           </g>
         </svg>
-        <p>{{ loginStore.userData }}</p>
+        <p>{{ defaultLogin }}</p>
       </div>
 
       <ButtonEl

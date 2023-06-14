@@ -185,7 +185,7 @@ export const useContactStore = defineStore('contactStore', () => {
     quoteState.email = ''
     quoteState.country = ''
     quoteState.modelSupply = ''
-    quoteState.service = ''
+    quoteState.service = []
     quoteState.message = ''
 
     v2.value.$reset()
@@ -233,14 +233,16 @@ export const useContactStore = defineStore('contactStore', () => {
 
     try {
       if (!checked) {
-        setTimeout(() => {
-          updateDoc(messageRef, { checked: true })
-        }, 500)
+        setTimeout(async () => {
+          await updateDoc(messageRef, { checked: true })
+        }, 800)
       } else return
     } catch (err) {
       console.error(err)
     }
   }
+
+  useModal(showDeleteMessageModal)
 
   return {
     questionForm,

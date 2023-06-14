@@ -137,26 +137,20 @@ const displaySystem = computed(() => {
 
 <style lang="scss" scoped>
 .gallery {
-  margin-block: 2vw;
+  margin-block: 3rem;
   background-color: $color-gray-lighter;
   padding: 3rem 2rem;
   //   box-shadow: $box-shadow-5;
   box-shadow: 4px 5px 15px 1px hsl(0, 0%, 0%, 0.15);
 
+  @include breakpoint {
+    margin-block: 3vw;
+  }
+
   .gallery__fraction-title,
   .gallery__header {
     display: flex;
     gap: 2rem;
-
-    .delete-icon {
-      right: -18%;
-    }
-
-    .display-system-icon,
-    .display-fraction-icon {
-      opacity: 0;
-      transition: $transition-04;
-    }
 
     h2 {
       @include heading-underline-black;
@@ -167,20 +161,6 @@ const displaySystem = computed(() => {
         left: 10%;
         bottom: 0;
       }
-    }
-
-    &:hover {
-      .display-system-icon,
-      .display-fraction-icon {
-        opacity: 1;
-      }
-    }
-
-    .gallery__option-btns {
-      display: flex;
-      width: clamp(2rem, 1rem + 1.4vw, 2.6rem);
-      aspect-ratio: 1;
-      cursor: pointer;
     }
   }
 
@@ -196,10 +176,6 @@ const displaySystem = computed(() => {
 
       h3 {
         position: relative;
-
-        .delete-icon {
-          right: -25%;
-        }
       }
     }
   }
@@ -209,19 +185,21 @@ const displaySystem = computed(() => {
     &:hover {
       .delete-icon {
         opacity: 1;
+        width: clamp(2rem, 1rem + 1.4vw, 2.6rem);
       }
     }
   }
 
   .delete-icon {
     opacity: 0;
-    width: clamp(2rem, 1rem + 1.4vw, 2.6rem);
+    width: 0;
+
     aspect-ratio: 1;
     cursor: pointer;
 
     position: absolute;
     top: -7%;
-
+    left: calc(100% + 2rem);
     transition: $transition-04;
   }
 }

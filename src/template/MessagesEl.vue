@@ -110,6 +110,7 @@ const openDeleteMessgeModal = () => {
 <style lang="scss" scoped>
 .messages {
   display: grid;
+  width: 100%;
 
   .messages__header {
     display: grid;
