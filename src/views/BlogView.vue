@@ -1,7 +1,9 @@
 <script setup></script>
 
 <template>
-  <section class="admin-blog"></section>
+  <section>
+    <h1>Blog</h1>
+  </section>
 </template>
 
 <style lang="scss" scoped></style>

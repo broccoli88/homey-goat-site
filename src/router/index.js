@@ -29,6 +29,11 @@ const router = createRouter({
       component: () => import('../views/OfferView.vue')
     },
     {
+      path: '/blog',
+      name: 'blog',
+      component: () => import('../views/BlogView.vue')
+    },
+    {
       path: '/admin-login',
       name: 'admin-login',
       component: () => import('../views/AdminLoginView.vue')
@@ -39,14 +44,14 @@ const router = createRouter({
       component: () => import('../views/AdminPanelView.vue'),
 
       meta: { requiresAuth: true },
-      // beforeEnter: async (to, from, next) => {
-      //   if (to.path.includes('/admin-panel') && !auth.currentUser) {
-      //     next('/admin-login')
-      //     return
-      //   } else {
-      //     next()
-      //   }
-      // },
+      beforeEnter: async (to, from, next) => {
+        if (to.path.includes('/admin-panel') && !auth.currentUser) {
+          next('/admin-login')
+          return
+        } else {
+          next()
+        }
+      },
 
       children: [
         {
