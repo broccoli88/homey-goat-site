@@ -15,7 +15,7 @@ const loginStore = useLoginStore()
 const adminStore = useAdminStore()
 adminStore.getSystems()
 
-const showAdminLogin = ref(true)
+const showAdminLogin = ref(false)
 
 onMounted(() => {
   window.addEventListener('keydown', (e) => {
@@ -49,7 +49,7 @@ watch(
 </script>
 <template>
   <FadeTransition>
-    <Navbar v-if="!currentRoute" />
+    <Navbar ref="navbar" v-if="!currentRoute" />
   </FadeTransition>
   <RouterView v-slot="{ Component }">
     <FadeTransition>
