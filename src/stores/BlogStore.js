@@ -3,9 +3,11 @@ import { createClient } from 'contentful'
 import { ref } from 'vue'
 
 export const useBlogStore = defineStore('blogStore', () => {
+  const token = import.meta.env.VITE_CONTENTFUL_ACCESS_TOKEN
+
   const client = createClient({
     space: 'vnpmxadttejc',
-    accessToken: 'q68P-n7NxFHl-HFzWliUQ0C5YVMsmOvp6lSdJDMbCUI'
+    accessToken: token
   })
 
   const blogData = ref([])
