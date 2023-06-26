@@ -3,10 +3,10 @@ import { getFirestore } from 'firebase/firestore'
 import { getStorage, ref } from 'firebase/storage'
 import { getAuth } from 'firebase/auth'
 
-const apiKey = import.meta.env.VITE_FIREBASE_API_KEY
+// const apiKey = import.meta.env.VITE_FIREBASE_API_KEY
 
 const firebaseConfig = {
-  apiKey,
+  apiKey: 'AIzaSyADC8E1V62_L-UDvD6j0W_kq5VyuR2aPkI',
   authDomain: 'homey-goat.firebaseapp.com',
   databaseURL: 'https://homey-goat-default-rtdb.firebaseio.com',
   projectId: 'homey-goat',
@@ -16,7 +16,6 @@ const firebaseConfig = {
 }
 
 const app = initializeApp(firebaseConfig)
-
 const db = getFirestore()
 const storage = getStorage(app)
 const auth = getAuth()

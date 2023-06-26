@@ -41,6 +41,7 @@ export const useLoginStore = defineStore('loginStore', () => {
 
   async function logIn() {
     const isLoginCorrect = await v.value.$validate()
+
     if (!isLoginCorrect) return
 
     try {
