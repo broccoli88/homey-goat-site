@@ -7,14 +7,12 @@ const apiKey = import.meta.env.VITE_FIREBASE_API_KEY
 
 const firebaseConfig = {
   apiKey: apiKey,
-  authDomain: 'homey-goat.firebaseapp.com',
-  databaseURL: 'https://homey-goat-default-rtdb.firebaseio.com',
-  projectId: 'homey-goat',
-  storageBucket: 'homey-goat.appspot.com',
-  messagingSenderId: '43737944137',
-  appId: '1:43737944137:web:88177f6360740f8c94af98'
+  authDomain: 'homeygoat-3ed36.firebaseapp.com',
+  projectId: 'homeygoat-3ed36',
+  storageBucket: 'homeygoat-3ed36.appspot.com',
+  messagingSenderId: '227243833651',
+  appId: '1:227243833651:web:238adf28008f3ef78e2646'
 }
-
 const app = initializeApp(firebaseConfig)
 const db = getFirestore()
 const storage = getStorage(app)

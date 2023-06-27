@@ -20,20 +20,24 @@ const dateParts = computed(() => postData.value.fields.postCreationDate.split(/T
         <router-link to="/blog">Back to all posts</router-link>
       </ButtonEl>
       <h2>{{ postData.fields.postTitle }}</h2>
-      <figure class="post__banner">
+      <figure class="post__banner" v-if="postData.fields.postBanner">
         <img class="post__header-img" :src="postData.fields.postBanner.fields.file.url" alt="" />
       </figure>
     </header>
+    !
 
     <p class="post__text">
-      {{ postData.fields.postText1 }}
+      {{ postData.fields.description }}
     </p>
 
     <p class="post__text">
       {{ postData.fields.descriptionForChapter1 }}
     </p>
 
-    <div class="post__images" v-if="postData.fields.imageForChapter1.length > 0">
+    <div
+      class="post__images"
+      v-if="postData.fields.imageForChapter1 && postData.fields.imageForChapter1.length > 0"
+    >
       <img
         v-for="img in postData.fields.imageForChapter1"
         :key="img.sys.id"
@@ -47,7 +51,10 @@ const dateParts = computed(() => postData.value.fields.postCreationDate.split(/T
       {{ postData.fields.descriptionForChapter2 }}
     </p>
 
-    <div class="post__images" v-if="postData.fields.imageForChapter2.length > 0">
+    <div
+      class="post__images"
+      v-if="postData.fields.imageForChapter2 && postData.fields.imageForChapter2.length > 0"
+    >
       <img
         v-for="img in postData.fields.imageForChapter2"
         :key="img.sys.id"

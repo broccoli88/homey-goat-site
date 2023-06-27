@@ -6,7 +6,7 @@ export const useBlogStore = defineStore('blogStore', () => {
   const token = import.meta.env.VITE_CONTENTFUL_ACCESS_TOKEN
 
   const client = createClient({
-    space: 'vnpmxadttejc',
+    space: '0cmq2ox1sdot',
     accessToken: token
   })
 
@@ -18,7 +18,6 @@ export const useBlogStore = defineStore('blogStore', () => {
     })
 
     blogData.value = response.items
-    // console.log(blogData.value)
   }
 
   return { blogData, getBlogData }

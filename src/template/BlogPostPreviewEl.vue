@@ -5,7 +5,7 @@ import ButtonEl from './ButtonEl.vue'
 const props = defineProps(['post'])
 
 const previewText = computed(() => {
-  return props.post.fields.postText1.substring(0, 200) + '...'
+  return props.post.fields.description.substring(0, 200) + '...'
 })
 
 const dateString = ref(props.post.fields.postCreationDate)
